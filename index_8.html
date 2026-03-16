@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrustedCollectibles - Buy and Sell Authenticated Sports Memorabilia</title>
+    <meta name="description" content="The curated marketplace for authenticated sports memorabilia. Every item verified with trusted COAs. Join the waitlist for buyers and sellers.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --deep: #08090e;
+            --dark: #10121a;
+            --dark-card: #15171f;
+            --border-subtle: rgba(255,255,255,0.07);
+            --border-light: rgba(0,0,0,0.06);
+            --accent: #c8913a;
+            --accent-hover: #daa24e;
+            --accent-soft: rgba(200,145,58,0.10);
+            --accent-text: #daa550;
+            --bg: #f6f5f3;
+            --bg-white: #ffffff;
+            --text: #111114;
+            --text-sec: #62636a;
+            --text-dim: rgba(255,255,255,0.42);
+            --text-bright: #eeedf0;
+            --font: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            --radius: 12px;
+            --radius-lg: 16px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font);
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .w {
+            width: 100%;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ━━━ HEADER ━━━ */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 200;
+            background: var(--deep);
+            transition: background 0.35s, box-shadow 0.35s;
+        }
+
+        header.scrolled {
+            background: rgba(8, 9, 14, 0.97);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 1px 20px rgba(0,0,0,0.4);
+        }
+
+        .hdr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 62px;
+            border-bottom: 1px solid var(--border-subtle);
+            transition: height 0.3s;
+        }
+
+        header.scrolled .hdr {
+            height: 54px;
+            border-bottom-color: transparent;
+        }
+
+        .logo {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text-bright);
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            text-decoration: none;
+        }
+
+        .logo-box {
+            width: 28px; height: 28px;
+            border: 2px solid var(--accent);
+            border-radius: 7px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .hdr-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .hdr-link {
+            color: rgba(238,237,240,0.45);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.25s;
+        }
+
+        .hdr-link:hover { color: var(--text-bright); }
+
+        .hdr-btn {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--deep);
+            background: var(--accent);
+            padding: 8px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+
+        .hdr-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        /* ━━━ HERO ━━━ */
+        .hero {
+            padding: 134px 0 96px;
+            background: var(--deep);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-glow {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(110px);
+        }
+        .hero-glow--a {
+            top: -140px; right: -40px;
+            width: 420px; height: 420px;
+            background: rgba(200,145,58,0.055);
+        }
+        .hero-glow--b {
+            bottom: -180px; left: -100px;
+            width: 360px; height: 360px;
+            background: rgba(80,110,190,0.04);
+        }
+
+        .hero-grid {
+            position: relative; z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 44px;
+            align-items: start;
+        }
+
+        .hero-main { min-width: 0; }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .hero-tag::before {
+            content: '';
+            width: 18px; height: 2px;
+            background: var(--accent);
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 4.5vw, 52px);
+            font-weight: 800;
+            color: var(--text-bright);
+            line-height: 1.12;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span { color: var(--accent-text); }
+
+        .hero-desc {
+            font-size: 16px;
+            color: var(--text-dim);
+            line-height: 1.7;
+            margin-bottom: 34px;
+            max-width: 420px;
+        }
+
+        .hero-btns {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 13px 28px;
+            background: var(--accent);
+            color: var(--deep);
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-cta:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(200,145,58,0.22);
+        }
+
+        .btn-sec {
+            color: rgba(238,237,240,0.42);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-sec:hover { color: var(--text-bright); }
+
+        /* ── Hero proof card ── */
+        .proof-card {
+            background: var(--dark-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 26px 22px;
+            min-width: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proof-card-head {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-bright);
+            margin-bottom: 18px;
+            letter-spacing: -0.2px;
+        }
+
+        .proof-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            padding: 11px 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .proof-row:first-of-type { border-top: none; padding-top: 0; }
+
+        .proof-ico {
+            width: 30px; height: 30px;
+            border-radius: 7px;
+            background: var(--accent-soft);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .proof-text { min-width: 0; }
+
+        .proof-name {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-bright);
+            margin-bottom: 1px;
+        }
+
+        .proof-sub {
+            font-size: 11px;
+            color: rgba(238,237,240,0.3);
+            line-height: 1.45;
+        }
+
+        /* ━━━ BENEFITS ━━━ */
+        .benefits {
+            padding: 84px 0 76px;
+            background: var(--bg);
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .sec-heading {
+            font-size: clamp(26px, 3.2vw, 38px);
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -1px;
+            line-height: 1.18;
+            margin-bottom: 48px;
+        }
+
+        .sec-heading span { color: var(--accent); }
+
+        .b-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .b-card {
+            background: var(--bg-white);
+            padding: 30px 26px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .b-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2.5px;
+            background: linear-gradient(90deg, var(--accent), #7b9fd4);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .b-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 36px rgba(0,0,0,0.055);
+        }
+
+        .b-card:hover::after { transform: scaleX(1); }
+
+        .b-num {
+            font-size: 34px;
+            font-weight: 800;
+            color: #e4e2de;
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            transition: color 0.35s;
+        }
+
+        .b-card:hover .b-num { color: var(--accent); }
+
+        .b-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.2px;
+        }
+
+        .b-card p {
+            color: var(--text-sec);
+            font-size: 13.5px;
+            line-height: 1.65;
+        }
+
+        /* ━━━ PROCESS ━━━ */
+        .process {
+            padding: 84px 0;
+            background: var(--dark);
+            position: relative;
+        }
+
+        .process .eyebrow { color: var(--accent-text); text-align: center; }
+        .process .sec-heading { color: var(--text-bright); text-align: center; }
+
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            position: relative;
+        }
+
+        .step-line {
+            position: absolute;
+            top: 31px;
+            left: 12.5%; right: 12.5%;
+            height: 2px;
+            background: rgba(200,145,58,0.09);
+            pointer-events: none;
+        }
+
+        .s-item {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 0 6px;
+        }
+
+        .s-circle {
+            width: 62px; height: 62px;
+            border-radius: 50%;
+            background: var(--deep);
+            border: 2px solid rgba(200,145,58,0.18);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 18px;
+            transition: all 0.35s;
+        }
+
+        .s-item:hover .s-circle {
+            border-color: var(--accent);
+            box-shadow: 0 0 22px rgba(200,145,58,0.12);
+        }
+
+        .s-num {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .s-item h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-bright);
+            margin-bottom: 5px;
+        }
+
+        .s-item p {
+            font-size: 12px;
+            color: rgba(238,237,240,0.35);
+            line-height: 1.55;
+            max-width: 170px;
+            margin: 0 auto;
+        }
+
+        /* ━━━ AUTH ━━━ */
+        .auth {
+            padding: 76px 0;
+            background: var(--bg);
+            text-align: center;
+        }
+
+        .auth-desc {
+            color: var(--text-sec);
+            font-size: 14.5px;
+            max-width: 460px;
+            margin: -24px auto 36px;
+            line-height: 1.7;
+        }
+
+        .coa-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .coa-tag {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s;
+        }
+
+        .coa-tag:hover {
+            border-color: var(--accent);
+            box-shadow: 0 3px 14px rgba(200,145,58,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* ━━━ WAITLIST ━━━ */
+        .waitlist {
+            padding: 84px 0 96px;
+            background: var(--deep);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wl-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 560px; height: 560px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(200,145,58,0.025), transparent 70%);
+            pointer-events: none;
+        }
+
+        .wl-layout {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 56px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .wl-text { min-width: 0; }
+        .wl-text .eyebrow { color: var(--accent-text); }
+        .wl-text .sec-heading { color: var(--text-bright); margin-bottom: 14px; }
+
+        .wl-text > p {
+            color: var(--text-dim);
+            font-size: 14.5px;
+            line-height: 1.7;
+            max-width: 350px;
+            margin-bottom: 26px;
+        }
+
+        .pm-list { display: flex; flex-direction: column; gap: 9px; }
+
+        .pm-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: rgba(238,237,240,0.42);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .pm-dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .wl-form-card {
+            background: var(--dark-card);
+            border: 1px solid var(--border-subtle);
+            padding: 32px 28px;
+            border-radius: var(--radius-lg);
+            min-width: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wl-form-card h3 {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--text-bright);
+            margin-bottom: 3px;
+            letter-spacing: -0.3px;
+        }
+
+        .wl-form-card > p {
+            color: rgba(238,237,240,0.34);
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        .fg { margin-bottom: 12px; }
+
+        .fg label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 700;
+            color: rgba(238,237,240,0.48);
+            font-size: 11px;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        .fg input,
+        .fg select {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1.5px solid var(--border-subtle);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: var(--font);
+            transition: all 0.25s;
+            background: rgba(255,255,255,0.03);
+            color: var(--text-bright);
+        }
+
+        .fg input::placeholder { color: rgba(238,237,240,0.18); }
+
+        .fg input:focus,
+        .fg select:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 0 0 3px rgba(200,145,58,0.07);
+        }
+
+        .fg select {
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23c8913a' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 13px center;
+        }
+
+        .fg select option { background: var(--dark-card); color: var(--text-bright); }
+
+        .name-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            background: var(--accent);
+            color: var(--deep);
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: var(--font);
+            margin-top: 4px;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(200,145,58,0.22);
+        }
+
+        .btn-submit:disabled { background: #444; cursor: not-allowed; box-shadow: none; }
+
+        .success-message {
+            display: none;
+            background: rgba(80, 180, 120, 0.1);
+            color: #6fcf97;
+            padding: 11px;
+            border-radius: 8px;
+            margin-top: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            border: 1px solid rgba(80, 180, 120, 0.12);
+        }
+
+        .success-message.show { display: block; }
+
+        /* Honeypot containment — keep absolute child inside relative parent */
+        .hp-trap {
+            position: relative;
+            overflow: hidden;
+            height: 0;
+            width: 0;
+        }
+
+        /* ━━━ FOOTER ━━━ */
+        footer {
+            padding: 30px 0;
+            background: var(--deep);
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .ft-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ft-copy {
+            color: rgba(238,237,240,0.22);
+            font-size: 12.5px;
+        }
+
+        .ft-copy span { color: var(--accent); }
+
+        .ft-links { display: flex; gap: 18px; }
+
+        .ft-links a {
+            color: rgba(238,237,240,0.22);
+            text-decoration: none;
+            font-size: 12.5px;
+            transition: color 0.25s;
+        }
+
+        .ft-links a:hover { color: var(--text-bright); }
+
+        /* ━━━ RESPONSIVE ━━━ */
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            .proof-card { max-width: 380px; }
+            .wl-layout {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+            .wl-text { text-align: center; }
+            .wl-text > p { margin: 0 auto 26px; }
+            .pm-list { align-items: center; }
+            .wl-form-card { max-width: 460px; margin: 0 auto; }
+            .step-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 28px;
+            }
+            .step-line { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 108px 0 60px; }
+            .benefits, .process, .auth { padding: 56px 0; }
+            .waitlist { padding: 56px 0 64px; }
+            .b-grid { grid-template-columns: 1fr; }
+            .wl-form-card { padding: 26px 20px; }
+            .name-cols { grid-template-columns: 1fr; }
+            .proof-card { display: none; }
+            .hdr-link { display: none; }
+            .ft-row {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero { padding: 96px 0 48px; }
+            .step-grid { grid-template-columns: 1fr; gap: 20px; }
+            .b-card { padding: 22px 18px; }
+            .coa-tag { padding: 10px 16px; font-size: 12px; }
+            .hero h1 { font-size: 28px; letter-spacing: -0.8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="siteHeader">
+        <div class="w">
+            <div class="hdr">
+                <a href="#" class="logo">
+                    <div class="logo-box">TC</div>
+                    TrustedCollectibles
+                </a>
+                <nav class="hdr-nav">
+                    <a href="#benefits" class="hdr-link">Why Us</a>
+                    <a href="#how" class="hdr-link">Process</a>
+                    <a href="#auth" class="hdr-link">Authentication</a>
+                    <a href="#signup" class="hdr-btn">Join Waitlist</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="hero">
+            <div class="hero-glow hero-glow--a"></div>
+            <div class="hero-glow hero-glow--b"></div>
+            <div class="w">
+                <div class="hero-grid">
+                    <div class="hero-main">
+                        <div class="hero-tag">Launching 2026</div>
+                        <h1>Where every collectible is <span>authenticated</span></h1>
+                        <p class="hero-desc">The curated marketplace for sports memorabilia. Every item verified by experts with trusted certificates of authenticity before it goes live.</p>
+                        <div class="hero-btns">
+                            <a href="#signup" class="btn-cta">
+                                Join the Waitlist
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </a>
+                            <a href="#how" class="btn-sec">
+                                How it works
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="proof-card">
+                        <div class="proof-card-head">Every listing guaranteed</div>
+                        <div class="proof-row">
+                            <div class="proof-ico">🛡️</div>
+                            <div class="proof-text">
+                                <div class="proof-name">Verified COAs Only</div>
+                                <div class="proof-sub">No private signings or handwritten certificates.</div>
+                            </div>
+                        </div>
+                        <div class="proof-row">
+                            <div class="proof-ico">👁️</div>
+                            <div class="proof-text">
+                                <div class="proof-name">Manual Expert Review</div>
+                                <div class="proof-sub">Photos, holograms, and docs checked before going live.</div>
+                            </div>
+                        </div>
+                        <div class="proof-row">
+                            <div class="proof-ico">📦</div>
+                            <div class="proof-text">
+                                <div class="proof-name">Protected Transactions</div>
+                                <div class="proof-sub">Funds released only after confirmed delivery.</div>
+                            </div>
+                        </div>
+                        <div class="proof-row">
+                            <div class="proof-ico">🏅</div>
+                            <div class="proof-text">
+                                <div class="proof-name">Built by Industry Experts</div>
+                                <div class="proof-sub">Created by memorabilia professionals.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="benefits" id="benefits">
+            <div class="w">
+                <div class="eyebrow">Why TrustedCollectibles</div>
+                <h2 class="sec-heading">The safest way to buy and sell <span>memorabilia</span></h2>
+                <div class="b-grid">
+                    <div class="b-card">
+                        <div class="b-num">01</div>
+                        <h3>Verified COAs Only</h3>
+                        <p>Every listing requires certificates from trusted authentication companies. No private signings, no handwritten COAs — only the real deal.</p>
+                    </div>
+                    <div class="b-card">
+                        <div class="b-num">02</div>
+                        <h3>Expert Review</h3>
+                        <p>Our team manually reviews every item before it goes live. Multiple photos, hologram checks, and full quality control.</p>
+                    </div>
+                    <div class="b-card">
+                        <div class="b-num">03</div>
+                        <h3>Direct Shipping</h3>
+                        <p>Buy with confidence and receive items quickly. Sellers ship directly to you — simple and seamless.</p>
+                    </div>
+                    <div class="b-card">
+                        <div class="b-num">04</div>
+                        <h3>Built by Experts</h3>
+                        <p>Created by memorabilia industry professionals who understand authentication, collecting, and trust.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="process" id="how">
+            <div class="w">
+                <div class="eyebrow">The Process</div>
+                <h2 class="sec-heading">From upload to <span>sold</span></h2>
+                <div class="step-grid">
+                    <div class="step-line"></div>
+                    <div class="s-item">
+                        <div class="s-circle"><span class="s-num">1</span></div>
+                        <h3>Upload Your Item</h3>
+                        <p>Sellers provide photos, COA images, and product details</p>
+                    </div>
+                    <div class="s-item">
+                        <div class="s-circle"><span class="s-num">2</span></div>
+                        <h3>We Verify</h3>
+                        <p>Our team checks authenticity, photos, and documentation</p>
+                    </div>
+                    <div class="s-item">
+                        <div class="s-circle"><span class="s-num">3</span></div>
+                        <h3>Goes Live</h3>
+                        <p>Approved listings appear on the marketplace for buyers</p>
+                    </div>
+                    <div class="s-item">
+                        <div class="s-circle"><span class="s-num">4</span></div>
+                        <h3>Sell & Ship</h3>
+                        <p>Buyer purchases, seller ships directly, funds released after delivery</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="auth" id="auth">
+            <div class="w">
+                <div class="eyebrow">Authentication Partners</div>
+                <h2 class="sec-heading">Accepted <span>authentication</span> sources</h2>
+                <p class="auth-desc">We only accept COAs from established, reputable authentication companies and official clubs.</p>
+                <div class="coa-row">
+                    <div class="coa-tag">Beckett</div>
+                    <div class="coa-tag">PSA/DNA</div>
+                    <div class="coa-tag">JSA</div>
+                    <div class="coa-tag">Official Club COAs</div>
+                    <div class="coa-tag">+ More Verified Sources</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="waitlist" id="signup">
+            <div class="wl-glow"></div>
+            <div class="w">
+                <div class="wl-layout">
+                    <div class="wl-text">
+                        <div class="eyebrow">Early Access</div>
+                        <h2 class="sec-heading">Join the <span>waitlist</span></h2>
+                        <p>Be among the first to experience the marketplace built entirely around trust and authentication. Limited founding member spots.</p>
+                        <div class="pm-list">
+                            <div class="pm-item"><div class="pm-dot"></div>World's first dedicated resellers platform</div>
+                            <div class="pm-item"><div class="pm-dot"></div>Priority access for founding members</div>
+                            <div class="pm-item"><div class="pm-dot"></div>Buy and sell authenticated memorabilia</div>
+                            <div class="pm-item"><div class="pm-dot"></div>No spam — just launch updates</div>
+                        </div>
+                    </div>
+
+                    <div class="wl-form-card">
+                        <h3>Get Early Access</h3>
+                        <p>Secure your spot before we go live.</p>
+                        <form action="https://trustedcollectibles.us10.list-manage.com/subscribe/post?u=24e3267dbe669ecbe1c77e792&amp;id=96d1ff9043&amp;f_id=001c18e2f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="hidden_iframe" onsubmit="showSuccessMessage();">
+                            <div class="fg">
+                                <label for="mce-EMAIL">Email Address *</label>
+                                <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required placeholder="you@example.com">
+                            </div>
+                            <div class="name-cols">
+                                <div class="fg">
+                                    <label for="mce-FNAME">First Name</label>
+                                    <input type="text" name="FNAME" id="mce-FNAME" placeholder="First">
+                                </div>
+                                <div class="fg">
+                                    <label for="mce-LNAME">Last Name</label>
+                                    <input type="text" name="LNAME" id="mce-LNAME" placeholder="Last">
+                                </div>
+                            </div>
+
+                            <div class="hp-trap" aria-hidden="true">
+                                <input type="text" name="b_24e3267dbe669ecbe1c77e792_96d1ff9043" tabindex="-1" value="">
+                            </div>
+
+                            <button type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn-submit">Join Waitlist</button>
+
+                            <div id="mce-responses">
+                                <div class="response" id="mce-error-response" style="display: none; color: #e57373; margin-top: 12px; text-align: center;"></div>
+                                <div class="response success-message" id="mce-success-response" style="display: none;">&#10003; Thanks for joining!</div>
+                            </div>
+                        </form>
+                        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="w">
+            <div class="ft-row">
+                <div class="ft-copy">&copy; 2026 <span>TrustedCollectibles</span>. The safest marketplace for sports memorabilia.</div>
+                <div class="ft-links">
+                    <a href="#benefits">Why Us</a>
+                    <a href="#how">Process</a>
+                    <a href="#signup">Waitlist</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+    <script>
+        (function($) {
+            window.fnames = new Array();
+            window.ftypes = new Array();
+            fnames[0]='EMAIL'; ftypes[0]='email';
+            fnames[1]='FNAME'; ftypes[1]='text';
+            fnames[2]='LNAME'; ftypes[2]='text';
+            fnames[3]='ADDRESS'; ftypes[3]='address';
+            fnames[4]='PHONE'; ftypes[4]='phone';
+            fnames[5]='BIRTHDAY'; ftypes[5]='birthday';
+            fnames[6]='COMPANY'; ftypes[6]='text';
+        }(jQuery));
+        var $mcj = jQuery.noConflict(true);
+
+        function showSuccessMessage() {
+            setTimeout(function() {
+                document.getElementById('mce-success-response').style.display = 'block';
+                document.getElementById('mc-embedded-subscribe-form').reset();
+                setTimeout(function() {
+                    document.getElementById('mce-success-response').style.display = 'none';
+                }, 10000);
+            }, 500);
+            return true;
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                var t = document.querySelector(this.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        var hdr = document.getElementById('siteHeader');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) { hdr.classList.add('scrolled'); }
+            else { hdr.classList.remove('scrolled'); }
+        }, { passive: true });
+    </script>
+</body>
+</html>
