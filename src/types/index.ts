@@ -149,6 +149,24 @@ export interface OrderWithDetails extends Order {
   seller: Profile;
 }
 
+export interface Conversation {
+  id: string;
+  listing_id: string;
+  buyer_id: string;
+  seller_id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Message {
+  id: string;
+  conversation_id: string;
+  sender_id: string;
+  content: string;
+  read: boolean;
+  created_at: string;
+}
+
 export type NotificationType =
   | "offer_received"
   | "offer_accepted"

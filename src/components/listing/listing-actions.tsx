@@ -71,6 +71,42 @@ export default function ListingActions({
     }
   }
 
+  async function handleMessageSeller() {
+    if (!userId) {
+      router.push(`/login?next=/listing/${listingId}`);
+      return;
+    }
+    const supabase = createClient();
+
+    // Check if conversation already exists
+    const { data: existing } = await supabase
+      .from("conversations")
+      .select("id")
+      .eq("listing_id", listingId)
+      .eq("buyer_id", userId)
+      .maybeSingle();
+
+    if (existing) {
+      router.push(`/dashboard/messages/${existing.id}`);
+      return;
+    }
+
+    // Create new conversation
+    const { data: conv } = await supabase
+      .from("conversations")
+      .insert({
+        listing_id: listingId,
+        buyer_id: userId,
+        seller_id: sellerId,
+      })
+      .select("id")
+      .single();
+
+    if (conv) {
+      router.push(`/dashboard/messages/${conv.id}`);
+    }
+  }
+
   async function toggleWishlist() {
     if (!userId) {
       router.push(`/login?next=/listing/${listingId}`);
@@ -320,6 +356,25 @@ export default function ListingActions({
               />
             </svg>
             Share
+          </button>
+          <button
+            onClick={handleMessageSeller}
+            className="flex items-center gap-2 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+          >
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              />
+            </svg>
+            Message
           </button>
         </div>
       )}
