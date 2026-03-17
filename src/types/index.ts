@@ -149,6 +149,32 @@ export interface OrderWithDetails extends Order {
   seller: Profile;
 }
 
+export type NotificationType =
+  | "offer_received"
+  | "offer_accepted"
+  | "offer_declined"
+  | "offer_withdrawn"
+  | "order_paid"
+  | "order_shipped"
+  | "order_delivered"
+  | "order_completed"
+  | "review_received"
+  | "listing_approved"
+  | "listing_rejected"
+  | "new_message";
+
+export interface Notification {
+  id: string;
+  user_id: string;
+  type: NotificationType;
+  title: string;
+  body: string | null;
+  link: string | null;
+  read: boolean;
+  data: Record<string, unknown> | null;
+  created_at: string;
+}
+
 // Form state for the create listing wizard
 export interface ListingFormData {
   // Step 1: Photos

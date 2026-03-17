@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createNotification } from "@/lib/notifications";
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
@@ -21,7 +22,7 @@ export async function POST(request: NextRequest) {
   // Verify the user is the seller
   const { data: order } = await supabase
     .from("orders")
-    .select("*")
+    .select("*, listing:listings(title)")
     .eq("id", orderId)
     .single();
 
@@ -47,6 +48,17 @@ export async function POST(request: NextRequest) {
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  const listingTitle =
+    (order.listing as { title: string } | null)?.title ?? "item";
+
+  await createNotification(supabase, {
+    userId: order.buyer_id,
+    type: "order_shipped",
+    title: "Your Order Has Shipped!",
+    body: `"${listingTitle}" is on its way. Tracking: ${trackingNumber.trim()}`,
+    link: "/dashboard/orders",
+  });
 
   return NextResponse.json({ success: true });
 }

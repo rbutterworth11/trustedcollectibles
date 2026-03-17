@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createNotification } from "@/lib/notifications";
 
 export async function PATCH(request: NextRequest) {
   const supabase = await createClient();
@@ -21,7 +22,7 @@ export async function PATCH(request: NextRequest) {
   // Verify the user is the seller on this offer
   const { data: offer } = await supabase
     .from("offers")
-    .select("*")
+    .select("*, listing:listings(title)")
     .eq("id", offerId)
     .single();
 
@@ -45,7 +46,10 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  // If accepted, create an order from the offer
+  const listingTitle =
+    (offer.listing as { title: string } | null)?.title ?? "item";
+
+  // Notify the buyer
   if (status === "accepted") {
     const platformFee = Math.round(offer.amount * 0.1);
     await supabase.from("orders").insert({
@@ -64,6 +68,22 @@ export async function PATCH(request: NextRequest) {
       .eq("listing_id", offer.listing_id)
       .eq("status", "pending")
       .neq("id", offerId);
+
+    await createNotification(supabase, {
+      userId: offer.buyer_id,
+      type: "offer_accepted",
+      title: "Offer Accepted!",
+      body: `Your offer of $${(offer.amount / 100).toFixed(2)} on "${listingTitle}" was accepted.`,
+      link: "/dashboard/orders",
+    });
+  } else {
+    await createNotification(supabase, {
+      userId: offer.buyer_id,
+      type: "offer_declined",
+      title: "Offer Declined",
+      body: `Your offer on "${listingTitle}" was declined.`,
+      link: "/dashboard/offers",
+    });
   }
 
   return NextResponse.json({ success: true });

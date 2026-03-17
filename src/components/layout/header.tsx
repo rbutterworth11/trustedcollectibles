@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import NotificationBell from "@/components/layout/notification-bell";
 
 export default function Header() {
   const router = useRouter();
@@ -71,6 +72,8 @@ export default function Header() {
           </Link>
 
           {user ? (
+            <div className="flex items-center gap-2">
+            <NotificationBell userId={user.id} />
             <div className="relative">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
@@ -139,6 +142,7 @@ export default function Header() {
                   </div>
                 </>
               )}
+            </div>
             </div>
           ) : (
             <div className="flex items-center gap-2">

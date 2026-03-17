@@ -149,6 +149,15 @@ export default function ListingActions({
       setShowOfferForm(false);
       setOfferAmount("");
       setOfferMessage("");
+
+      // Notify seller about new offer
+      await supabase.from("notifications").insert({
+        user_id: sellerId,
+        type: "offer_received",
+        title: "New Offer Received",
+        body: `You received an offer of $${(amountCents / 100).toFixed(2)} on your listing.`,
+        link: "/dashboard",
+      });
     }
     setOfferSubmitting(false);
   }
