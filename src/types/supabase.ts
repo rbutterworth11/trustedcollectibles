@@ -1,0 +1,320 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
+
+export interface Database {
+  public: {
+    Tables: {
+      profiles: {
+        Row: {
+          id: string;
+          email: string;
+          full_name: string;
+          role: "buyer" | "seller" | "admin";
+          stripe_account_id: string | null;
+          stripe_onboarded: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id: string;
+          email: string;
+          full_name?: string;
+          role?: "buyer" | "seller" | "admin";
+          stripe_account_id?: string | null;
+          stripe_onboarded?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          email?: string;
+          full_name?: string;
+          role?: "buyer" | "seller" | "admin";
+          stripe_account_id?: string | null;
+          stripe_onboarded?: boolean;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      listings: {
+        Row: {
+          id: string;
+          seller_id: string;
+          title: string;
+          description: string;
+          price: number;
+          accept_offers: boolean;
+          minimum_offer: number | null;
+          category: string;
+          sport: string;
+          player: string;
+          team: string;
+          year: string | null;
+          condition: string;
+          images: string[];
+          signature_photo: string | null;
+          coa_front: string | null;
+          coa_back: string | null;
+          coa_hologram: string | null;
+          coa_source: string | null;
+          coa_certificate_number: string | null;
+          reviewed_by: string | null;
+          reviewed_at: string | null;
+          rejection_reason: string | null;
+          admin_notes: string | null;
+          flagged: boolean;
+          flag_reason: string | null;
+          status:
+            | "draft"
+            | "pending_verification"
+            | "verified"
+            | "listed"
+            | "sold"
+            | "disputed";
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          seller_id: string;
+          title: string;
+          description?: string;
+          price: number;
+          accept_offers?: boolean;
+          minimum_offer?: number | null;
+          category: string;
+          sport: string;
+          player?: string;
+          team?: string;
+          year?: string | null;
+          condition: string;
+          images?: string[];
+          signature_photo?: string | null;
+          coa_front?: string | null;
+          coa_back?: string | null;
+          coa_hologram?: string | null;
+          coa_source?: string | null;
+          coa_certificate_number?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+          rejection_reason?: string | null;
+          admin_notes?: string | null;
+          flagged?: boolean;
+          flag_reason?: string | null;
+          status?:
+            | "draft"
+            | "pending_verification"
+            | "verified"
+            | "listed"
+            | "sold"
+            | "disputed";
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          seller_id?: string;
+          title?: string;
+          description?: string;
+          price?: number;
+          accept_offers?: boolean;
+          minimum_offer?: number | null;
+          category?: string;
+          sport?: string;
+          player?: string;
+          team?: string;
+          year?: string | null;
+          condition?: string;
+          images?: string[];
+          signature_photo?: string | null;
+          coa_front?: string | null;
+          coa_back?: string | null;
+          coa_hologram?: string | null;
+          coa_source?: string | null;
+          coa_certificate_number?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+          rejection_reason?: string | null;
+          admin_notes?: string | null;
+          flagged?: boolean;
+          flag_reason?: string | null;
+          status?:
+            | "draft"
+            | "pending_verification"
+            | "verified"
+            | "listed"
+            | "sold"
+            | "disputed";
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "listings_seller_id_fkey";
+            columns: ["seller_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      listing_reviews: {
+        Row: {
+          id: string;
+          listing_id: string;
+          reviewer_id: string;
+          action: string;
+          reason: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          listing_id: string;
+          reviewer_id: string;
+          action: string;
+          reason?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          listing_id?: string;
+          reviewer_id?: string;
+          action?: string;
+          reason?: string | null;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "listing_reviews_listing_id_fkey";
+            columns: ["listing_id"];
+            isOneToOne: false;
+            referencedRelation: "listings";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "listing_reviews_reviewer_id_fkey";
+            columns: ["reviewer_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      orders: {
+        Row: {
+          id: string;
+          listing_id: string;
+          buyer_id: string;
+          seller_id: string;
+          amount: number;
+          platform_fee: number;
+          stripe_payment_intent_id: string | null;
+          status:
+            | "pending"
+            | "payment_held"
+            | "shipped"
+            | "delivered"
+            | "completed"
+            | "refunded"
+            | "disputed";
+          tracking_number: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          listing_id: string;
+          buyer_id: string;
+          seller_id: string;
+          amount: number;
+          platform_fee?: number;
+          stripe_payment_intent_id?: string | null;
+          status?:
+            | "pending"
+            | "payment_held"
+            | "shipped"
+            | "delivered"
+            | "completed"
+            | "refunded"
+            | "disputed";
+          tracking_number?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          listing_id?: string;
+          buyer_id?: string;
+          seller_id?: string;
+          amount?: number;
+          platform_fee?: number;
+          stripe_payment_intent_id?: string | null;
+          status?:
+            | "pending"
+            | "payment_held"
+            | "shipped"
+            | "delivered"
+            | "completed"
+            | "refunded"
+            | "disputed";
+          tracking_number?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "orders_listing_id_fkey";
+            columns: ["listing_id"];
+            isOneToOne: false;
+            referencedRelation: "listings";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "orders_buyer_id_fkey";
+            columns: ["buyer_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "orders_seller_id_fkey";
+            columns: ["seller_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+    };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
+    Enums: {
+      user_role: "buyer" | "seller" | "admin";
+      listing_status:
+        | "draft"
+        | "pending_verification"
+        | "verified"
+        | "listed"
+        | "sold"
+        | "disputed";
+      order_status:
+        | "pending"
+        | "payment_held"
+        | "shipped"
+        | "delivered"
+        | "completed"
+        | "refunded"
+        | "disputed";
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
+  };
+}
