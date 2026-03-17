@@ -1,11 +1,145 @@
-export default function MarketplacePage() {
+import { Suspense } from "react";
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import ListingCard from "@/components/marketplace/listing-card";
+import SearchFilters from "@/components/marketplace/search-filters";
+
+export const dynamic = "force-dynamic";
+
+const PAGE_SIZE = 24;
+
+export default async function MarketplacePage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    q?: string;
+    sport?: string;
+    category?: string;
+    condition?: string;
+    min_price?: string;
+    max_price?: string;
+    sort?: string;
+    page?: string;
+  }>;
+}) {
+  const params = await searchParams;
+  const page = Math.max(1, parseInt(params.page ?? "1", 10) || 1);
+  const offset = (page - 1) * PAGE_SIZE;
+
+  const supabase = await createClient();
+
+  let query = supabase
+    .from("listings")
+    .select("*", { count: "exact" })
+    .eq("status", "listed");
+
+  if (params.q) {
+    const q = `%${params.q}%`;
+    query = query.or(`title.ilike.${q},player.ilike.${q},team.ilike.${q}`);
+  }
+  if (params.sport) query = query.eq("sport", params.sport);
+  if (params.category) query = query.eq("category", params.category);
+  if (params.condition) query = query.eq("condition", params.condition);
+  if (params.min_price) {
+    const minCents = Math.round(parseFloat(params.min_price) * 100);
+    if (!isNaN(minCents)) query = query.gte("price", minCents);
+  }
+  if (params.max_price) {
+    const maxCents = Math.round(parseFloat(params.max_price) * 100);
+    if (!isNaN(maxCents)) query = query.lte("price", maxCents);
+  }
+
+  // Sort
+  if (params.sort === "price_asc") {
+    query = query.order("price", { ascending: true });
+  } else if (params.sort === "price_desc") {
+    query = query.order("price", { ascending: false });
+  } else {
+    query = query.order("created_at", { ascending: false });
+  }
+
+  query = query.range(offset, offset + PAGE_SIZE - 1);
+
+  const { data: listings, count } = await query;
+
+  const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
+
   return (
-    <div className="min-h-screen px-8 py-12">
-      <h1 className="text-3xl font-bold">Marketplace</h1>
-      <p className="mt-2 text-gray-600">
-        Browse verified sports memorabilia.
-      </p>
-      {/* TODO: Listing grid with filters */}
+    <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold">Marketplace</h1>
+        <p className="text-sm text-gray-500 mt-1">
+          Browse verified sports memorabilia
+        </p>
+      </div>
+
+      <Suspense fallback={null}>
+        <SearchFilters />
+      </Suspense>
+
+      <div className="mt-6">
+        <p className="text-sm text-gray-500 mb-4">
+          {count ?? 0} result{count !== 1 ? "s" : ""}
+        </p>
+
+        {!listings?.length ? (
+          <div className="rounded-lg border bg-white p-12 text-center text-gray-500">
+            No listings found. Try adjusting your filters.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {listings.map((listing) => (
+              <ListingCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+        )}
+
+        {totalPages > 1 && (
+          <div className="mt-8 flex items-center justify-center gap-4">
+            {page > 1 ? (
+              <Link
+                href={`/marketplace?${buildPageParams(params, page - 1)}`}
+                className="rounded-md border px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
+              >
+                Previous
+              </Link>
+            ) : (
+              <span className="rounded-md border px-4 py-2 text-sm text-gray-300 cursor-not-allowed">
+                Previous
+              </span>
+            )}
+
+            <span className="text-sm text-gray-600">
+              Page {page} of {totalPages}
+            </span>
+
+            {page < totalPages ? (
+              <Link
+                href={`/marketplace?${buildPageParams(params, page + 1)}`}
+                className="rounded-md border px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
+              >
+                Next
+              </Link>
+            ) : (
+              <span className="rounded-md border px-4 py-2 text-sm text-gray-300 cursor-not-allowed">
+                Next
+              </span>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
+}
+
+function buildPageParams(
+  params: Record<string, string | undefined>,
+  page: number
+): string {
+  const sp = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value && key !== "page") sp.set(key, value);
+  }
+  if (page > 1) sp.set("page", String(page));
+  return sp.toString();
 }
