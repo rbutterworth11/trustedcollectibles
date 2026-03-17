@@ -93,6 +93,62 @@ export interface Order {
   updated_at: string;
 }
 
+export type OfferStatus = "pending" | "accepted" | "declined" | "expired" | "withdrawn";
+
+export interface Offer {
+  id: string;
+  listing_id: string;
+  buyer_id: string;
+  seller_id: string;
+  amount: number;
+  status: OfferStatus;
+  message: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface OfferWithDetails extends Offer {
+  listing: Listing;
+  buyer: Profile;
+}
+
+export interface WishlistItem {
+  id: string;
+  user_id: string;
+  listing_id: string;
+  created_at: string;
+  listing: Listing;
+}
+
+export interface FollowedSeller {
+  id: string;
+  follower_id: string;
+  seller_id: string;
+  created_at: string;
+  seller: Profile;
+}
+
+export interface SellerReview {
+  id: string;
+  order_id: string;
+  reviewer_id: string;
+  seller_id: string;
+  rating: number;
+  comment: string | null;
+  created_at: string;
+  reviewer: Profile;
+}
+
+export interface OrderWithListing extends Order {
+  listing: Listing;
+}
+
+export interface OrderWithDetails extends Order {
+  listing: Listing;
+  buyer: Profile;
+  seller: Profile;
+}
+
 // Form state for the create listing wizard
 export interface ListingFormData {
   // Step 1: Photos
