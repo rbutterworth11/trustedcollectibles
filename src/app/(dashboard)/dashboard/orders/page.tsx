@@ -18,13 +18,25 @@ export default async function OrdersPage() {
 
   const isSeller = profile?.role === "seller" || profile?.role === "admin";
 
-  const { data: orders } = await supabase
-    .from("orders")
-    .select(
-      "*, listing:listings(*), buyer:profiles!orders_buyer_id_fkey(*), seller:profiles!orders_seller_id_fkey(*)"
-    )
-    .eq(isSeller ? "seller_id" : "buyer_id", user.id)
-    .order("created_at", { ascending: false });
+  const [{ data: orders }, { data: reviewedOrders }] = await Promise.all([
+    supabase
+      .from("orders")
+      .select(
+        "*, listing:listings(*), buyer:profiles!orders_buyer_id_fkey(*), seller:profiles!orders_seller_id_fkey(*)"
+      )
+      .eq(isSeller ? "seller_id" : "buyer_id", user.id)
+      .order("created_at", { ascending: false }),
+    !isSeller
+      ? supabase
+          .from("seller_reviews")
+          .select("order_id")
+          .eq("reviewer_id", user.id)
+      : Promise.resolve({ data: [] as { order_id: string }[] }),
+  ]);
+
+  const reviewedOrderIds = new Set(
+    (reviewedOrders ?? []).map((r) => r.order_id)
+  );
 
   return (
     <div>
@@ -37,7 +49,11 @@ export default async function OrdersPage() {
           : "Track your purchases."}
       </p>
       <div className="mt-6">
-        <OrdersTable orders={orders ?? []} viewAs={isSeller ? "seller" : "buyer"} />
+        <OrdersTable
+          orders={orders ?? []}
+          viewAs={isSeller ? "seller" : "buyer"}
+          reviewedOrderIds={Array.from(reviewedOrderIds)}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Order, Listing, Profile } from "@/types";
@@ -27,9 +28,11 @@ const statusConfig: Record<string, { label: string; color: string }> = {
 export default function OrdersTable({
   orders,
   viewAs,
+  reviewedOrderIds = [],
 }: {
   orders: OrderWithDetails[];
   viewAs: "seller" | "buyer";
+  reviewedOrderIds?: string[];
 }) {
   const router = useRouter();
   const [filter, setFilter] = useState<string>("all");
@@ -66,7 +69,10 @@ export default function OrdersTable({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orderId }),
       });
-      if (res.ok) router.refresh();
+      if (res.ok) {
+        // Redirect to review page
+        router.push(`/dashboard/orders/${orderId}/review`);
+      }
     } finally {
       setConfirmingOrder(null);
     }
@@ -196,6 +202,15 @@ export default function OrdersTable({
                               : "Confirm Receipt"}
                           </button>
                         </div>
+                      ) : viewAs === "buyer" &&
+                        order.status === "completed" &&
+                        !reviewedOrderIds.includes(order.id) ? (
+                        <Link
+                          href={`/dashboard/orders/${order.id}/review`}
+                          className="text-xs font-medium text-green-600 hover:underline"
+                        >
+                          Leave Review
+                        </Link>
                       ) : (
                         <span className="text-xs text-gray-500">
                           {order.tracking_number || "—"}
