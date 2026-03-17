@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Order, Listing, Profile } from "@/types";
 
@@ -54,18 +55,48 @@ const orderStatusLabels: Record<string, { label: string; color: string }> = {
   disputed: { label: "Disputed", color: "bg-red-100 text-red-800" },
 };
 
+interface BuyerOffer {
+  id: string;
+  listing_id: string;
+  amount: number;
+  status: string;
+  message: string | null;
+  created_at: string;
+  listing: Listing | null;
+  seller: Profile | null;
+}
+
 interface BuyerDashboardProps {
   orders: BuyerOrder[];
   wishlist: BuyerWishlistItem[];
   followedSellers: BuyerFollowedSeller[];
+  offers: BuyerOffer[];
 }
+
+const offerStatusConfig: Record<string, { label: string; color: string }> = {
+  pending: { label: "Pending", color: "bg-yellow-100 text-yellow-800" },
+  accepted: { label: "Accepted", color: "bg-green-100 text-green-800" },
+  declined: { label: "Declined", color: "bg-red-100 text-red-800" },
+  expired: { label: "Expired", color: "bg-gray-100 text-gray-800" },
+  withdrawn: { label: "Withdrawn", color: "bg-gray-100 text-gray-800" },
+};
 
 export default function BuyerDashboard({
   orders,
   wishlist,
   followedSellers,
+  offers,
 }: BuyerDashboardProps) {
   const router = useRouter();
+  const [withdrawingOffer, setWithdrawingOffer] = useState<string | null>(null);
+
+  async function handleWithdrawOffer(offerId: string) {
+    setWithdrawingOffer(offerId);
+    const supabase = createClient();
+    await supabase.from("offers").update({ status: "withdrawn" }).eq("id", offerId);
+    router.refresh();
+    setWithdrawingOffer(null);
+  }
 
   async function handleRemoveWishlist(wishlistId: string) {
     const supabase = createClient();
@@ -152,6 +183,77 @@ export default function BuyerDashboard({
                 })}
               </tbody>
             </table>
+          </div>
+        )}
+      </section>
+
+      {/* Pending Offers */}
+      <section className="mt-8">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">My Offers</h2>
+          <Link
+            href="/dashboard/offers"
+            className="text-sm text-gray-500 hover:text-gray-700"
+          >
+            View all
+          </Link>
+        </div>
+
+        {offers.length === 0 ? (
+          <p className="mt-4 text-sm text-gray-400">No offers made.</p>
+        ) : (
+          <div className="mt-4 space-y-3">
+            {offers.map((offer) => {
+              const config = offerStatusConfig[offer.status] ?? {
+                label: offer.status,
+                color: "bg-gray-100 text-gray-800",
+              };
+              return (
+                <div
+                  key={offer.id}
+                  className="flex items-center justify-between rounded-lg border p-4"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-medium text-gray-900">
+                      {offer.listing?.title ?? "—"}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      You offered{" "}
+                      <span className="font-semibold text-gray-900">
+                        {formatPrice(offer.amount)}
+                      </span>
+                      {offer.listing?.price && (
+                        <span className="text-gray-400">
+                          {" "}
+                          (listed at {formatPrice(offer.listing.price)})
+                        </span>
+                      )}
+                      {" to "}
+                      {offer.seller?.full_name || "Seller"}
+                    </p>
+                    <div className="mt-1 flex items-center gap-2">
+                      <span
+                        className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${config.color}`}
+                      >
+                        {config.label}
+                      </span>
+                      <span className="text-xs text-gray-400">
+                        {timeAgo(offer.created_at)}
+                      </span>
+                    </div>
+                  </div>
+                  {offer.status === "pending" && (
+                    <button
+                      onClick={() => handleWithdrawOffer(offer.id)}
+                      disabled={withdrawingOffer === offer.id}
+                      className="ml-4 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                    >
+                      Withdraw
+                    </button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
       </section>

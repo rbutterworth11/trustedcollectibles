@@ -95,6 +95,7 @@ export default async function DashboardPage() {
     { data: recentOrders },
     { data: wishlistItems },
     { data: followedSellers },
+    { data: buyerOffers },
   ] = await Promise.all([
     supabase
       .from("orders")
@@ -114,6 +115,12 @@ export default async function DashboardPage() {
       .eq("follower_id", user.id)
       .order("created_at", { ascending: false })
       .limit(8),
+    supabase
+      .from("offers")
+      .select("*, listing:listings(*), seller:profiles!offers_seller_id_fkey(*)")
+      .eq("buyer_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(10),
   ]);
 
   return (
@@ -121,6 +128,7 @@ export default async function DashboardPage() {
       orders={recentOrders ?? []}
       wishlist={wishlistItems ?? []}
       followedSellers={followedSellers ?? []}
+      offers={buyerOffers ?? []}
     />
   );
 }
