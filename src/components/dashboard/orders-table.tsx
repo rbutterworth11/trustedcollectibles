@@ -35,6 +35,7 @@ export default function OrdersTable({
   const [filter, setFilter] = useState<string>("all");
   const [trackingInputs, setTrackingInputs] = useState<Record<string, string>>({});
   const [shippingOrder, setShippingOrder] = useState<string | null>(null);
+  const [confirmingOrder, setConfirmingOrder] = useState<string | null>(null);
 
   const filtered =
     filter === "all"
@@ -54,6 +55,20 @@ export default function OrdersTable({
       if (res.ok) router.refresh();
     } finally {
       setShippingOrder(null);
+    }
+  }
+
+  async function handleConfirmDelivery(orderId: string) {
+    setConfirmingOrder(orderId);
+    try {
+      const res = await fetch("/api/orders/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
+      if (res.ok) router.refresh();
+    } finally {
+      setConfirmingOrder(null);
     }
   }
 
@@ -163,6 +178,22 @@ export default function OrdersTable({
                             className="rounded bg-black px-2 py-1 text-xs font-medium text-white hover:bg-gray-800 disabled:opacity-50"
                           >
                             Ship
+                          </button>
+                        </div>
+                      ) : viewAs === "buyer" &&
+                        order.status === "delivered" ? (
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-500">
+                            {order.tracking_number || "—"}
+                          </span>
+                          <button
+                            onClick={() => handleConfirmDelivery(order.id)}
+                            disabled={confirmingOrder === order.id}
+                            className="rounded bg-green-600 px-2 py-1 text-xs font-medium text-white hover:bg-green-700 disabled:opacity-50"
+                          >
+                            {confirmingOrder === order.id
+                              ? "..."
+                              : "Confirm Receipt"}
                           </button>
                         </div>
                       ) : (

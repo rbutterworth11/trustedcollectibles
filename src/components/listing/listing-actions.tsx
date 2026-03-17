@@ -44,7 +44,32 @@ export default function ListingActions({
   const [offerAmount, setOfferAmount] = useState("");
   const [offerMessage, setOfferMessage] = useState("");
   const [offerSubmitting, setOfferSubmitting] = useState(false);
+  const [buyLoading, setBuyLoading] = useState(false);
   const [offerSent, setOfferSent] = useState(false);
+
+  async function handleBuyNow() {
+    if (!userId) {
+      router.push(`/login?next=/listing/${listingId}`);
+      return;
+    }
+    setBuyLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ listingId }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Failed to start checkout");
+        setBuyLoading(false);
+      }
+    } catch {
+      setBuyLoading(false);
+    }
+  }
 
   async function toggleWishlist() {
     if (!userId) {
@@ -148,8 +173,12 @@ export default function ListingActions({
       {/* Buy / Offer Buttons */}
       {!isOwnListing && (
         <div className="flex gap-3">
-          <button className="flex-1 rounded-md bg-black px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800">
-            Buy Now
+          <button
+            onClick={handleBuyNow}
+            disabled={buyLoading}
+            className="flex-1 rounded-md bg-black px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:opacity-50"
+          >
+            {buyLoading ? "Processing..." : "Buy Now"}
           </button>
           {acceptOffers && !offerSent && (
             <button
