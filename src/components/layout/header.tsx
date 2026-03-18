@@ -51,6 +51,12 @@ export default function Header() {
         setFullName(
           currentUser.user_metadata?.full_name || currentUser.email || ""
         );
+        supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", currentUser.id)
+          .single()
+          .then(({ data }) => setIsAdmin(data?.role === "admin"));
       } else {
         setFullName("");
         setIsAdmin(false);
