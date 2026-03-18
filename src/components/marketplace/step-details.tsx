@@ -27,14 +27,29 @@ export default function StepDetails({ data, onChange, errors }: StepDetailsProps
           <label htmlFor="title" className="block text-sm font-medium text-gray-300">
             Title <span className="text-red-500">*</span>
           </label>
-          <input
-            id="title"
-            type="text"
-            value={data.title}
-            onChange={(e) => onChange({ title: e.target.value })}
-            placeholder="e.g. Michael Jordan Signed Chicago Bulls Jersey"
-            className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-sm text-white placeholder:text-gray-500 shadow-sm focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
-          />
+          <div className="mt-1.5 rounded-md border border-brand-amber/20 bg-brand-amber/5 px-3 py-2">
+            <p className="text-xs font-medium text-brand-amber">
+              Format: [Player name] signed [item type] [year/details]
+            </p>
+            <p className="mt-1 text-xs text-gray-400">
+              Examples: &ldquo;Wayne Rooney signed Manchester United shirt 2011&rdquo; &middot;
+              &ldquo;Tyson Fury signed boxing glove WBC&rdquo;
+            </p>
+          </div>
+          <div className="relative mt-2">
+            <input
+              id="title"
+              type="text"
+              maxLength={80}
+              value={data.title}
+              onChange={(e) => onChange({ title: e.target.value })}
+              placeholder="e.g. Wayne Rooney signed Manchester United shirt 2011"
+              className="block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 pr-16 text-sm text-white placeholder:text-gray-500 shadow-sm focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
+            />
+            <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs ${data.title.length > 70 ? "text-brand-amber" : "text-gray-500"}`}>
+              {data.title.length}/80
+            </span>
+          </div>
           {errors.title && <p className="mt-1 text-xs text-red-400">{errors.title}</p>}
         </div>
 

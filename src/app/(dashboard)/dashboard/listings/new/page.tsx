@@ -63,6 +63,7 @@ export default function NewListingPage() {
 
     if (stepIndex === 1) {
       if (!data.title.trim()) newErrors.title = "Title is required.";
+      else if (data.title.length > 80) newErrors.title = "Title must be 80 characters or less.";
       if (!data.description.trim()) newErrors.description = "Description is required.";
       if (!data.sport) newErrors.sport = "Sport is required.";
       if (!data.category) newErrors.category = "Item type is required.";
