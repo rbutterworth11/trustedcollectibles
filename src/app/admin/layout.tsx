@@ -26,6 +26,18 @@ export default function AdminLayout({
               Review Queue
             </Link>
             <Link
+              href="/admin/listings"
+              className="text-gray-300 hover:text-white font-medium"
+            >
+              All Listings
+            </Link>
+            <Link
+              href="/admin/users"
+              className="text-gray-300 hover:text-white font-medium"
+            >
+              Users
+            </Link>
+            <Link
               href="/admin?filter=flagged"
               className="text-gray-300 hover:text-white font-medium"
             >

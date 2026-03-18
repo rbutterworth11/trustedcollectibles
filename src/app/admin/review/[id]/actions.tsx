@@ -235,6 +235,33 @@ export default function AdminReviewActions({
           </button>
         </div>
       )}
+
+      <hr className="border-white/[0.07]" />
+
+      {/* Delete Listing */}
+      <button
+        onClick={async () => {
+          if (!window.confirm("Are you sure you want to permanently delete this listing? This cannot be undone.")) return;
+          setLoading("delete");
+          setError("");
+          const res = await fetch("/api/admin/listings", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ listingId }),
+          });
+          if (!res.ok) {
+            const data = await res.json();
+            setError(data.error || "Delete failed.");
+            setLoading("");
+            return;
+          }
+          router.push("/admin/listings");
+        }}
+        disabled={!!loading}
+        className="w-full rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+      >
+        {loading === "delete" ? "Deleting..." : "Delete Listing"}
+      </button>
     </section>
   );
 }

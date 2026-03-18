@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import AdminReviewActions from "./actions";
+import AdminEditForm from "./edit-form";
+import { SPORTS, ITEM_TYPES, CONDITIONS, COA_SOURCES } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -190,6 +192,23 @@ export default async function AdminReviewPage({
               </div>
             </dl>
           </section>
+
+          {/* Edit Listing Fields */}
+          <AdminEditForm
+            listingId={listing.id}
+            fields={[
+              { key: "title", label: "Title", original: listing.title, type: "text" },
+              { key: "description", label: "Description", original: listing.description, type: "textarea" },
+              { key: "player", label: "Player", original: listing.player, type: "text" },
+              { key: "team", label: "Team", original: listing.team || "", type: "text" },
+              { key: "year", label: "Year", original: listing.year || "", type: "text" },
+              { key: "sport", label: "Sport", original: listing.sport, type: "select", options: [...SPORTS] },
+              { key: "category", label: "Item Type", original: listing.category, type: "select", options: [...ITEM_TYPES] },
+              { key: "condition", label: "Condition", original: listing.condition, type: "select", options: [...CONDITIONS] },
+              { key: "coa_source", label: "COA Source", original: listing.coa_source || "", type: "select", options: ["", ...COA_SOURCES] },
+              { key: "coa_certificate_number", label: "Certificate Number", original: listing.coa_certificate_number || "", type: "text" },
+            ]}
+          />
 
           {/* Review History */}
           {reviews && reviews.length > 0 && (
