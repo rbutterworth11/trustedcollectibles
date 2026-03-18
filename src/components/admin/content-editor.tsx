@@ -51,6 +51,7 @@ const SECTION_ORDER = [
   { key: "staff_picks_section", label: "Staff Picks" },
   { key: "featured_collections", label: "Featured Collections" },
   { key: "cta_section", label: "CTA Section" },
+  { key: "trust_section", label: "Trust & Trustpilot" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -667,6 +668,56 @@ export default function ContentEditor({ sections, staffPicks, allListings }: Pro
     );
   }
 
+  function renderTrustSection() {
+    const v = val("trust_section");
+    const toggleField = (field: string) => updateValue("trust_section", field, !(v[field] as boolean));
+
+    return (
+      <div className="space-y-4">
+        <p className="text-xs text-gray-500">Configure the Trustpilot display and trust logos shown between the CTA and footer.</p>
+
+        <div className="bg-brand-dark border border-white/[0.07] rounded-md p-4 space-y-3">
+          <h4 className="text-sm font-semibold text-white">Trustpilot</h4>
+          <div>
+            <label className={labelCls}>Trustpilot Page URL</label>
+            <input className={inputCls} value={(v.trustpilot_url as string) ?? ""} onChange={(e) => updateValue("trust_section", "trustpilot_url", e.target.value)} placeholder="https://www.trustpilot.com/review/..." />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className={labelCls}>Rating (e.g. 4.8)</label>
+              <input className={inputCls} value={(v.trustpilot_rating as string) ?? ""} onChange={(e) => updateValue("trust_section", "trustpilot_rating", e.target.value)} placeholder="4.8" />
+            </div>
+            <div>
+              <label className={labelCls}>Number of Reviews</label>
+              <input className={inputCls} value={(v.trustpilot_reviews as string) ?? ""} onChange={(e) => updateValue("trust_section", "trustpilot_reviews", e.target.value)} placeholder="127" />
+            </div>
+          </div>
+          <div>
+            <label className={labelCls}>Display Text</label>
+            <input className={inputCls} value={(v.trustpilot_text as string) ?? ""} onChange={(e) => updateValue("trust_section", "trustpilot_text", e.target.value)} placeholder="Rated Excellent on Trustpilot" />
+          </div>
+        </div>
+
+        <div className="bg-brand-dark border border-white/[0.07] rounded-md p-4 space-y-3">
+          <h4 className="text-sm font-semibold text-white">Trust Logos</h4>
+          <p className="text-xs text-gray-500">Toggle which logos appear below the Trustpilot rating.</p>
+          {[
+            { key: "show_stripe", label: "Stripe Verified" },
+            { key: "show_ssl", label: "SSL Secure" },
+            { key: "show_psa", label: "PSA Partner" },
+            { key: "show_beckett", label: "Beckett Authentication" },
+            { key: "show_jsa", label: "JSA Certified" },
+          ].map((logo) => (
+            <div key={logo.key} className="flex items-center justify-between py-1">
+              <span className="text-sm text-gray-300">{logo.label}</span>
+              <Toggle checked={(v[logo.key] as boolean) !== false} onChange={() => toggleField(logo.key)} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   const formRenderers: Record<string, () => React.ReactNode> = {
     announcement_bar: renderAnnouncementBar,
     maintenance_notice: renderMaintenanceNotice,
@@ -677,6 +728,7 @@ export default function ContentEditor({ sections, staffPicks, allListings }: Pro
     staff_picks_section: renderStaffPicks,
     featured_collections: renderFeaturedCollections,
     cta_section: renderCTA,
+    trust_section: renderTrustSection,
   };
 
   /* ---------------------------------------------------------------- */
