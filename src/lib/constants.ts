@@ -33,8 +33,6 @@ export const ITEM_TYPES = [
 ] as const;
 
 export const CONDITIONS = [
-  "Mint",
-  "Near Mint",
   "Excellent",
   "Very Good",
   "Good",

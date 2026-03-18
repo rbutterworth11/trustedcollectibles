@@ -26,7 +26,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/[0.07] bg-brand-card">
       <div className="mx-auto max-w-7xl px-4 md:px-8 py-8 md:py-12">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4">
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-3">

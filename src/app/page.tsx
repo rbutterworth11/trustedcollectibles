@@ -115,6 +115,14 @@ export default async function Home() {
     hero?.value?.cta_secondary_text ?? "Start Selling";
   const heroCtaSecondaryLink =
     hero?.value?.cta_secondary_link ?? "/register";
+
+  // Check if user is logged in for the CTA link
+  let isLoggedIn = false;
+  try {
+    const { data: { user: currentUser } } = await supabase.auth.getUser();
+    isLoggedIn = !!currentUser;
+  } catch {}
+  const sellingLink = isLoggedIn ? "/dashboard/listings/new" : (heroCtaSecondaryLink as string);
   const heroBackgroundImage = (hero?.value?.background_image as string) || "";
 
   // Hero carousel slides
@@ -232,7 +240,7 @@ export default async function Home() {
                 {heroCtaText}
               </Link>
               <Link
-                href={heroCtaSecondaryLink}
+                href={sellingLink}
                 className="rounded-md border border-white/[0.07] px-6 py-3 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white"
               >
                 {heroCtaSecondaryText}

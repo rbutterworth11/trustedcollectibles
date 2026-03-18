@@ -84,84 +84,133 @@ export default function ListingsTable({
           </Link>
         </div>
       ) : (
-        <div className="mt-4 overflow-x-auto overflow-hidden rounded-lg border border-white/[0.07]">
-          <table className="w-full min-w-[600px] text-sm">
-            <thead className="bg-brand-card text-left text-xs font-medium uppercase text-gray-400">
-              <tr>
-                <th className="px-4 py-3">Title</th>
-                <th className="px-4 py-3">Sport</th>
-                <th className="px-4 py-3">Price</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Created</th>
-                <th className="px-4 py-3"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/[0.07]">
-              {filtered.map((listing) => {
-                const config = statusConfig[listing.status] ?? {
-                  label: listing.status,
-                  color: "bg-gray-800 text-gray-400",
-                };
-                return (
-                  <tr key={listing.id} className="hover:bg-white/[0.03]">
-                    <td className="px-4 py-3">
-                      <div>
-                        <p className="font-medium text-white">
-                          {listing.title}
-                        </p>
-                        <p className="text-xs text-gray-400">
-                          {listing.player}
-                          {listing.team ? ` — ${listing.team}` : ""}
-                        </p>
+        <>
+          {/* Mobile card layout */}
+          <div className="mt-4 space-y-3 md:hidden">
+            {filtered.map((listing) => {
+              const config = statusConfig[listing.status] ?? { label: listing.status, color: "bg-gray-800 text-gray-400" };
+              return (
+                <div key={listing.id} className="rounded-lg border border-white/[0.07] bg-brand-card p-4">
+                  <div className="flex gap-3">
+                    {listing.images?.[0] ? (
+                      <div className="relative h-16 w-16 shrink-0 rounded-md overflow-hidden bg-white/5">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={listing.images[0]} alt={listing.title} className="h-full w-full object-cover" />
                       </div>
-                    </td>
-                    <td className="px-4 py-3 text-gray-400">
-                      {listing.sport}
-                    </td>
-                    <td className="px-4 py-3 font-medium text-white">
-                      {formatPrice(listing.price)}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${config.color}`}
-                      >
-                        {config.label}
-                      </span>
-                      {listing.flagged && (
-                        <span className="ml-1 inline-block rounded-full bg-orange-900/40 px-2 py-0.5 text-xs font-medium text-orange-400">
-                          Flagged
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-400">
-                      {new Date(listing.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="px-4 py-3">
-                      {listing.status === "listed" ? (
-                        <div className="flex items-center gap-2">
-                          <Link
-                            href={`/listing/${listing.id}`}
-                            className="text-xs font-medium text-brand-amber hover:text-brand-amber-hover"
-                          >
-                            View
-                          </Link>
-                          <BumpButton listingId={listing.id} lastBumpedAt={(listing as any).bumped_at} />
+                    ) : (
+                      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-md bg-white/5 text-xs text-gray-500">
+                        No img
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-white truncate">{listing.title}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{listing.player}{listing.team ? ` — ${listing.team}` : ""}</p>
+                      <div className="flex items-center gap-2 mt-1.5">
+                        <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${config.color}`}>{config.label}</span>
+                        {listing.flagged && <span className="inline-block rounded-full bg-orange-900/40 px-2 py-0.5 text-xs font-medium text-orange-400">Flagged</span>}
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="font-medium text-white">{formatPrice(listing.price)}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{new Date(listing.created_at).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 mt-3 pt-3 border-t border-white/[0.07]">
+                    {listing.status === "listed" && (
+                      <>
+                        <Link href={`/listing/${listing.id}`} className="text-xs font-medium text-brand-amber hover:text-brand-amber-hover">View</Link>
+                        <BumpButton listingId={listing.id} lastBumpedAt={(listing as any).bumped_at} />
+                      </>
+                    )}
+                    {listing.rejection_reason && (
+                      <span className="text-xs text-red-400" title={listing.rejection_reason}>See reason</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop table */}
+          <div className="mt-4 hidden md:block overflow-x-auto overflow-hidden rounded-lg border border-white/[0.07]">
+            <table className="w-full min-w-[600px] text-sm">
+              <thead className="bg-brand-card text-left text-xs font-medium uppercase text-gray-400">
+                <tr>
+                  <th className="px-4 py-3">Title</th>
+                  <th className="px-4 py-3">Sport</th>
+                  <th className="px-4 py-3">Price</th>
+                  <th className="px-4 py-3">Status</th>
+                  <th className="px-4 py-3">Created</th>
+                  <th className="px-4 py-3"></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.07]">
+                {filtered.map((listing) => {
+                  const config = statusConfig[listing.status] ?? {
+                    label: listing.status,
+                    color: "bg-gray-800 text-gray-400",
+                  };
+                  return (
+                    <tr key={listing.id} className="hover:bg-white/[0.03]">
+                      <td className="px-4 py-3">
+                        <div>
+                          <p className="font-medium text-white">
+                            {listing.title}
+                          </p>
+                          <p className="text-xs text-gray-400">
+                            {listing.player}
+                            {listing.team ? ` — ${listing.team}` : ""}
+                          </p>
                         </div>
-                      ) : listing.rejection_reason ? (
+                      </td>
+                      <td className="px-4 py-3 text-gray-400">
+                        {listing.sport}
+                      </td>
+                      <td className="px-4 py-3 font-medium text-white">
+                        {formatPrice(listing.price)}
+                      </td>
+                      <td className="px-4 py-3">
                         <span
-                          className="text-xs text-red-400 cursor-help"
-                          title={listing.rejection_reason}
+                          className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${config.color}`}
                         >
-                          See reason
+                          {config.label}
                         </span>
-                      ) : null}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                        {listing.flagged && (
+                          <span className="ml-1 inline-block rounded-full bg-orange-900/40 px-2 py-0.5 text-xs font-medium text-orange-400">
+                            Flagged
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-gray-400">
+                        {new Date(listing.created_at).toLocaleDateString()}
+                      </td>
+                      <td className="px-4 py-3">
+                        {listing.status === "listed" ? (
+                          <div className="flex items-center gap-2">
+                            <Link
+                              href={`/listing/${listing.id}`}
+                              className="text-xs font-medium text-brand-amber hover:text-brand-amber-hover"
+                            >
+                              View
+                            </Link>
+                            <BumpButton listingId={listing.id} lastBumpedAt={(listing as any).bumped_at} />
+                          </div>
+                        ) : listing.rejection_reason ? (
+                          <span
+                            className="text-xs text-red-400 cursor-help"
+                            title={listing.rejection_reason}
+                          >
+                            See reason
+                          </span>
+                        ) : null}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );

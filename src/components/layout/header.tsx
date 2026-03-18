@@ -76,7 +76,7 @@ export default function Header() {
   }
 
   return (
-    <header className="border-b border-white/[0.07] bg-brand-dark">
+    <header className="border-b border-white/[0.07] bg-brand-dark md:sticky md:top-0 md:z-30">
       {/* ===== DESKTOP NAV (md+) ===== */}
       <nav className="hidden md:flex items-center gap-6 px-8 py-3">
         {/* Logo */}

@@ -11,6 +11,13 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [dob, setDob] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [city, setCity] = useState("");
+  const [postcode, setPostcode] = useState("");
+  const [country, setCountry] = useState("United Kingdom");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -43,7 +50,17 @@ export default function RegisterPage() {
       options: {
         data: {
           full_name: fullName.trim(),
+          phone: phone.trim(),
+          date_of_birth: dob,
+          address: {
+            line1: addressLine1.trim(),
+            line2: addressLine2.trim(),
+            city: city.trim(),
+            postcode: postcode.trim(),
+            country,
+          },
         },
+        emailRedirectTo: `${window.location.origin}/api/auth/callback`,
       },
     });
 
@@ -62,7 +79,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-brand-dark">
-      <div className="w-full max-w-sm space-y-6 px-4">
+      <div className="w-full max-w-md space-y-6 px-4">
         <div className="rounded-xl border border-white/[0.07] bg-brand-card p-8">
           <div className="text-center">
             <Link href="/" className="text-xl font-bold text-white">
@@ -93,7 +110,7 @@ export default function RegisterPage() {
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
+                className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
                 placeholder="John Smith"
                 autoComplete="name"
               />
@@ -108,7 +125,7 @@ export default function RegisterPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
+                className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
                 placeholder="you@example.com"
                 autoComplete="email"
               />
@@ -123,7 +140,7 @@ export default function RegisterPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
+                className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
                 placeholder="••••••••"
                 autoComplete="new-password"
               />
@@ -139,10 +156,63 @@ export default function RegisterPage() {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
+                className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
                 placeholder="••••••••"
                 autoComplete="new-password"
               />
+            </div>
+
+            <div className="border-t border-white/[0.07] pt-4 mt-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Contact Details</p>
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300">Phone Number</label>
+                  <input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber" placeholder="+44 7123 456789" autoComplete="tel" />
+                </div>
+                <div>
+                  <label htmlFor="dob" className="block text-sm font-medium text-gray-300">Date of Birth</label>
+                  <input id="dob" type="date" value={dob} onChange={(e) => setDob(e.target.value)} className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber" />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-white/[0.07] pt-4 mt-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Shipping Address</p>
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="addressLine1" className="block text-sm font-medium text-gray-300">Address Line 1</label>
+                  <input id="addressLine1" type="text" value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber" placeholder="123 High Street" autoComplete="address-line1" />
+                </div>
+                <div>
+                  <label htmlFor="addressLine2" className="block text-sm font-medium text-gray-300">Address Line 2</label>
+                  <input id="addressLine2" type="text" value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber" placeholder="Flat 4" autoComplete="address-line2" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label htmlFor="city" className="block text-sm font-medium text-gray-300">City</label>
+                    <input id="city" type="text" value={city} onChange={(e) => setCity(e.target.value)} className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber" placeholder="London" autoComplete="address-level2" />
+                  </div>
+                  <div>
+                    <label htmlFor="postcode" className="block text-sm font-medium text-gray-300">Postcode</label>
+                    <input id="postcode" type="text" value={postcode} onChange={(e) => setPostcode(e.target.value)} className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber" placeholder="SW1A 1AA" autoComplete="postal-code" />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="country" className="block text-sm font-medium text-gray-300">Country</label>
+                  <select id="country" value={country} onChange={(e) => setCountry(e.target.value)} className="mt-1 block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-base text-white focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber">
+                    <option>United Kingdom</option>
+                    <option>Ireland</option>
+                    <option>United States</option>
+                    <option>Canada</option>
+                    <option>Australia</option>
+                    <option>Germany</option>
+                    <option>France</option>
+                    <option>Spain</option>
+                    <option>Italy</option>
+                    <option>Netherlands</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
             <button
