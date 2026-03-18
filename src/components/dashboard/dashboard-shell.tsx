@@ -17,6 +17,7 @@ const buyerNav = [
   { href: "/dashboard", label: "Overview", icon: "grid" },
   { href: "/dashboard/orders", label: "My Orders", icon: "package" },
   { href: "/dashboard/offers", label: "My Offers", icon: "offer" },
+  { href: "/dashboard/searches", label: "Saved Searches", icon: "tag" },
   { href: "/dashboard/messages", label: "Messages", icon: "chat" },
   { href: "/dashboard/wishlist", label: "Wishlist", icon: "heart" },
   { href: "/dashboard/following", label: "Following", icon: "users" },

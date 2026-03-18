@@ -8,6 +8,8 @@ import ListingActions, {
   SellerCard,
 } from "@/components/listing/listing-actions";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import SimilarItems from "@/components/listing/similar-items";
+import SocialShare from "@/components/listing/social-share";
 
 export const dynamic = "force-dynamic";
 
@@ -271,25 +273,28 @@ export default async function ListingPage({
         </p>
       </div>
 
-      {/* Report link */}
-      <div className="mt-6 flex items-center gap-4 text-sm text-gray-500">
-        <button className="inline-flex items-center gap-1 transition-colors hover:text-red-400">
-          <svg
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
-            />
+      {/* Social Share & Report */}
+      <div className="mt-6 flex items-center justify-between">
+        <SocialShare
+          url={`${SITE_URL}/listing/${id}`}
+          title={listing.title}
+          price={`£${(listing.price / 100).toFixed(2)}`}
+        />
+        <button className="inline-flex items-center gap-1 text-sm text-gray-500 transition-colors hover:text-red-400">
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
           </svg>
           Report
         </button>
       </div>
+
+      {/* Similar Items */}
+      <SimilarItems
+        listingId={id}
+        sport={listing.sport}
+        category={listing.category}
+        player={listing.player}
+      />
 
       {/* JSON-LD Product Structured Data */}
       <script

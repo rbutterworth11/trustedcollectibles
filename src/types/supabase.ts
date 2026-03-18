@@ -59,6 +59,9 @@ export interface Database {
           coa_front: string | null;
           coa_back: string | null;
           coa_hologram: string | null;
+          condition_photos: Array<{ url: string; label: string }> | null;
+          bumped_at: string | null;
+          bump_count: number;
           coa_source: string | null;
           coa_certificate_number: string | null;
           reviewed_by: string | null;
@@ -141,6 +144,9 @@ export interface Database {
           admin_notes?: string | null;
           flagged?: boolean;
           flag_reason?: string | null;
+          condition_photos?: Array<{ url: string; label: string }> | null;
+          bumped_at?: string | null;
+          bump_count?: number;
           status?:
             | "draft"
             | "pending_verification"
@@ -726,6 +732,41 @@ export interface Database {
             columns: ["listing_id"];
             isOneToOne: true;
             referencedRelation: "listings";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      saved_searches: {
+        Row: {
+          id: string;
+          user_id: string;
+          name: string;
+          filters: Record<string, string>;
+          notify: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          name: string;
+          filters?: Record<string, string>;
+          notify?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          name?: string;
+          filters?: Record<string, string>;
+          notify?: boolean;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "saved_searches_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
             referencedColumns: ["id"];
           },
         ];

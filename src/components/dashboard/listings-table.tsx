@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Listing } from "@/types";
 import { useCurrency } from "@/lib/currency";
+import BumpButton from "@/components/dashboard/bump-button";
 
 const statusConfig: Record<
   string,
@@ -137,12 +138,15 @@ export default function ListingsTable({
                     </td>
                     <td className="px-4 py-3">
                       {listing.status === "listed" ? (
-                        <Link
-                          href={`/listing/${listing.id}`}
-                          className="text-xs font-medium text-brand-amber hover:text-brand-amber-hover"
-                        >
-                          View
-                        </Link>
+                        <div className="flex items-center gap-2">
+                          <Link
+                            href={`/listing/${listing.id}`}
+                            className="text-xs font-medium text-brand-amber hover:text-brand-amber-hover"
+                          >
+                            View
+                          </Link>
+                          <BumpButton listingId={listing.id} lastBumpedAt={(listing as any).bumped_at} />
+                        </div>
                       ) : listing.rejection_reason ? (
                         <span
                           className="text-xs text-red-400 cursor-help"

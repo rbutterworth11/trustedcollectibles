@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ListingCard from "@/components/marketplace/listing-card";
 import SearchFilters from "@/components/marketplace/search-filters";
+import SaveSearchButton from "@/components/marketplace/save-search-button";
 import { SITE_URL } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -109,9 +110,14 @@ export default async function MarketplacePage({
         </Suspense>
 
         <div className="mt-6">
-          <p className="text-sm text-gray-500 mb-4">
-            {count ?? 0} result{count !== 1 ? "s" : ""}
-          </p>
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm text-gray-500">
+              {count ?? 0} result{count !== 1 ? "s" : ""}
+            </p>
+            <Suspense fallback={null}>
+              <SaveSearchButton />
+            </Suspense>
+          </div>
 
           {!listings?.length ? (
             <div className="rounded-lg border border-white/[0.07] bg-brand-card p-12 text-center text-gray-400">
