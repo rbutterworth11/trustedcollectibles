@@ -31,7 +31,7 @@ function brandedTemplate({
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body style="margin:0;padding:0;background-color:#08090e;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+<body style="margin:0;padding:0;background-color:#08090e;font-family:'Plus Jakarta Sans',Arial,Helvetica,sans-serif;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#08090e;">
     <tr>
       <td align="center" style="padding:40px 20px;">
@@ -60,7 +60,7 @@ function brandedTemplate({
           <!-- Body -->
           <tr>
             <td style="padding:16px 32px 0 32px;">
-              <div style="font-size:14px;line-height:1.6;color:#9ca3af;">${body}</div>
+              <div style="font-size:14px;line-height:1.6;color:#f0eff2;">${body}</div>
             </td>
           </tr>
           ${ctaText && ctaUrl ? `
@@ -80,14 +80,14 @@ function brandedTemplate({
           <!-- Footer -->
           <tr>
             <td style="padding:32px;border-top:1px solid rgba(255,255,255,0.07);margin-top:24px;">
-              ${footerText ? `<p style="margin:0 0 12px 0;font-size:12px;color:#6b7280;">${footerText}</p>` : ""}
-              <p style="margin:0;font-size:12px;color:#4b5563;">
+              ${footerText ? `<p style="margin:0 0 12px 0;font-size:12px;color:#9ca3af;">${footerText}</p>` : ""}
+              <p style="margin:0;font-size:12px;color:#9ca3af;">
                 &copy; ${new Date().getFullYear()} TrustedCollectibles. All rights reserved.
               </p>
               <p style="margin:4px 0 0 0;font-size:12px;">
-                <a href="${SITE_URL}/terms" style="color:#6b7280;text-decoration:underline;">Terms</a>
+                <a href="${SITE_URL}/terms" style="color:#9ca3af;text-decoration:underline;">Terms</a>
                 &nbsp;&middot;&nbsp;
-                <a href="${SITE_URL}/privacy" style="color:#6b7280;text-decoration:underline;">Privacy</a>
+                <a href="${SITE_URL}/privacy" style="color:#9ca3af;text-decoration:underline;">Privacy</a>
               </p>
             </td>
           </tr>
@@ -115,14 +115,14 @@ export async function sendWelcomeEmail(email: string, name: string) {
     html: brandedTemplate({
       heading: `Welcome, ${name || "Collector"}!`,
       body: `
-        <p style="color:#9ca3af;">Thanks for joining TrustedCollectibles — the trusted marketplace for authenticated sports memorabilia.</p>
-        <p style="color:#9ca3af;">Here's what you can do:</p>
-        <ul style="color:#9ca3af;padding-left:20px;">
+        <p style="color:#f0eff2;">Thanks for joining TrustedCollectibles — the trusted marketplace for authenticated sports memorabilia.</p>
+        <p style="color:#f0eff2;">Here's what you can do:</p>
+        <ul style="color:#f0eff2;padding-left:20px;">
           <li><strong style="color:#ffffff;">Browse</strong> verified collectibles from trusted sellers</li>
           <li><strong style="color:#ffffff;">Buy with confidence</strong> — every payment is escrow-protected</li>
           <li><strong style="color:#ffffff;">Sell your items</strong> — list authenticated memorabilia and reach thousands of collectors</li>
         </ul>
-        <p style="color:#9ca3af;">Every item on our platform is verified by our authentication team. Your payment is always protected.</p>
+        <p style="color:#f0eff2;">Every item on our platform is verified by our authentication team. Your payment is always protected.</p>
       `,
       ctaText: "Browse the Marketplace",
       ctaUrl: `${SITE_URL}/marketplace`,
@@ -144,16 +144,16 @@ export async function sendOrderConfirmationBuyer(
     html: brandedTemplate({
       heading: "Order Confirmed!",
       body: `
-        <p style="color:#9ca3af;">Hi ${buyerName},</p>
-        <p style="color:#9ca3af;">Your purchase has been confirmed and your payment of <strong style="color:#ffffff;">${formatPrice(amount)}</strong> is being held securely in escrow.</p>
+        <p style="color:#f0eff2;">Hi ${buyerName},</p>
+        <p style="color:#f0eff2;">Your purchase has been confirmed and your payment of <strong style="color:#ffffff;">${formatPrice(amount)}</strong> is being held securely in escrow.</p>
         <table role="presentation" width="100%" style="background-color:#08090e;border-radius:8px;border:1px solid rgba(255,255,255,0.07);margin:16px 0;">
           <tr><td style="padding:16px;">
             <p style="margin:0;font-size:14px;font-weight:600;color:#ffffff;">${itemTitle}</p>
-            <p style="margin:4px 0 0 0;font-size:13px;color:#9ca3af;">Amount: ${formatPrice(amount)}</p>
-            <p style="margin:4px 0 0 0;font-size:13px;color:#9ca3af;">Status: Payment held in escrow</p>
+            <p style="margin:4px 0 0 0;font-size:13px;color:#f0eff2;">Amount: ${formatPrice(amount)}</p>
+            <p style="margin:4px 0 0 0;font-size:13px;color:#f0eff2;">Status: Payment held in escrow</p>
           </td></tr>
         </table>
-        <p style="color:#9ca3af;">The seller has been notified and will ship your item within 3 business days. You'll receive a tracking number once it's on its way.</p>
+        <p style="color:#f0eff2;">The seller has been notified and will ship your item within 3 business days. You'll receive a tracking number once it's on its way.</p>
       `,
       ctaText: "View Your Order",
       ctaUrl: `${SITE_URL}/dashboard/orders`,
@@ -176,15 +176,15 @@ export async function sendNewOrderSeller(
     html: brandedTemplate({
       heading: "You've Got a Sale!",
       body: `
-        <p style="color:#9ca3af;">Hi ${sellerName},</p>
-        <p style="color:#9ca3af;"><strong style="color:#ffffff;">${buyerName}</strong> has purchased your item:</p>
+        <p style="color:#f0eff2;">Hi ${sellerName},</p>
+        <p style="color:#f0eff2;"><strong style="color:#ffffff;">${buyerName}</strong> has purchased your item:</p>
         <table role="presentation" width="100%" style="background-color:#08090e;border-radius:8px;border:1px solid rgba(255,255,255,0.07);margin:16px 0;">
           <tr><td style="padding:16px;">
             <p style="margin:0;font-size:14px;font-weight:600;color:#ffffff;">${itemTitle}</p>
-            <p style="margin:4px 0 0 0;font-size:13px;color:#9ca3af;">Sale amount: ${formatPrice(amount)}</p>
+            <p style="margin:4px 0 0 0;font-size:13px;color:#f0eff2;">Sale amount: ${formatPrice(amount)}</p>
           </td></tr>
         </table>
-        <p style="color:#9ca3af;">Please ship the item within <strong style="color:#ffffff;">3 business days</strong> and add the tracking number to your dashboard. Payment will be released once the buyer confirms delivery.</p>
+        <p style="color:#f0eff2;">Please ship the item within <strong style="color:#ffffff;">3 business days</strong> and add the tracking number to your dashboard. Payment will be released once the buyer confirms delivery.</p>
       `,
       ctaText: "Manage Orders",
       ctaUrl: `${SITE_URL}/dashboard/orders`,
@@ -205,15 +205,15 @@ export async function sendShippingConfirmation(
     html: brandedTemplate({
       heading: "Your Item Has Shipped!",
       body: `
-        <p style="color:#9ca3af;">Hi ${buyerName},</p>
-        <p style="color:#9ca3af;">Great news — <strong style="color:#ffffff;">${itemTitle}</strong> is on its way to you.</p>
+        <p style="color:#f0eff2;">Hi ${buyerName},</p>
+        <p style="color:#f0eff2;">Great news — <strong style="color:#ffffff;">${itemTitle}</strong> is on its way to you.</p>
         <table role="presentation" width="100%" style="background-color:#08090e;border-radius:8px;border:1px solid rgba(255,255,255,0.07);margin:16px 0;">
           <tr><td style="padding:16px;">
-            <p style="margin:0;font-size:13px;color:#9ca3af;">Tracking Number</p>
+            <p style="margin:0;font-size:13px;color:#f0eff2;">Tracking Number</p>
             <p style="margin:4px 0 0 0;font-size:16px;font-weight:600;color:#c67b2f;">${trackingNumber}</p>
           </td></tr>
         </table>
-        <p style="color:#9ca3af;">Once you receive the item, you'll have 3 business days to inspect it and confirm delivery. Your payment remains safely held in escrow until then.</p>
+        <p style="color:#f0eff2;">Once you receive the item, you'll have 3 business days to inspect it and confirm delivery. Your payment remains safely held in escrow until then.</p>
       `,
       ctaText: "Track Your Order",
       ctaUrl: `${SITE_URL}/dashboard/orders`,
@@ -238,9 +238,9 @@ export async function sendDeliveryConfirmation(
     html: brandedTemplate({
       heading: "Delivery Confirmed!",
       body: `
-        <p style="color:#9ca3af;">Hi ${buyerName},</p>
-        <p style="color:#9ca3af;">You've confirmed delivery of <strong style="color:#ffffff;">${itemTitle}</strong>. The payment has been released to the seller.</p>
-        <p style="color:#9ca3af;">We'd love to hear about your experience — leave a review to help other collectors.</p>
+        <p style="color:#f0eff2;">Hi ${buyerName},</p>
+        <p style="color:#f0eff2;">You've confirmed delivery of <strong style="color:#ffffff;">${itemTitle}</strong>. The payment has been released to the seller.</p>
+        <p style="color:#f0eff2;">We'd love to hear about your experience — leave a review to help other collectors.</p>
       `,
       ctaText: "Leave a Review",
       ctaUrl: `${SITE_URL}/dashboard/orders`,
@@ -256,16 +256,16 @@ export async function sendDeliveryConfirmation(
     html: brandedTemplate({
       heading: "Payment Released!",
       body: `
-        <p style="color:#9ca3af;">Hi ${sellerName},</p>
-        <p style="color:#9ca3af;">The buyer has confirmed delivery of <strong style="color:#ffffff;">${itemTitle}</strong>. Your payment has been released.</p>
+        <p style="color:#f0eff2;">Hi ${sellerName},</p>
+        <p style="color:#f0eff2;">The buyer has confirmed delivery of <strong style="color:#ffffff;">${itemTitle}</strong>. Your payment has been released.</p>
         <table role="presentation" width="100%" style="background-color:#08090e;border-radius:8px;border:1px solid rgba(255,255,255,0.07);margin:16px 0;">
           <tr><td style="padding:16px;">
-            <p style="margin:0;font-size:13px;color:#9ca3af;">Sale: ${formatPrice(amount)}</p>
-            <p style="margin:4px 0 0 0;font-size:13px;color:#9ca3af;">Platform fee: -${formatPrice(platformFee)}</p>
+            <p style="margin:0;font-size:13px;color:#f0eff2;">Sale: ${formatPrice(amount)}</p>
+            <p style="margin:4px 0 0 0;font-size:13px;color:#f0eff2;">Platform fee: -${formatPrice(platformFee)}</p>
             <p style="margin:8px 0 0 0;font-size:16px;font-weight:600;color:#c67b2f;">Your payout: ${formatPrice(sellerPayout)}</p>
           </td></tr>
         </table>
-        <p style="color:#9ca3af;">Funds will arrive in your Stripe account within 2-3 business days.</p>
+        <p style="color:#f0eff2;">Funds will arrive in your Stripe account within 2-3 business days.</p>
       `,
       ctaText: "View Dashboard",
       ctaUrl: `${SITE_URL}/dashboard`,
@@ -288,16 +288,16 @@ export async function sendOfferReceivedSeller(
     html: brandedTemplate({
       heading: "New Offer Received",
       body: `
-        <p style="color:#9ca3af;">Hi ${sellerName},</p>
-        <p style="color:#9ca3af;"><strong style="color:#ffffff;">${buyerName}</strong> has made an offer on your listing:</p>
+        <p style="color:#f0eff2;">Hi ${sellerName},</p>
+        <p style="color:#f0eff2;"><strong style="color:#ffffff;">${buyerName}</strong> has made an offer on your listing:</p>
         <table role="presentation" width="100%" style="background-color:#08090e;border-radius:8px;border:1px solid rgba(255,255,255,0.07);margin:16px 0;">
           <tr><td style="padding:16px;">
             <p style="margin:0;font-size:14px;font-weight:600;color:#ffffff;">${itemTitle}</p>
-            <p style="margin:4px 0 0 0;font-size:13px;color:#9ca3af;">Listed price: ${formatPrice(listingPrice)}</p>
+            <p style="margin:4px 0 0 0;font-size:13px;color:#f0eff2;">Listed price: ${formatPrice(listingPrice)}</p>
             <p style="margin:4px 0 0 0;font-size:16px;font-weight:600;color:#c67b2f;">Offer: ${formatPrice(offerAmount)}</p>
           </td></tr>
         </table>
-        <p style="color:#9ca3af;">You can accept or decline this offer from your dashboard.</p>
+        <p style="color:#f0eff2;">You can accept or decline this offer from your dashboard.</p>
       `,
       ctaText: "View Offers",
       ctaUrl: `${SITE_URL}/dashboard`,
@@ -324,8 +324,8 @@ export async function sendOfferResponseBuyer(
     html: brandedTemplate({
       heading,
       body: `
-        <p style="color:#9ca3af;">Hi ${buyerName},</p>
-        <p style="color:#9ca3af;">${message}</p>
+        <p style="color:#f0eff2;">Hi ${buyerName},</p>
+        <p style="color:#f0eff2;">${message}</p>
       `,
       ctaText: accepted ? "View Your Order" : "Browse Marketplace",
       ctaUrl: accepted ? `${SITE_URL}/dashboard/orders` : `${SITE_URL}/marketplace`,
@@ -342,18 +342,18 @@ export async function sendListingReviewResult(
 ) {
   const heading = approved ? "Listing Approved!" : "Listing Needs Attention";
   const body = approved
-    ? `<p style="color:#9ca3af;">Hi ${sellerName},</p>
-       <p style="color:#9ca3af;">Great news — your listing <strong style="color:#ffffff;">${itemTitle}</strong> has been verified and is now live on the marketplace!</p>
-       <p style="color:#9ca3af;">Buyers can now find, purchase, and make offers on your item.</p>`
-    : `<p style="color:#9ca3af;">Hi ${sellerName},</p>
-       <p style="color:#9ca3af;">Your listing <strong style="color:#ffffff;">${itemTitle}</strong> was not approved at this time.</p>
+    ? `<p style="color:#f0eff2;">Hi ${sellerName},</p>
+       <p style="color:#f0eff2;">Great news — your listing <strong style="color:#ffffff;">${itemTitle}</strong> has been verified and is now live on the marketplace!</p>
+       <p style="color:#f0eff2;">Buyers can now find, purchase, and make offers on your item.</p>`
+    : `<p style="color:#f0eff2;">Hi ${sellerName},</p>
+       <p style="color:#f0eff2;">Your listing <strong style="color:#ffffff;">${itemTitle}</strong> was not approved at this time.</p>
        ${reason ? `<table role="presentation" width="100%" style="background-color:#08090e;border-radius:8px;border:1px solid rgba(255,255,255,0.07);margin:16px 0;">
          <tr><td style="padding:16px;">
-           <p style="margin:0;font-size:13px;color:#9ca3af;">Reason:</p>
+           <p style="margin:0;font-size:13px;color:#f0eff2;">Reason:</p>
            <p style="margin:4px 0 0 0;font-size:14px;color:#ffffff;">${reason}</p>
          </td></tr>
        </table>` : ""}
-       <p style="color:#9ca3af;">You can update your listing and resubmit it for review from your dashboard.</p>`;
+       <p style="color:#f0eff2;">You can update your listing and resubmit it for review from your dashboard.</p>`;
 
   await getResend().emails.send({
     from: FROM_EMAIL,
