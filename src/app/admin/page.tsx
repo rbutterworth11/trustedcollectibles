@@ -18,6 +18,16 @@ export default async function AdminDashboardPage({
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
 
+  // Safe wrapper for Supabase queries — returns { data, count } with fallbacks
+  const safe = async (query: PromiseLike<{ data: any; count?: number | null }>) => {
+    try {
+      const r = await Promise.resolve(query);
+      return { data: r.data ?? [], count: r.count ?? 0 };
+    } catch {
+      return { data: [], count: 0 };
+    }
+  };
+
   // Fetch all data in parallel
   const [
     revenueResult,
@@ -29,76 +39,39 @@ export default async function AdminDashboardPage({
     recentOrdersResult,
     reviewQueueResult,
   ] = await Promise.all([
-    // Total Revenue (completed/delivered/shipped orders)
-    supabase
-      .from("orders")
-      .select("amount")
-      .in("status", ["completed", "delivered", "shipped"]),
-
-    // Orders this month
-    supabase
-      .from("orders")
-      .select("id", { count: "exact", head: true })
-      .gte("created_at", startOfMonth),
-
-    // New users this month
-    supabase
-      .from("profiles")
-      .select("id", { count: "exact", head: true })
-      .gte("created_at", startOfMonth),
-
-    // Active listings
-    supabase
-      .from("listings")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "listed"),
-
-    // Popular sports (top 5 by listing count)
-    supabase.from("listings").select("sport").eq("status", "listed"),
-
-    // Top sellers by completed orders
-    supabase
-      .from("orders")
-      .select("seller_id, seller:profiles!orders_seller_id_fkey(full_name, email)")
-      .in("status", ["completed", "delivered", "shipped"]),
-
-    // Recent orders (last 10)
-    supabase
-      .from("orders")
-      .select(
-        "id, amount, status, created_at, listing:listings(title), buyer:profiles!orders_buyer_id_fkey(full_name)"
-      )
-      .order("created_at", { ascending: false })
-      .limit(10),
-
-    // Review queue (pending_verification or flagged)
-    (() => {
+    safe(supabase.from("orders").select("amount").in("status", ["completed", "delivered", "shipped"])),
+    safe(supabase.from("orders").select("id", { count: "exact", head: true }).gte("created_at", startOfMonth)),
+    safe(supabase.from("profiles").select("id", { count: "exact", head: true }).gte("created_at", startOfMonth)),
+    safe(supabase.from("listings").select("id", { count: "exact", head: true }).eq("status", "listed")),
+    safe(supabase.from("listings").select("sport").eq("status", "listed")),
+    safe(supabase.from("orders").select("seller_id, seller:profiles!orders_seller_id_fkey(full_name, email)").in("status", ["completed", "delivered", "shipped"])),
+    safe(supabase.from("orders").select("id, amount, status, created_at, listing:listings(title), buyer:profiles!orders_buyer_id_fkey(full_name)").order("created_at", { ascending: false }).limit(10)),
+    safe((() => {
       let query = supabase
         .from("listings")
         .select("*, profiles!listings_seller_id_fkey(id, email, full_name, created_at)")
         .order("created_at", { ascending: true });
-
       if (filter === "flagged") {
         query = query.eq("flagged", true);
       } else {
         query = query.eq("status", "pending_verification");
       }
       return query;
-    })(),
+    })()),
   ]);
 
   // Calculate stats
-  const totalRevenue = (revenueResult.data ?? []).reduce(
-    (sum, o) => sum + (o.amount ?? 0),
+  const totalRevenue = (revenueResult.data).reduce(
+    (sum: number, o: any) => sum + (o.amount ?? 0),
     0
   );
-  const ordersThisMonth = ordersThisMonthResult.count ?? 0;
-  const newUsersThisMonth = newUsersResult.count ?? 0;
-  const activeListings = activeListingsResult.count ?? 0;
+  const ordersThisMonth = ordersThisMonthResult.count;
+  const newUsersThisMonth = newUsersResult.count;
+  const activeListings = activeListingsResult.count;
 
   // Aggregate popular sports
   const sportCounts: Record<string, number> = {};
-  for (const row of popularSportsResult.data ?? []) {
+  for (const row of popularSportsResult.data) {
     if (row.sport) {
       sportCounts[row.sport] = (sportCounts[row.sport] || 0) + 1;
     }
@@ -110,7 +83,7 @@ export default async function AdminDashboardPage({
 
   // Aggregate top sellers
   const sellerCounts: Record<string, { name: string; count: number }> = {};
-  for (const row of topSellersResult.data ?? []) {
+  for (const row of topSellersResult.data) {
     const seller = row.seller as unknown as {
       full_name: string;
       email: string;
@@ -129,8 +102,8 @@ export default async function AdminDashboardPage({
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
-  const recentOrders = recentOrdersResult.data ?? [];
-  const listings = reviewQueueResult.data ?? [];
+  const recentOrders = recentOrdersResult.data;
+  const listings = reviewQueueResult.data;
   const reviewTitle =
     filter === "flagged" ? "Flagged Listings" : "Review Queue";
   const emptyMessage =
@@ -276,7 +249,7 @@ export default async function AdminDashboardPage({
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/[0.07]">
-                {recentOrders.map((order) => {
+                {recentOrders.map((order: any) => {
                   const listing = order.listing as unknown as {
                     title: string;
                   } | null;
@@ -334,7 +307,7 @@ export default async function AdminDashboardPage({
           </div>
         ) : (
           <div className="space-y-3">
-            {listings.map((listing) => {
+            {listings.map((listing: any) => {
               const seller = listing.profiles as unknown as {
                 id: string;
                 email: string;
