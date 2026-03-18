@@ -605,6 +605,78 @@ export interface Database {
           },
         ];
       };
+      content_pages: {
+        Row: {
+          slug: string;
+          title: string;
+          content: string;
+          meta_description: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          slug: string;
+          title: string;
+          content?: string;
+          meta_description?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          slug?: string;
+          title?: string;
+          content?: string;
+          meta_description?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      managed_categories: {
+        Row: {
+          id: string;
+          type: "sport" | "item_type";
+          name: string;
+          image_url: string | null;
+          enabled: boolean;
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          type: "sport" | "item_type";
+          name: string;
+          image_url?: string | null;
+          enabled?: boolean;
+          sort_order?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          type?: "sport" | "item_type";
+          name?: string;
+          image_url?: string | null;
+          enabled?: boolean;
+          sort_order?: number;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      site_settings: {
+        Row: {
+          key: string;
+          value: string;
+          updated_at: string;
+        };
+        Insert: {
+          key: string;
+          value?: string;
+          updated_at?: string;
+        };
+        Update: {
+          key?: string;
+          value?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       site_content: {
         Row: {
           key: string;
