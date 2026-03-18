@@ -18,7 +18,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   const { type, categories } = await request.json();
-  if (!type || !["sport", "item_type"].includes(type))
+  if (!type || !["sport", "item_type", "condition", "coa_source"].includes(type))
     return NextResponse.json({ error: "Invalid type" }, { status: 400 });
 
   if (!Array.isArray(categories))

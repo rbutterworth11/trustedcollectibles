@@ -42,7 +42,10 @@ interface Props {
 /* ------------------------------------------------------------------ */
 
 const SECTION_ORDER = [
+  { key: "announcement_bar", label: "Announcement Bar" },
+  { key: "maintenance_notice", label: "Site Notice" },
   { key: "hero", label: "Hero" },
+  { key: "hero_slides", label: "Hero Carousel" },
   { key: "trust_bar", label: "Trust Bar" },
   { key: "new_arrivals", label: "New Arrivals" },
   { key: "staff_picks_section", label: "Staff Picks" },
@@ -564,8 +567,111 @@ export default function ContentEditor({ sections, staffPicks, allListings }: Pro
     );
   }
 
+  function renderAnnouncementBar() {
+    const v = val("announcement_bar");
+    return (
+      <div className="space-y-3">
+        <div>
+          <label className={labelCls}>Banner Text</label>
+          <input className={inputCls} value={(v.text as string) ?? ""} onChange={(e) => updateValue("announcement_bar", "text", e.target.value)} placeholder="e.g. Free shipping on orders over £500!" />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className={labelCls}>Link (optional)</label>
+            <input className={inputCls} value={(v.link as string) ?? ""} onChange={(e) => updateValue("announcement_bar", "link", e.target.value)} placeholder="/marketplace" />
+          </div>
+          <div>
+            <label className={labelCls}>Background Colour</label>
+            <div className="flex gap-2 items-center">
+              <input type="color" value={(v.bg_color as string) ?? "#c67b2f"} onChange={(e) => updateValue("announcement_bar", "bg_color", e.target.value)} className="h-9 w-12 rounded border border-white/[0.07] bg-brand-dark cursor-pointer" />
+              <input className={inputCls} value={(v.bg_color as string) ?? "#c67b2f"} onChange={(e) => updateValue("announcement_bar", "bg_color", e.target.value)} />
+            </div>
+          </div>
+        </div>
+        <div>
+          <label className={labelCls}>Text Colour</label>
+          <div className="flex gap-2 items-center">
+            <input type="color" value={(v.text_color as string) ?? "#08090e"} onChange={(e) => updateValue("announcement_bar", "text_color", e.target.value)} className="h-9 w-12 rounded border border-white/[0.07] bg-brand-dark cursor-pointer" />
+            <input className={inputCls} value={(v.text_color as string) ?? "#08090e"} onChange={(e) => updateValue("announcement_bar", "text_color", e.target.value)} />
+          </div>
+        </div>
+        <div className="rounded-md p-3 text-center text-sm font-medium" style={{ backgroundColor: (v.bg_color as string) || "#c67b2f", color: (v.text_color as string) || "#08090e" }}>
+          Preview: {(v.text as string) || "Your announcement text"}
+        </div>
+      </div>
+    );
+  }
+
+  function renderMaintenanceNotice() {
+    const v = val("maintenance_notice");
+    return (
+      <div className="space-y-3">
+        <div>
+          <label className={labelCls}>Notice Text</label>
+          <input className={inputCls} value={(v.text as string) ?? ""} onChange={(e) => updateValue("maintenance_notice", "text", e.target.value)} placeholder="e.g. We are currently undergoing scheduled maintenance..." />
+        </div>
+        <div>
+          <label className={labelCls}>Notice Type</label>
+          <select className={inputCls} value={(v.type as string) ?? "info"} onChange={(e) => updateValue("maintenance_notice", "type", e.target.value)}>
+            <option value="info">Info (Blue)</option>
+            <option value="warning">Warning (Yellow)</option>
+            <option value="error">Error (Red)</option>
+          </select>
+        </div>
+      </div>
+    );
+  }
+
+  function renderHeroSlides() {
+    const v = val("hero_slides");
+    const slides = (v.slides as Array<{ image: string; title: string; subtitle: string; cta_text: string; cta_link: string }>) ?? [];
+    const setSlides = (next: typeof slides) => updateValue("hero_slides", "slides", next);
+
+    return (
+      <div className="space-y-3">
+        <p className="text-xs text-gray-500">When enabled, the carousel replaces the static hero. Add multiple slides with images, titles, and CTAs.</p>
+        {slides.map((slide, i) => (
+          <div key={i} className="bg-brand-dark border border-white/[0.07] rounded-md p-3 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-gray-400">Slide {i + 1}</span>
+              <button type="button" className={btnDanger} onClick={() => setSlides(slides.filter((_, j) => j !== i))}>Remove</button>
+            </div>
+            <div>
+              <label className={labelCls}>Image URL</label>
+              <input className={inputCls} value={slide.image} onChange={(e) => { const next = [...slides]; next[i] = { ...next[i], image: e.target.value }; setSlides(next); }} placeholder="https://..." />
+            </div>
+            <div>
+              <label className={labelCls}>Title</label>
+              <input className={inputCls} value={slide.title} onChange={(e) => { const next = [...slides]; next[i] = { ...next[i], title: e.target.value }; setSlides(next); }} />
+            </div>
+            <div>
+              <label className={labelCls}>Subtitle</label>
+              <input className={inputCls} value={slide.subtitle} onChange={(e) => { const next = [...slides]; next[i] = { ...next[i], subtitle: e.target.value }; setSlides(next); }} />
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className={labelCls}>CTA Text</label>
+                <input className={inputCls} value={slide.cta_text} onChange={(e) => { const next = [...slides]; next[i] = { ...next[i], cta_text: e.target.value }; setSlides(next); }} />
+              </div>
+              <div>
+                <label className={labelCls}>CTA Link</label>
+                <input className={inputCls} value={slide.cta_link} onChange={(e) => { const next = [...slides]; next[i] = { ...next[i], cta_link: e.target.value }; setSlides(next); }} />
+              </div>
+            </div>
+          </div>
+        ))}
+        <button type="button" className={btnSecondary} onClick={() => setSlides([...slides, { image: "", title: "", subtitle: "", cta_text: "", cta_link: "" }])}>
+          + Add Slide
+        </button>
+      </div>
+    );
+  }
+
   const formRenderers: Record<string, () => React.ReactNode> = {
+    announcement_bar: renderAnnouncementBar,
+    maintenance_notice: renderMaintenanceNotice,
     hero: renderHero,
+    hero_slides: renderHeroSlides,
     trust_bar: renderTrustBar,
     new_arrivals: renderNewArrivals,
     staff_picks_section: renderStaffPicks,

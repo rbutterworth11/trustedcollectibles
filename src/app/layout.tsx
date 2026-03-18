@@ -3,6 +3,9 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { CurrencyProvider } from "@/lib/currency";
+import AnnouncementBar from "@/components/layout/announcement-bar";
+import MaintenanceNotice from "@/components/layout/maintenance-notice";
+import { createClient } from "@/lib/supabase/server";
 import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 import "./globals.css";
 
@@ -76,11 +79,37 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Fetch announcement bar and maintenance notice
+  type AnnouncementData = { text: string; link?: string; bg_color?: string; text_color?: string };
+  type MaintenanceData = { text: string; type?: "info" | "warning" | "error" };
+  let announcement: AnnouncementData | null = null;
+  let maintenance: MaintenanceData | null = null;
+
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("site_content")
+      .select("key, value, enabled")
+      .in("key", ["announcement_bar", "maintenance_notice"]);
+
+    for (const row of data ?? []) {
+      if (!row.enabled) continue;
+      const v = row.value as Record<string, unknown>;
+      if (row.key === "announcement_bar" && v.text) {
+        announcement = v as unknown as AnnouncementData;
+      }
+      if (row.key === "maintenance_notice" && v.text) {
+        maintenance = v as unknown as MaintenanceData;
+      }
+    }
+  } catch {
+    // Silently fail if table doesn't exist
+  }
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -101,6 +130,20 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <CurrencyProvider>
+          {announcement && (
+            <AnnouncementBar
+              text={announcement.text}
+              link={announcement.link}
+              bgColor={announcement.bg_color}
+              textColor={announcement.text_color}
+            />
+          )}
+          {maintenance && (
+            <MaintenanceNotice
+              text={maintenance.text}
+              type={maintenance.type}
+            />
+          )}
           <Header />
           {children}
           <Footer />

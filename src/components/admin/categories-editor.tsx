@@ -10,7 +10,7 @@ interface Category {
   image_url?: string | null;
   enabled: boolean;
   sort_order: number;
-  type: "sport" | "item_type";
+  type: "sport" | "item_type" | "condition" | "coa_source";
 }
 
 export default function CategoriesEditor({
@@ -19,19 +19,32 @@ export default function CategoriesEditor({
   categories: Category[];
 }) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"sport" | "item_type">("sport");
+  type TabType = "sport" | "item_type" | "condition" | "coa_source";
+  const [activeTab, setActiveTab] = useState<TabType>("sport");
   const [sports, setSports] = useState<Category[]>(
     categories.filter((c) => c.type === "sport")
   );
   const [itemTypes, setItemTypes] = useState<Category[]>(
     categories.filter((c) => c.type === "item_type")
   );
+  const [conditions, setConditions] = useState<Category[]>(
+    categories.filter((c) => c.type === "condition")
+  );
+  const [coaSources, setCoaSources] = useState<Category[]>(
+    categories.filter((c) => c.type === "coa_source")
+  );
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
-  const currentList = activeTab === "sport" ? sports : itemTypes;
-  const setCurrentList = activeTab === "sport" ? setSports : setItemTypes;
+  const tabMap: Record<TabType, { list: Category[]; set: (v: Category[]) => void }> = {
+    sport: { list: sports, set: setSports },
+    item_type: { list: itemTypes, set: setItemTypes },
+    condition: { list: conditions, set: setConditions },
+    coa_source: { list: coaSources, set: setCoaSources },
+  };
+  const currentList = tabMap[activeTab].list;
+  const setCurrentList = tabMap[activeTab].set;
 
   const moveItem = useCallback(
     (index: number, direction: "up" | "down") => {
@@ -107,21 +120,26 @@ export default function CategoriesEditor({
     <div>
       {/* Tabs */}
       <div className="flex gap-1 mb-6">
-        {(["sport", "item_type"] as const).map((tab) => (
+        {([
+          { key: "sport" as TabType, label: "Sports" },
+          { key: "item_type" as TabType, label: "Item Types" },
+          { key: "condition" as TabType, label: "Conditions" },
+          { key: "coa_source" as TabType, label: "COA Sources" },
+        ]).map((tab) => (
           <button
-            key={tab}
+            key={tab.key}
             onClick={() => {
-              setActiveTab(tab);
+              setActiveTab(tab.key);
               setMessage("");
               setConfirmDelete(null);
             }}
             className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
-              activeTab === tab
+              activeTab === tab.key
                 ? "bg-brand-amber text-brand-dark"
                 : "text-gray-400 hover:text-white hover:bg-white/5 border border-white/[0.07]"
             }`}
           >
-            {tab === "sport" ? "Sports" : "Item Types"}
+            {tab.label}
           </button>
         ))}
       </div>
@@ -280,7 +298,7 @@ export default function CategoriesEditor({
         >
           {saving
             ? "Saving..."
-            : `Save ${activeTab === "sport" ? "Sports" : "Item Types"}`}
+            : `Save ${({ sport: "Sports", item_type: "Item Types", condition: "Conditions", coa_source: "COA Sources" })[activeTab]}`}
         </button>
       </div>
     </div>

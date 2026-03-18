@@ -632,7 +632,7 @@ export interface Database {
       managed_categories: {
         Row: {
           id: string;
-          type: "sport" | "item_type";
+          type: "sport" | "item_type" | "condition" | "coa_source";
           name: string;
           image_url: string | null;
           enabled: boolean;
@@ -641,7 +641,7 @@ export interface Database {
         };
         Insert: {
           id?: string;
-          type: "sport" | "item_type";
+          type: "sport" | "item_type" | "condition" | "coa_source";
           name: string;
           image_url?: string | null;
           enabled?: boolean;

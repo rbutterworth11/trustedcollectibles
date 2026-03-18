@@ -52,6 +52,30 @@ const FIELD_GROUPS = [
         type: "textarea" as const,
         hint: "Comma-separated list",
       },
+      {
+        key: "free_shipping_threshold",
+        label: "Free Shipping Threshold (pence)",
+        type: "text" as const,
+        hint: "e.g. 50000 = £500. Set to 0 to disable.",
+      },
+      {
+        key: "shipping_rate_standard",
+        label: "Standard Shipping Rate (pence)",
+        type: "text" as const,
+        hint: "e.g. 999 = £9.99",
+      },
+      {
+        key: "shipping_rate_express",
+        label: "Express Shipping Rate (pence)",
+        type: "text" as const,
+        hint: "e.g. 1999 = £19.99",
+      },
+      {
+        key: "shipping_rate_international",
+        label: "International Shipping Rate (pence)",
+        type: "text" as const,
+        hint: "e.g. 2999 = £29.99",
+      },
     ],
   },
   {

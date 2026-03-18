@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import ListingCard from "@/components/marketplace/listing-card";
 import { SPORTS } from "@/lib/constants";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import HeroCarousel from "@/components/layout/hero-carousel";
 
 export const dynamic = "force-dynamic";
 
@@ -116,6 +117,10 @@ export default async function Home() {
     hero?.value?.cta_secondary_link ?? "/register";
   const heroBackgroundImage = (hero?.value?.background_image as string) || "";
 
+  // Hero carousel slides
+  const heroSlidesSection = getSection(allSections, "hero_slides");
+  const heroSlides = (heroSlidesSection?.value?.slides as Array<{ image: string; title: string; subtitle: string; cta_text: string; cta_link: string }>) ?? [];
+
   // Defaults for trust bar
   const trustBarItems = trustBar?.value?.items ?? [
     { icon: "shield", title: "Expert Verified", subtitle: "Every item authenticated" },
@@ -189,8 +194,13 @@ export default async function Home() {
 
   return (
     <main className="min-h-[calc(100vh-65px)] bg-brand-dark">
-      {/* Hero */}
-      {hero?.enabled !== false && (
+      {/* Hero Carousel (if enabled and has slides) */}
+      {heroSlidesSection?.enabled && heroSlides.length > 0 && (
+        <HeroCarousel slides={heroSlides} />
+      )}
+
+      {/* Hero (shown when carousel is disabled or empty) */}
+      {hero?.enabled !== false && !(heroSlidesSection?.enabled && heroSlides.length > 0) && (
         <section className="relative overflow-hidden bg-brand-dark text-white">
           {heroBackgroundImage && (
             <>
