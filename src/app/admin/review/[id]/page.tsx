@@ -61,7 +61,7 @@ export default async function AdminReviewPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <div className="flex items-start justify-between mb-6">
+      <div className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold text-white">{listing.title}</h1>
@@ -83,15 +83,15 @@ export default async function AdminReviewPage({
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main content — 2 columns */}
-        <div className="col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-6">
           {/* Item Photos */}
           <section className="rounded-lg border border-white/[0.07] bg-brand-card p-5">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">
               Item Photos
             </h2>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {allImages.map((img) => (
                 <div key={img.url} className="space-y-1">
                   <a
@@ -119,7 +119,7 @@ export default async function AdminReviewPage({
               Certificate of Authenticity
             </h2>
             {coaImages.length > 0 ? (
-              <div className="grid grid-cols-3 gap-3 mb-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
                 {coaImages.map((img) => (
                   <div key={img.url} className="space-y-1">
                     <a

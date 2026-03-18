@@ -95,8 +95,8 @@ export default function BuyerOffersTable({ offers }: { offers: BuyerOffer[] }) {
           </Link>
         </div>
       ) : (
-        <div className="mt-4 overflow-hidden rounded-lg border border-white/[0.07]">
-          <table className="w-full text-sm">
+        <div className="mt-4 overflow-x-auto overflow-hidden rounded-lg border border-white/[0.07]">
+          <table className="w-full min-w-[600px] text-sm">
             <thead className="bg-brand-card text-left text-xs font-medium uppercase text-gray-400">
               <tr>
                 <th className="px-4 py-3">Item</th>

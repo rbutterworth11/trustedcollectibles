@@ -221,14 +221,14 @@ export default function ListingActions({
           <button
             onClick={handleBuyNow}
             disabled={buyLoading}
-            className="flex-1 rounded-md bg-brand-amber px-4 py-3 text-sm font-semibold text-brand-dark transition-colors hover:bg-brand-amber-hover disabled:opacity-50"
+            className="flex-1 rounded-md bg-brand-amber px-4 py-3 min-h-[44px] text-sm font-semibold text-brand-dark transition-colors hover:bg-brand-amber-hover disabled:opacity-50"
           >
             {buyLoading ? "Processing..." : "Buy Now"}
           </button>
           {acceptOffers && !offerSent && (
             <button
               onClick={() => setShowOfferForm(!showOfferForm)}
-              className="flex-1 rounded-md border border-white/[0.07] px-4 py-3 text-sm font-medium text-gray-300 transition-colors hover:bg-white/5"
+              className="flex-1 rounded-md border border-white/[0.07] px-4 py-3 min-h-[44px] text-sm font-medium text-gray-300 transition-colors hover:bg-white/5"
             >
               Make Offer
             </button>
@@ -316,7 +316,7 @@ export default function ListingActions({
 
       {/* Wishlist + Share row */}
       {!isOwnListing && (
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={toggleWishlist}
             disabled={wishlistLoading}

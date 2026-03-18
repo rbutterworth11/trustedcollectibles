@@ -130,12 +130,12 @@ export default async function MarketplacePage({
               {page > 1 ? (
                 <Link
                   href={`/marketplace?${buildPageParams(params, page - 1)}`}
-                  className="rounded-md border border-white/[0.07] px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                  className="rounded-md border border-white/[0.07] px-4 py-2 min-h-[44px] text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
                 >
                   Previous
                 </Link>
               ) : (
-                <span className="rounded-md border border-white/[0.07] px-4 py-2 text-sm text-gray-500 cursor-not-allowed">
+                <span className="rounded-md border border-white/[0.07] px-4 py-2 min-h-[44px] text-sm text-gray-500 cursor-not-allowed">
                   Previous
                 </span>
               )}
@@ -147,12 +147,12 @@ export default async function MarketplacePage({
               {page < totalPages ? (
                 <Link
                   href={`/marketplace?${buildPageParams(params, page + 1)}`}
-                  className="rounded-md border border-white/[0.07] px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                  className="rounded-md border border-white/[0.07] px-4 py-2 min-h-[44px] text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
                 >
                   Next
                 </Link>
               ) : (
-                <span className="rounded-md border border-white/[0.07] px-4 py-2 text-sm text-gray-500 cursor-not-allowed">
+                <span className="rounded-md border border-white/[0.07] px-4 py-2 min-h-[44px] text-sm text-gray-500 cursor-not-allowed">
                   Next
                 </span>
               )}

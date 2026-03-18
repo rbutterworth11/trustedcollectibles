@@ -74,8 +74,8 @@ export default async function Home() {
     <main className="min-h-[calc(100vh-65px)] bg-brand-dark">
       {/* Hero */}
       <section className="relative overflow-hidden bg-brand-dark text-white">
-        <div className="mx-auto max-w-6xl px-4 py-20 text-center">
-          <h1 className="text-5xl font-bold tracking-tight sm:text-6xl bg-gradient-to-r from-brand-amber via-yellow-300 to-brand-amber bg-clip-text text-transparent">
+        <div className="mx-auto max-w-6xl px-4 py-12 md:py-20 text-center">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-5xl md:text-6xl bg-gradient-to-r from-brand-amber via-yellow-300 to-brand-amber bg-clip-text text-transparent">
             Authenticated Sports
             <br />
             Memorabilia
@@ -85,7 +85,7 @@ export default async function Home() {
             authenticated by our experts and every transaction is protected with
             escrow payments.
           </p>
-          <div className="mt-8 flex justify-center gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
             <Link
               href="/marketplace"
               className="rounded-md bg-brand-amber px-6 py-3 text-sm font-semibold text-brand-dark hover:bg-brand-amber-hover"
@@ -104,7 +104,7 @@ export default async function Home() {
 
       {/* Trust Bar */}
       <section className="border-b border-white/[0.07] bg-brand-card">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-8 px-4 py-6 sm:justify-between">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-6 px-4 py-6 sm:gap-8 sm:justify-between">
           <div className="flex items-center gap-3 text-sm">
             <svg className="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -145,7 +145,7 @@ export default async function Home() {
       </section>
 
       {/* Browse by Sport */}
-      <section className="mx-auto max-w-6xl px-4 py-12">
+      <section className="mx-auto max-w-6xl px-4 py-8 md:py-12">
         <h2 className="text-2xl font-bold text-white">Browse by Sport</h2>
         <p className="mt-1 text-sm text-gray-500">
           Find memorabilia from your favorite sport.
@@ -181,7 +181,7 @@ export default async function Home() {
 
       {/* Hot Products */}
       {(hotProducts?.length ?? 0) > 0 && (
-        <section className="bg-brand-card py-12">
+        <section className="bg-brand-card py-8 md:py-12">
           <div className="mx-auto max-w-6xl px-4">
             <div className="flex items-center justify-between">
               <div>
@@ -210,7 +210,7 @@ export default async function Home() {
 
       {/* Staff Picks */}
       {(staffPicks?.length ?? 0) > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-12">
+        <section className="mx-auto max-w-6xl px-4 py-8 md:py-12">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold text-white">
@@ -236,7 +236,7 @@ export default async function Home() {
       )}
 
       {/* Featured Collections */}
-      <section className="bg-brand-card py-12">
+      <section className="bg-brand-card py-8 md:py-12">
         <div className="mx-auto max-w-6xl px-4">
           <h2 className="text-2xl font-bold text-white">
             Featured Collections
@@ -289,8 +289,8 @@ export default async function Home() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-6xl px-4 py-16 text-center">
-        <h2 className="text-3xl font-bold text-white">
+      <section className="mx-auto max-w-6xl px-4 py-10 md:py-16 text-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-white">
           Ready to Start Collecting?
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-gray-400">

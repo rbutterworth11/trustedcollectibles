@@ -108,7 +108,7 @@ export default function AdminListingsTable({
 
       {/* Table */}
       <div className="overflow-x-auto rounded-lg border border-white/[0.07]">
-        <table className="w-full text-sm">
+        <table className="w-full min-w-[700px] text-sm">
           <thead>
             <tr className="bg-brand-card text-left text-xs font-medium uppercase text-gray-400">
               <th className="px-4 py-3">Title</th>

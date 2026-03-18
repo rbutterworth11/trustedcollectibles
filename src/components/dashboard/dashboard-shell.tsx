@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import type { Profile } from "@/types";
 
 const sellerNav = [
@@ -74,55 +75,112 @@ export default function DashboardShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const isSeller = profile.role === "seller" || profile.role === "admin";
   const nav = isSeller ? sellerNav : buyerNav;
 
+  // Derive current page label for mobile top bar
+  const currentPage = nav.find((item) => item.href === pathname)?.label ?? "Dashboard";
+
+  const sidebarContent = (
+    <>
+      <div className="px-4 py-6">
+        <div className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-500">
+          {isSeller ? "Seller" : "Buyer"} Dashboard
+        </div>
+        <p className="truncate text-sm font-medium text-white">
+          {profile.full_name || profile.email}
+        </p>
+      </div>
+      <nav className="space-y-1 px-2">
+        {nav.map((item) => {
+          const active = pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 rounded-md px-3 py-2 min-h-[44px] text-sm font-medium transition-colors ${
+                active
+                  ? "bg-brand-amber text-brand-dark"
+                  : "text-gray-400 hover:bg-white/5 hover:text-white"
+              }`}
+            >
+              {icons[item.icon]}
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+      {isSeller && (
+        <div className="mt-6 px-4">
+          <Link
+            href="/dashboard/listings/new"
+            onClick={() => setSidebarOpen(false)}
+            className="flex w-full items-center justify-center gap-2 rounded-md bg-brand-amber px-4 py-2 min-h-[44px] text-sm font-semibold text-brand-dark hover:bg-brand-amber-hover"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            New Listing
+          </Link>
+        </div>
+      )}
+    </>
+  );
+
   return (
     <div className="flex min-h-[calc(100vh-65px)]">
-      <aside className="w-56 shrink-0 border-r border-white/[0.07] bg-brand-card">
-        <div className="px-4 py-6">
-          <div className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-500">
-            {isSeller ? "Seller" : "Buyer"} Dashboard
-          </div>
-          <p className="truncate text-sm font-medium text-white">
-            {profile.full_name || profile.email}
-          </p>
-        </div>
-        <nav className="space-y-1 px-2">
-          {nav.map((item) => {
-            const active = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                  active
-                    ? "bg-brand-amber text-brand-dark"
-                    : "text-gray-400 hover:bg-white/5 hover:text-white"
-                }`}
+      {/* ===== MOBILE: Sticky top bar ===== */}
+      <div className="fixed top-[65px] left-0 right-0 z-30 flex items-center justify-between border-b border-white/[0.07] bg-brand-dark px-4 py-2 md:hidden">
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="flex h-[44px] w-[44px] items-center justify-center rounded-md text-gray-300 hover:bg-white/5 hover:text-white"
+          aria-label="Open sidebar"
+        >
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <span className="text-sm font-semibold text-white">{currentPage}</span>
+        <div className="w-[44px]" /> {/* spacer for centering */}
+      </div>
+
+      {/* ===== MOBILE: Sidebar overlay ===== */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-40 md:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setSidebarOpen(false)}
+          />
+          {/* Sidebar panel */}
+          <aside className="relative z-10 h-full w-64 overflow-y-auto bg-brand-card">
+            <div className="flex items-center justify-end px-4 pt-4">
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="flex h-[44px] w-[44px] items-center justify-center rounded-md text-gray-300 hover:bg-white/5 hover:text-white"
+                aria-label="Close sidebar"
               >
-                {icons[item.icon]}
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-        {isSeller && (
-          <div className="mt-6 px-4">
-            <Link
-              href="/dashboard/listings/new"
-              className="flex w-full items-center justify-center gap-2 rounded-md bg-brand-amber px-4 py-2 text-sm font-semibold text-brand-dark hover:bg-brand-amber-hover"
-            >
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              New Listing
-            </Link>
-          </div>
-        )}
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+
+      {/* ===== DESKTOP: Sidebar ===== */}
+      <aside className="hidden md:block w-56 shrink-0 border-r border-white/[0.07] bg-brand-card">
+        {sidebarContent}
       </aside>
+
+      {/* ===== Main content ===== */}
       <main className="flex-1 overflow-auto bg-brand-dark">
-        <div className="px-8 py-8">{children}</div>
+        {/* Add top padding on mobile to account for sticky top bar */}
+        <div className="px-4 py-4 pt-16 md:px-8 md:py-8 md:pt-8">{children}</div>
       </main>
     </div>
   );
