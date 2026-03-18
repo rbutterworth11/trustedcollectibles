@@ -605,6 +605,59 @@ export interface Database {
           },
         ];
       };
+      site_content: {
+        Row: {
+          key: string;
+          value: Record<string, unknown>;
+          enabled: boolean;
+          sort_order: number;
+          updated_at: string;
+        };
+        Insert: {
+          key: string;
+          value?: Record<string, unknown>;
+          enabled?: boolean;
+          sort_order?: number;
+          updated_at?: string;
+        };
+        Update: {
+          key?: string;
+          value?: Record<string, unknown>;
+          enabled?: boolean;
+          sort_order?: number;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      staff_picks: {
+        Row: {
+          id: string;
+          listing_id: string;
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          listing_id: string;
+          sort_order?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          listing_id?: string;
+          sort_order?: number;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "staff_picks_listing_id_fkey";
+            columns: ["listing_id"];
+            isOneToOne: true;
+            referencedRelation: "listings";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;

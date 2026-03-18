@@ -38,6 +38,12 @@ export default function AdminLayout({
               Users
             </Link>
             <Link
+              href="/admin/content"
+              className="text-gray-300 hover:text-white font-medium"
+            >
+              Content
+            </Link>
+            <Link
               href="/admin?filter=flagged"
               className="text-gray-300 hover:text-white font-medium"
             >
