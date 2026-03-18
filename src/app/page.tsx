@@ -41,11 +41,12 @@ export default async function Home() {
   const safe = (query: PromiseLike<{ data: any }>) =>
     Promise.resolve(query).then(r => r.data ?? []).catch(() => []);
 
-  const [sections, staffPickRows, hotProducts, sportCounts] = await Promise.all([
+  const [sections, staffPickRows, hotProducts, sportCounts, categoryImages] = await Promise.all([
     safe(supabase.from("site_content").select("*").order("sort_order")),
     safe(supabase.from("staff_picks").select("listing_id, sort_order, listing:listings(id, title, sport, category, player, condition, price, accept_offers, images)").order("sort_order")),
     safe(supabase.from("listings").select("id, title, sport, category, player, condition, price, accept_offers, images").eq("status", "listed").order("created_at", { ascending: false }).limit(8)),
     safe(supabase.from("listings").select("sport").eq("status", "listed")),
+    safe(supabase.from("managed_categories").select("name, image_url").eq("type", "sport").eq("enabled", true).order("sort_order")),
   ]);
 
   const allSections = sections;
@@ -83,6 +84,12 @@ export default async function Home() {
     star: "text-brand-amber",
   };
 
+  // Build category image map from DB
+  const categoryImageMap: Record<string, string> = {};
+  for (const cat of categoryImages) {
+    if (cat.image_url) categoryImageMap[cat.name] = cat.image_url;
+  }
+
   const sportIcons: Record<string, string> = {
     Baseball: "&#9918;",
     Basketball: "&#127936;",
@@ -107,6 +114,7 @@ export default async function Home() {
     hero?.value?.cta_secondary_text ?? "Start Selling";
   const heroCtaSecondaryLink =
     hero?.value?.cta_secondary_link ?? "/register";
+  const heroBackgroundImage = (hero?.value?.background_image as string) || "";
 
   // Defaults for trust bar
   const trustBarItems = trustBar?.value?.items ?? [
@@ -184,7 +192,16 @@ export default async function Home() {
       {/* Hero */}
       {hero?.enabled !== false && (
         <section className="relative overflow-hidden bg-brand-dark text-white">
-          <div className="mx-auto max-w-6xl px-4 py-12 md:py-20 text-center">
+          {heroBackgroundImage && (
+            <>
+              <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: `url(${heroBackgroundImage})` }}
+              />
+              <div className="absolute inset-0 bg-brand-dark/80" />
+            </>
+          )}
+          <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-20 text-center">
             <h1
               className="text-3xl font-bold tracking-tight sm:text-5xl md:text-6xl bg-gradient-to-r from-brand-amber via-yellow-300 to-brand-amber bg-clip-text text-transparent"
               dangerouslySetInnerHTML={{
@@ -254,14 +271,21 @@ export default async function Home() {
               <Link
                 key={sport}
                 href={`/marketplace?sport=${encodeURIComponent(sport)}`}
-                className="flex flex-col items-center rounded-lg border border-white/[0.07] bg-brand-card p-4 text-center transition-all hover:border-brand-amber/30 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20"
+                className="relative flex flex-col items-center rounded-lg border border-white/[0.07] bg-brand-card p-4 text-center transition-all hover:border-brand-amber/30 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20 overflow-hidden"
               >
-                <span
-                  className="text-2xl"
-                  dangerouslySetInnerHTML={{
-                    __html: sportIcons[sport] || "&#127942;",
-                  }}
-                />
+                {categoryImageMap[sport] ? (
+                  <div className="relative h-10 w-10 rounded-lg overflow-hidden bg-white/5">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={categoryImageMap[sport]} alt={sport} className="h-full w-full object-cover" />
+                  </div>
+                ) : (
+                  <span
+                    className="text-2xl"
+                    dangerouslySetInnerHTML={{
+                      __html: sportIcons[sport] || "&#127942;",
+                    }}
+                  />
+                )}
                 <span className="mt-2 text-sm font-medium text-white">
                   {sport.replace(" (American)", "").replace(" (Soccer)", "")}
                 </span>

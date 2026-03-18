@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import AdminImageUpload from "./admin-image-upload";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -244,6 +245,13 @@ export default function ContentEditor({ sections, staffPicks, allListings }: Pro
     const v = val("hero");
     return (
       <div className="space-y-3">
+        <AdminImageUpload
+          value={(v.background_image as string) ?? ""}
+          onChange={(url) => updateValue("hero", "background_image", url)}
+          folder="hero"
+          label="Hero Background Image"
+          aspectRatio="aspect-[3/1]"
+        />
         <div>
           <label className={labelCls}>Title</label>
           <textarea rows={2} className={inputCls} value={(v.title as string) ?? ""} onChange={(e) => updateValue("hero", "title", e.target.value)} />

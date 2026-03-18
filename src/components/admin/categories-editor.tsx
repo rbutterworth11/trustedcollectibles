@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import AdminImageUpload from "./admin-image-upload";
 
 interface Category {
   id?: string;
@@ -163,14 +164,48 @@ export default function CategoriesEditor({
               className="flex-1 min-w-0 rounded-md border border-white/[0.07] bg-brand-dark px-3 py-1.5 text-sm text-white placeholder:text-gray-500 focus:border-brand-amber focus:ring-brand-amber"
             />
 
-            {/* Image URL */}
-            <input
-              type="text"
-              value={cat.image_url || ""}
-              onChange={(e) => updateField(index, "image_url", e.target.value)}
-              placeholder="Image URL (optional)"
-              className="w-48 rounded-md border border-white/[0.07] bg-brand-dark px-3 py-1.5 text-sm text-white placeholder:text-gray-500 focus:border-brand-amber focus:ring-brand-amber hidden sm:block"
-            />
+            {/* Image */}
+            <div className="w-48 hidden sm:block">
+              {cat.image_url ? (
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded overflow-hidden bg-white/5 shrink-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={cat.image_url} alt={cat.name} className="h-full w-full object-cover" />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => updateField(index, "image_url", "")}
+                    className="text-xs text-red-400 hover:text-red-300"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <label className="flex items-center gap-1.5 cursor-pointer text-xs text-gray-500 hover:text-gray-400">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  Upload
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const formData = new FormData();
+                      formData.append("file", file);
+                      formData.append("folder", "categories");
+                      const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+                      if (res.ok) {
+                        const { url } = await res.json();
+                        updateField(index, "image_url", url);
+                      }
+                    }}
+                  />
+                </label>
+              )}
+            </div>
 
             {/* Toggle */}
             <button
