@@ -13,6 +13,15 @@ export default function Header() {
   const [fullName, setFullName] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (!q) return;
+    router.push(`/marketplace?q=${encodeURIComponent(q)}`);
+    setSearchQuery("");
+  }
 
   useEffect(() => {
     const supabase = createClient();
@@ -58,18 +67,42 @@ export default function Header() {
 
   return (
     <header className="border-b border-white/[0.07] bg-brand-dark">
-      <nav className="flex items-center justify-between px-8 py-4">
+      <nav className="flex items-center gap-6 px-8 py-3">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" className="flex shrink-0 items-center gap-3">
           <span className="flex h-9 w-9 items-center justify-center rounded-md border-2 border-brand-amber text-sm font-bold text-brand-amber">
             TC
           </span>
-          <span className="text-lg font-bold text-white">
+          <span className="hidden text-lg font-bold text-white sm:inline">
             Trusted<span className="text-brand-amber">Collectibles</span>
           </span>
         </Link>
 
-        <div className="flex items-center gap-5">
+        {/* Search Bar */}
+        <form onSubmit={handleSearch} className="relative flex-1">
+          <svg
+            className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search memorabilia..."
+            className="w-full rounded-full border border-white/[0.07] bg-white/5 py-2.5 pl-12 pr-4 text-sm text-white placeholder:text-gray-500 transition-colors focus:border-brand-amber/50 focus:bg-white/[0.07] focus:outline-none focus:ring-1 focus:ring-brand-amber/50"
+          />
+        </form>
+
+        <div className="flex shrink-0 items-center gap-4">
           <Link
             href="/marketplace"
             className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
