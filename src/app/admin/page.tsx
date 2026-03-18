@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { formatPriceGBP } from "@/lib/currency";
+import { formatPriceGBP } from "@/lib/format-price";
 
 export const metadata: Metadata = { title: "Dashboard — Admin" };
 export const dynamic = "force-dynamic";

@@ -69,9 +69,5 @@ export function useCurrency() {
   return useContext(CurrencyContext);
 }
 
-/**
- * Standalone format for server components / emails (always GBP).
- */
-export function formatPriceGBP(pence: number) {
-  return `£${(pence / 100).toFixed(2)}`;
-}
+// Re-export server-safe formatter for backwards compatibility
+export { formatPriceGBP } from "@/lib/format-price";
