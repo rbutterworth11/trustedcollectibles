@@ -1,1 +1,36 @@
 @import "tailwindcss";
+
+@theme {
+  --color-brand-dark: #08090e;
+  --color-brand-card: #15171f;
+  --color-brand-amber: #c67b2f;
+  --color-brand-amber-hover: #dea04a;
+  --color-brand-offwhite: #f6f5f3;
+  --color-brand-verified-bg: #0F6E56;
+  --color-brand-verified-text: #E1F5EE;
+  --color-brand-offer-bg: #854F0B;
+  --color-brand-offer-text: #FAEEDA;
+
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background-color: #08090e;
+  color: #ffffff;
+}
+
+/* Scrollbar styling for dark theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #08090e;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2d38;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3d48;
+}

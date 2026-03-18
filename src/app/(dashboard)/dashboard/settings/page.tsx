@@ -20,8 +20,8 @@ export default async function SettingsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <h1 className="text-2xl font-bold text-white">Settings</h1>
+      <p className="mt-1 text-sm text-gray-400">
         Manage your profile and account settings.
       </p>
       <div className="mt-6">

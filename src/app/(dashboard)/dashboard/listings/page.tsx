@@ -21,14 +21,14 @@ export default async function MyListingsPage() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">My Listings</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-white">My Listings</h1>
+          <p className="mt-1 text-sm text-gray-400">
             Manage your marketplace listings.
           </p>
         </div>
         <Link
           href="/dashboard/listings/new"
-          className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+          className="rounded-md bg-brand-amber px-4 py-2 text-sm font-semibold text-brand-dark hover:bg-brand-amber-hover"
         >
           + New Listing
         </Link>

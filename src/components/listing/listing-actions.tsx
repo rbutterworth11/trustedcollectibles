@@ -202,11 +202,11 @@ export default function ListingActions({
     <div className="space-y-4">
       {/* Price */}
       <div>
-        <p className="text-3xl font-bold">
+        <p className="text-3xl font-bold text-brand-amber">
           ${(price / 100).toFixed(2)}
         </p>
         {acceptOffers && (
-          <p className="mt-1 text-sm text-green-600">
+          <p className="mt-1 text-sm text-brand-offer-text">
             Accepting offers
             {minimumOffer
               ? ` (minimum $${(minimumOffer / 100).toFixed(2)})`
@@ -221,20 +221,20 @@ export default function ListingActions({
           <button
             onClick={handleBuyNow}
             disabled={buyLoading}
-            className="flex-1 rounded-md bg-black px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:opacity-50"
+            className="flex-1 rounded-md bg-brand-amber px-4 py-3 text-sm font-semibold text-brand-dark transition-colors hover:bg-brand-amber-hover disabled:opacity-50"
           >
             {buyLoading ? "Processing..." : "Buy Now"}
           </button>
           {acceptOffers && !offerSent && (
             <button
               onClick={() => setShowOfferForm(!showOfferForm)}
-              className="flex-1 rounded-md border border-black px-4 py-3 text-sm font-medium transition-colors hover:bg-gray-50"
+              className="flex-1 rounded-md border border-white/[0.07] px-4 py-3 text-sm font-medium text-gray-300 transition-colors hover:bg-white/5"
             >
               Make Offer
             </button>
           )}
           {offerSent && (
-            <div className="flex flex-1 items-center justify-center rounded-md border border-green-300 bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
+            <div className="flex flex-1 items-center justify-center rounded-md border border-green-500/20 bg-green-900/20 px-4 py-3 text-sm font-medium text-green-400">
               Offer Sent
             </div>
           )}
@@ -245,10 +245,10 @@ export default function ListingActions({
       {showOfferForm && !isOwnListing && (
         <form
           onSubmit={submitOffer}
-          className="rounded-lg border bg-gray-50 p-4 space-y-3"
+          className="rounded-lg border border-white/[0.07] bg-brand-card p-4 space-y-3"
         >
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-300">
               Your Offer
             </label>
             <div className="relative mt-1">
@@ -262,7 +262,7 @@ export default function ListingActions({
                 value={offerAmount}
                 onChange={(e) => setOfferAmount(e.target.value)}
                 placeholder={(price / 100).toFixed(2)}
-                className="w-full rounded-md border px-3 py-2 pl-7 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                className="w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 pl-7 text-sm text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
                 required
               />
             </div>
@@ -273,7 +273,7 @@ export default function ListingActions({
             )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-300">
               Message (optional)
             </label>
             <textarea
@@ -281,21 +281,21 @@ export default function ListingActions({
               onChange={(e) => setOfferMessage(e.target.value)}
               rows={2}
               placeholder="Add a note to the seller..."
-              className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+              className="mt-1 w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
             />
           </div>
           <div className="flex gap-2">
             <button
               type="submit"
               disabled={offerSubmitting}
-              className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+              className="rounded-md bg-brand-amber px-4 py-2 text-sm font-semibold text-brand-dark hover:bg-brand-amber-hover disabled:opacity-50"
             >
               {offerSubmitting ? "Sending..." : "Send Offer"}
             </button>
             <button
               type="button"
               onClick={() => setShowOfferForm(false)}
-              className="rounded-md border px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
+              className="rounded-md border border-white/[0.07] px-4 py-2 text-sm font-medium text-gray-300 hover:bg-white/5"
             >
               Cancel
             </button>
@@ -305,9 +305,9 @@ export default function ListingActions({
 
       {/* Escrow Info */}
       {!isOwnListing && (
-        <div className="rounded-lg bg-blue-50 p-4 text-sm text-blue-800">
+        <div className="rounded-lg border border-blue-500/20 bg-blue-900/20 p-4 text-sm text-blue-300">
           <p className="font-medium">Secure Escrow Payment</p>
-          <p className="mt-1 text-blue-600">
+          <p className="mt-1 text-blue-400">
             Your payment is held securely until you receive and verify the
             item. Full buyer protection included.
           </p>
@@ -322,8 +322,8 @@ export default function ListingActions({
             disabled={wishlistLoading}
             className={`flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50 ${
               wishlisted
-                ? "border-red-200 bg-red-50 text-red-700 hover:bg-red-100"
-                : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                ? "border-brand-amber/30 bg-brand-amber/10 text-brand-amber hover:bg-brand-amber/20"
+                : "border-white/[0.07] text-gray-300 hover:bg-white/5"
             }`}
           >
             <svg
@@ -341,7 +341,7 @@ export default function ListingActions({
             </svg>
             {wishlisted ? "Saved" : "Save to Wishlist"}
           </button>
-          <button className="flex items-center gap-2 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
+          <button className="flex items-center gap-2 rounded-md border border-white/[0.07] px-4 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/5">
             <svg
               className="h-4 w-4"
               fill="none"
@@ -359,7 +359,7 @@ export default function ListingActions({
           </button>
           <button
             onClick={handleMessageSeller}
-            className="flex items-center gap-2 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-md border border-white/[0.07] px-4 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/5"
           >
             <svg
               className="h-4 w-4"
@@ -380,7 +380,7 @@ export default function ListingActions({
       )}
 
       {isOwnListing && (
-        <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
+        <div className="rounded-lg border border-brand-amber/20 bg-brand-amber/10 p-4 text-sm text-brand-amber">
           This is your listing.
         </div>
       )}
@@ -443,14 +443,14 @@ export function SellerCard({
   }
 
   return (
-    <div className="rounded-lg border p-4">
-      <h2 className="mb-3 font-semibold">Seller</h2>
+    <div className="rounded-lg border border-white/[0.07] bg-brand-card p-4">
+      <h2 className="mb-3 font-semibold text-white">Seller</h2>
       <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-sm font-bold text-white">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-amber text-sm font-bold text-brand-dark">
           {(sellerName?.[0] ?? "?").toUpperCase()}
         </span>
         <div className="flex-1">
-          <p className="font-medium">{sellerName || "Unknown"}</p>
+          <p className="font-medium text-white">{sellerName || "Unknown"}</p>
           <p className="text-xs text-gray-500">
             Member since{" "}
             {new Date(sellerSince).toLocaleDateString("en-US", {
@@ -466,8 +466,8 @@ export function SellerCard({
                     key={i}
                     className={`h-3 w-3 ${
                       avgRating && i <= Math.round(avgRating)
-                        ? "text-yellow-400"
-                        : "text-gray-200"
+                        ? "text-brand-amber"
+                        : "text-gray-600"
                     }`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -490,8 +490,8 @@ export function SellerCard({
           disabled={loading}
           className={`mt-3 w-full rounded-md border px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50 ${
             following
-              ? "border-gray-300 bg-gray-50 text-gray-600 hover:bg-gray-100"
-              : "border-black bg-white text-black hover:bg-gray-50"
+              ? "border-white/[0.07] bg-white/5 text-gray-300 hover:bg-white/10"
+              : "border-brand-amber bg-brand-amber text-brand-dark font-semibold hover:bg-brand-amber-hover"
           }`}
         >
           {loading ? "..." : following ? "Following" : "Follow Seller"}

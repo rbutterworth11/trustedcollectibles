@@ -46,13 +46,13 @@ function timeAgo(date: string) {
 }
 
 const orderStatusLabels: Record<string, { label: string; color: string }> = {
-  pending: { label: "Pending", color: "bg-gray-100 text-gray-800" },
-  payment_held: { label: "Payment Held", color: "bg-yellow-100 text-yellow-800" },
-  shipped: { label: "Shipped", color: "bg-blue-100 text-blue-800" },
-  delivered: { label: "Delivered", color: "bg-green-100 text-green-800" },
-  completed: { label: "Completed", color: "bg-green-100 text-green-800" },
-  refunded: { label: "Refunded", color: "bg-red-100 text-red-800" },
-  disputed: { label: "Disputed", color: "bg-red-100 text-red-800" },
+  pending: { label: "Pending", color: "bg-gray-800 text-gray-400" },
+  payment_held: { label: "Payment Held", color: "bg-yellow-900/40 text-yellow-400" },
+  shipped: { label: "Shipped", color: "bg-blue-900/40 text-blue-400" },
+  delivered: { label: "Delivered", color: "bg-green-900/40 text-green-400" },
+  completed: { label: "Completed", color: "bg-green-900/40 text-green-400" },
+  refunded: { label: "Refunded", color: "bg-red-900/40 text-red-400" },
+  disputed: { label: "Disputed", color: "bg-red-900/40 text-red-400" },
 };
 
 interface BuyerOffer {
@@ -74,11 +74,11 @@ interface BuyerDashboardProps {
 }
 
 const offerStatusConfig: Record<string, { label: string; color: string }> = {
-  pending: { label: "Pending", color: "bg-yellow-100 text-yellow-800" },
-  accepted: { label: "Accepted", color: "bg-green-100 text-green-800" },
-  declined: { label: "Declined", color: "bg-red-100 text-red-800" },
-  expired: { label: "Expired", color: "bg-gray-100 text-gray-800" },
-  withdrawn: { label: "Withdrawn", color: "bg-gray-100 text-gray-800" },
+  pending: { label: "Pending", color: "bg-yellow-900/40 text-yellow-400" },
+  accepted: { label: "Accepted", color: "bg-green-900/40 text-green-400" },
+  declined: { label: "Declined", color: "bg-red-900/40 text-red-400" },
+  expired: { label: "Expired", color: "bg-gray-800 text-gray-400" },
+  withdrawn: { label: "Withdrawn", color: "bg-gray-800 text-gray-400" },
 };
 
 export default function BuyerDashboard({
@@ -112,37 +112,37 @@ export default function BuyerDashboard({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">My Dashboard</h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <h1 className="text-2xl font-bold text-white">My Dashboard</h1>
+      <p className="mt-1 text-sm text-gray-400">
         Track your orders, wishlist items, and followed sellers.
       </p>
 
       {/* Orders Tracking */}
       <section className="mt-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">My Orders</h2>
+          <h2 className="text-lg font-semibold text-white">My Orders</h2>
           <Link
             href="/dashboard/orders"
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-brand-amber hover:text-brand-amber-hover"
           >
             View all
           </Link>
         </div>
 
         {orders.length === 0 ? (
-          <div className="mt-4 rounded-lg border border-dashed p-8 text-center">
-            <p className="text-sm text-gray-400">No orders yet.</p>
+          <div className="mt-4 rounded-lg border border-dashed border-white/[0.07] p-8 text-center">
+            <p className="text-sm text-gray-500">No orders yet.</p>
             <Link
               href="/marketplace"
-              className="mt-2 inline-block text-sm font-medium text-black hover:underline"
+              className="mt-2 inline-block text-sm font-medium text-brand-amber hover:text-brand-amber-hover"
             >
               Browse the marketplace
             </Link>
           </div>
         ) : (
-          <div className="mt-4 overflow-hidden rounded-lg border">
+          <div className="mt-4 overflow-hidden rounded-lg border border-white/[0.07]">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-left text-xs font-medium uppercase text-gray-500">
+              <thead className="bg-brand-card text-left text-xs font-medium uppercase text-gray-400">
                 <tr>
                   <th className="px-4 py-3">Item</th>
                   <th className="px-4 py-3">Seller</th>
@@ -151,21 +151,21 @@ export default function BuyerDashboard({
                   <th className="px-4 py-3">Tracking</th>
                 </tr>
               </thead>
-              <tbody className="divide-y">
+              <tbody className="divide-y divide-white/[0.07]">
                 {orders.map((order) => {
                   const config = orderStatusLabels[order.status] ?? {
                     label: order.status,
-                    color: "bg-gray-100 text-gray-800",
+                    color: "bg-gray-800 text-gray-400",
                   };
                   return (
-                    <tr key={order.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 font-medium">
+                    <tr key={order.id} className="hover:bg-white/[0.03]">
+                      <td className="px-4 py-3 font-medium text-white">
                         {order.listing?.title ?? "—"}
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-gray-400">
                         {order.seller?.full_name || order.seller?.email || "—"}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 text-white">
                         {formatPrice(order.amount)}
                       </td>
                       <td className="px-4 py-3">
@@ -175,7 +175,7 @@ export default function BuyerDashboard({
                           {config.label}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-xs text-gray-500">
+                      <td className="px-4 py-3 text-xs text-gray-400">
                         {order.tracking_number || "—"}
                       </td>
                     </tr>
@@ -190,10 +190,10 @@ export default function BuyerDashboard({
       {/* Pending Offers */}
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">My Offers</h2>
+          <h2 className="text-lg font-semibold text-white">My Offers</h2>
           <Link
             href="/dashboard/offers"
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-brand-amber hover:text-brand-amber-hover"
           >
             View all
           </Link>
@@ -206,20 +206,20 @@ export default function BuyerDashboard({
             {offers.map((offer) => {
               const config = offerStatusConfig[offer.status] ?? {
                 label: offer.status,
-                color: "bg-gray-100 text-gray-800",
+                color: "bg-gray-800 text-gray-400",
               };
               return (
                 <div
                   key={offer.id}
-                  className="flex items-center justify-between rounded-lg border p-4"
+                  className="flex items-center justify-between rounded-lg border border-white/[0.07] bg-brand-card p-4"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium text-gray-900">
+                    <p className="truncate font-medium text-white">
                       {offer.listing?.title ?? "—"}
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-400">
                       You offered{" "}
-                      <span className="font-semibold text-gray-900">
+                      <span className="font-semibold text-white">
                         {formatPrice(offer.amount)}
                       </span>
                       {offer.listing?.price && (
@@ -246,7 +246,7 @@ export default function BuyerDashboard({
                     <button
                       onClick={() => handleWithdrawOffer(offer.id)}
                       disabled={withdrawingOffer === offer.id}
-                      className="ml-4 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                      className="ml-4 rounded-md border border-white/[0.07] px-4 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 disabled:opacity-50"
                     >
                       Withdraw
                     </button>
@@ -261,10 +261,10 @@ export default function BuyerDashboard({
       {/* Wishlist */}
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">Wishlist</h2>
+          <h2 className="text-lg font-semibold text-white">Wishlist</h2>
           <Link
             href="/dashboard/wishlist"
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-brand-amber hover:text-brand-amber-hover"
           >
             View all
           </Link>
@@ -279,10 +279,10 @@ export default function BuyerDashboard({
             {wishlist.map((item) => (
               <div
                 key={item.id}
-                className="group relative rounded-lg border bg-white"
+                className="group relative rounded-lg border border-white/[0.07] bg-brand-card"
               >
                 <Link href={`/listing/${item.listing_id}`}>
-                  <div className="relative aspect-square overflow-hidden rounded-t-lg bg-gray-100">
+                  <div className="relative aspect-square overflow-hidden rounded-t-lg bg-white/5">
                     {item.listing?.images?.[0] ? (
                       <Image
                         src={item.listing.images[0]}
@@ -291,16 +291,16 @@ export default function BuyerDashboard({
                         className="object-cover"
                       />
                     ) : (
-                      <div className="flex h-full items-center justify-center text-gray-300">
+                      <div className="flex h-full items-center justify-center text-gray-500">
                         No image
                       </div>
                     )}
                   </div>
                   <div className="p-3">
-                    <p className="truncate text-sm font-medium text-gray-900">
+                    <p className="truncate text-sm font-medium text-white">
                       {item.listing?.title ?? "—"}
                     </p>
-                    <p className="text-sm font-bold text-gray-900">
+                    <p className="text-sm font-bold text-white">
                       {item.listing?.price
                         ? formatPrice(item.listing.price)
                         : "—"}
@@ -309,11 +309,11 @@ export default function BuyerDashboard({
                 </Link>
                 <button
                   onClick={() => handleRemoveWishlist(item.id)}
-                  className="absolute right-2 top-2 rounded-full bg-white/80 p-1.5 opacity-0 transition-opacity hover:bg-white group-hover:opacity-100"
+                  className="absolute right-2 top-2 rounded-full bg-black/60 p-1.5 opacity-0 transition-opacity hover:bg-black/80 group-hover:opacity-100"
                   title="Remove from wishlist"
                 >
                   <svg
-                    className="h-4 w-4 text-red-500"
+                    className="h-4 w-4 text-red-400"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -333,12 +333,12 @@ export default function BuyerDashboard({
       {/* Followed Sellers */}
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-white">
             Followed Sellers
           </h2>
           <Link
             href="/dashboard/following"
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-brand-amber hover:text-brand-amber-hover"
           >
             View all
           </Link>
@@ -353,10 +353,10 @@ export default function BuyerDashboard({
             {followedSellers.map((follow) => (
               <div
                 key={follow.id}
-                className="flex items-center justify-between rounded-lg border p-4"
+                className="flex items-center justify-between rounded-lg border border-white/[0.07] bg-brand-card p-4"
               >
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-sm font-bold text-white">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-amber text-sm font-bold text-brand-dark">
                     {(
                       follow.seller?.full_name ||
                       follow.seller?.email ||
@@ -366,7 +366,7 @@ export default function BuyerDashboard({
                       .toUpperCase()}
                   </span>
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-white">
                       {follow.seller?.full_name || "Seller"}
                     </p>
                     <p className="text-xs text-gray-400">
@@ -377,7 +377,7 @@ export default function BuyerDashboard({
                 </div>
                 <button
                   onClick={() => handleUnfollow(follow.id)}
-                  className="rounded-md border border-gray-300 px-3 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50"
+                  className="rounded-md border border-white/[0.07] px-3 py-1 text-xs font-medium text-gray-300 hover:bg-white/5"
                 >
                   Unfollow
                 </button>

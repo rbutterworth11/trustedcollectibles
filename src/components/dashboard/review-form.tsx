@@ -41,7 +41,7 @@ export default function ReviewForm({ orderId }: { orderId: string }) {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Star Rating */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-300">
           Rating
         </label>
         <div className="mt-2 flex gap-1">
@@ -58,7 +58,7 @@ export default function ReviewForm({ orderId }: { orderId: string }) {
                 className={`h-8 w-8 transition-colors ${
                   star <= (hoveredRating || rating)
                     ? "text-yellow-400"
-                    : "text-gray-200"
+                    : "text-gray-600"
                 }`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
@@ -68,7 +68,7 @@ export default function ReviewForm({ orderId }: { orderId: string }) {
             </button>
           ))}
           {rating > 0 && (
-            <span className="ml-2 self-center text-sm text-gray-500">
+            <span className="ml-2 self-center text-sm text-gray-400">
               {rating === 1
                 ? "Poor"
                 : rating === 2
@@ -85,7 +85,7 @@ export default function ReviewForm({ orderId }: { orderId: string }) {
 
       {/* Comment */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-300">
           Comment (optional)
         </label>
         <textarea
@@ -93,24 +93,24 @@ export default function ReviewForm({ orderId }: { orderId: string }) {
           onChange={(e) => setComment(e.target.value)}
           rows={4}
           placeholder="Tell others about your experience..."
-          className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+          className="mt-1 w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
         />
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
       <div className="flex gap-3">
         <button
           type="submit"
           disabled={submitting || rating === 0}
-          className="rounded-md bg-black px-6 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+          className="rounded-md bg-brand-amber px-6 py-2 text-sm font-semibold text-brand-dark hover:bg-brand-amber-hover disabled:opacity-50"
         >
           {submitting ? "Submitting..." : "Submit Review"}
         </button>
         <button
           type="button"
           onClick={() => router.push("/dashboard/orders")}
-          className="rounded-md border border-gray-300 px-6 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-md border border-white/[0.07] px-6 py-2 text-sm font-medium text-gray-300 hover:bg-white/5"
         >
           Skip
         </button>

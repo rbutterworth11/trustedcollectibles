@@ -62,21 +62,21 @@ export default async function AdminReviewPage({
       <div className="flex items-start justify-between mb-6">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold">{listing.title}</h1>
+            <h1 className="text-2xl font-bold text-white">{listing.title}</h1>
             {listing.flagged && (
-              <span className="rounded bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700">
+              <span className="rounded bg-red-900/40 px-2 py-0.5 text-xs font-semibold text-red-400">
                 Flagged
               </span>
             )}
           </div>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-gray-400 mt-1">
             Status:{" "}
-            <span className="font-medium">{listing.status.replace(/_/g, " ")}</span>
+            <span className="font-medium text-gray-300">{listing.status.replace(/_/g, " ")}</span>
             {" "}&middot; Submitted{" "}
             {new Date(listing.created_at).toLocaleDateString()}
           </p>
         </div>
-        <p className="text-2xl font-bold">
+        <p className="text-2xl font-bold text-white">
           ${(listing.price / 100).toFixed(2)}
         </p>
       </div>
@@ -85,8 +85,8 @@ export default async function AdminReviewPage({
         {/* Main content — 2 columns */}
         <div className="col-span-2 space-y-6">
           {/* Item Photos */}
-          <section className="rounded-lg border bg-white p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
+          <section className="rounded-lg border border-white/[0.07] bg-brand-card p-5">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">
               Item Photos
             </h2>
             <div className="grid grid-cols-3 gap-3">
@@ -96,7 +96,7 @@ export default async function AdminReviewPage({
                     href={img.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block relative aspect-square rounded-md overflow-hidden bg-gray-100 hover:ring-2 hover:ring-black transition-shadow"
+                    className="block relative aspect-square rounded-md overflow-hidden bg-white/5 hover:ring-2 hover:ring-brand-amber transition-shadow"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -105,15 +105,15 @@ export default async function AdminReviewPage({
                       className="object-cover w-full h-full"
                     />
                   </a>
-                  <p className="text-xs text-gray-500 text-center">{img.label}</p>
+                  <p className="text-xs text-gray-400 text-center">{img.label}</p>
                 </div>
               ))}
             </div>
           </section>
 
           {/* COA Photos */}
-          <section className="rounded-lg border bg-white p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
+          <section className="rounded-lg border border-white/[0.07] bg-brand-card p-5">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">
               Certificate of Authenticity
             </h2>
             {coaImages.length > 0 ? (
@@ -124,7 +124,7 @@ export default async function AdminReviewPage({
                       href={img.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block relative aspect-square rounded-md overflow-hidden bg-gray-100 hover:ring-2 hover:ring-black transition-shadow"
+                      className="block relative aspect-square rounded-md overflow-hidden bg-white/5 hover:ring-2 hover:ring-brand-amber transition-shadow"
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -133,21 +133,21 @@ export default async function AdminReviewPage({
                         className="object-cover w-full h-full"
                       />
                     </a>
-                    <p className="text-xs text-gray-500 text-center">{img.label}</p>
+                    <p className="text-xs text-gray-400 text-center">{img.label}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-red-600 mb-4">No COA images uploaded.</p>
+              <p className="text-sm text-red-400 mb-4">No COA images uploaded.</p>
             )}
             <dl className="grid grid-cols-2 gap-2 text-sm">
               <div>
-                <dt className="text-gray-500">Source</dt>
-                <dd className="font-medium">{listing.coa_source || "—"}</dd>
+                <dt className="text-gray-400">Source</dt>
+                <dd className="font-medium text-white">{listing.coa_source || "—"}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Certificate #</dt>
-                <dd className="font-medium">
+                <dt className="text-gray-400">Certificate #</dt>
+                <dd className="font-medium text-white">
                   {listing.coa_certificate_number || "—"}
                 </dd>
               </div>
@@ -155,46 +155,46 @@ export default async function AdminReviewPage({
           </section>
 
           {/* Item Details */}
-          <section className="rounded-lg border bg-white p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
+          <section className="rounded-lg border border-white/[0.07] bg-brand-card p-5">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">
               Item Details
             </h2>
             <dl className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
               <div>
-                <dt className="text-gray-500">Sport</dt>
-                <dd className="font-medium">{listing.sport}</dd>
+                <dt className="text-gray-400">Sport</dt>
+                <dd className="font-medium text-white">{listing.sport}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Item Type</dt>
-                <dd className="font-medium">{listing.category}</dd>
+                <dt className="text-gray-400">Item Type</dt>
+                <dd className="font-medium text-white">{listing.category}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Player</dt>
-                <dd className="font-medium">{listing.player}</dd>
+                <dt className="text-gray-400">Player</dt>
+                <dd className="font-medium text-white">{listing.player}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Team</dt>
-                <dd className="font-medium">{listing.team || "—"}</dd>
+                <dt className="text-gray-400">Team</dt>
+                <dd className="font-medium text-white">{listing.team || "—"}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Year</dt>
-                <dd className="font-medium">{listing.year || "—"}</dd>
+                <dt className="text-gray-400">Year</dt>
+                <dd className="font-medium text-white">{listing.year || "—"}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Condition</dt>
-                <dd className="font-medium">{listing.condition}</dd>
+                <dt className="text-gray-400">Condition</dt>
+                <dd className="font-medium text-white">{listing.condition}</dd>
               </div>
               <div className="col-span-2">
-                <dt className="text-gray-500">Description</dt>
-                <dd className="mt-1 whitespace-pre-wrap">{listing.description}</dd>
+                <dt className="text-gray-400">Description</dt>
+                <dd className="mt-1 whitespace-pre-wrap text-gray-300">{listing.description}</dd>
               </div>
             </dl>
           </section>
 
           {/* Review History */}
           {reviews && reviews.length > 0 && (
-            <section className="rounded-lg border bg-white p-5">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
+            <section className="rounded-lg border border-white/[0.07] bg-brand-card p-5">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">
                 Review History
               </h2>
               <div className="space-y-3">
@@ -210,21 +210,21 @@ export default async function AdminReviewPage({
                       <span
                         className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-xs font-medium ${
                           review.action === "approved"
-                            ? "bg-green-100 text-green-700"
+                            ? "bg-green-900/40 text-green-400"
                             : review.action === "rejected"
-                              ? "bg-red-100 text-red-700"
+                              ? "bg-red-900/40 text-red-400"
                               : review.action === "flagged"
-                                ? "bg-orange-100 text-orange-700"
+                                ? "bg-orange-900/40 text-orange-400"
                                 : review.action === "unflagged"
-                                  ? "bg-gray-100 text-gray-700"
-                                  : "bg-blue-100 text-blue-700"
+                                  ? "bg-white/5 text-gray-300"
+                                  : "bg-blue-900/40 text-blue-400"
                         }`}
                       >
                         {review.action.replace(/_/g, " ")}
                       </span>
                       <div>
                         <p>
-                          <span className="font-medium">
+                          <span className="font-medium text-white">
                             {reviewer?.full_name || "Admin"}
                           </span>
                           <span className="text-gray-400 ml-2">
@@ -232,7 +232,7 @@ export default async function AdminReviewPage({
                           </span>
                         </p>
                         {review.reason && (
-                          <p className="text-gray-600 mt-0.5">{review.reason}</p>
+                          <p className="text-gray-400 mt-0.5">{review.reason}</p>
                         )}
                       </div>
                     </div>
@@ -246,22 +246,22 @@ export default async function AdminReviewPage({
         {/* Sidebar — 1 column */}
         <div className="space-y-6">
           {/* Seller Info */}
-          <section className="rounded-lg border bg-white p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
+          <section className="rounded-lg border border-white/[0.07] bg-brand-card p-5">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">
               Seller Info
             </h2>
             <dl className="space-y-2 text-sm">
               <div>
-                <dt className="text-gray-500">Name</dt>
-                <dd className="font-medium">{seller?.full_name || "—"}</dd>
+                <dt className="text-gray-400">Name</dt>
+                <dd className="font-medium text-white">{seller?.full_name || "—"}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Email</dt>
-                <dd className="font-medium break-all">{seller?.email || "—"}</dd>
+                <dt className="text-gray-400">Email</dt>
+                <dd className="font-medium text-white break-all">{seller?.email || "—"}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Member since</dt>
-                <dd className="font-medium">
+                <dt className="text-gray-400">Member since</dt>
+                <dd className="font-medium text-white">
                   {seller?.created_at
                     ? new Date(seller.created_at).toLocaleDateString()
                     : "—"}
@@ -271,23 +271,23 @@ export default async function AdminReviewPage({
           </section>
 
           {/* Pricing */}
-          <section className="rounded-lg border bg-white p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-3">
+          <section className="rounded-lg border border-white/[0.07] bg-brand-card p-5">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-3">
               Pricing
             </h2>
             <dl className="space-y-2 text-sm">
               <div>
-                <dt className="text-gray-500">Asking Price</dt>
-                <dd className="text-lg font-bold">
+                <dt className="text-gray-400">Asking Price</dt>
+                <dd className="text-lg font-bold text-white">
                   ${(listing.price / 100).toFixed(2)}
                 </dd>
               </div>
               <div>
-                <dt className="text-gray-500">Accepts Offers</dt>
-                <dd className="font-medium">
+                <dt className="text-gray-400">Accepts Offers</dt>
+                <dd className="font-medium text-white">
                   {listing.accept_offers ? "Yes" : "No"}
                   {listing.accept_offers && listing.minimum_offer && (
-                    <span className="text-gray-500">
+                    <span className="text-gray-400">
                       {" "}
                       (min ${(listing.minimum_offer / 100).toFixed(2)})
                     </span>

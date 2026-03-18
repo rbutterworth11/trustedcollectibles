@@ -57,104 +57,126 @@ export default function Header() {
   }
 
   return (
-    <header className="border-b bg-white">
+    <header className="border-b border-white/[0.07] bg-brand-dark">
       <nav className="flex items-center justify-between px-8 py-4">
-        <Link href="/" className="text-xl font-bold">
-          TrustedCollectibles
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3">
+          <span className="flex h-9 w-9 items-center justify-center rounded-md border-2 border-brand-amber text-sm font-bold text-brand-amber">
+            TC
+          </span>
+          <span className="text-lg font-bold text-white">
+            Trusted<span className="text-brand-amber">Collectibles</span>
+          </span>
         </Link>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           <Link
             href="/marketplace"
-            className="text-sm text-gray-600 hover:text-gray-900"
+            className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
           >
-            Marketplace
+            Browse
           </Link>
+
+          {user && (
+            <Link
+              href="/dashboard/listings/new"
+              className="rounded-md bg-brand-amber px-4 py-2 text-sm font-semibold text-brand-dark transition-colors hover:bg-brand-amber-hover"
+            >
+              Sell
+            </Link>
+          )}
 
           {user ? (
             <div className="flex items-center gap-2">
-            <NotificationBell userId={user.id} />
-            <div className="relative">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="flex items-center gap-2 rounded-md border border-gray-300 px-3 py-2 text-sm font-medium hover:bg-gray-50"
-              >
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black text-xs text-white">
-                  {fullName.charAt(0).toUpperCase()}
-                </span>
-                {fullName.split(" ")[0]}
-              </button>
+              <NotificationBell userId={user.id} />
+              <div className="relative">
+                <button
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  className="flex items-center gap-2 rounded-md border border-white/[0.07] px-3 py-2 text-sm font-medium text-gray-200 transition-colors hover:border-white/20 hover:bg-white/5"
+                >
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-amber text-xs font-bold text-brand-dark">
+                    {fullName.charAt(0).toUpperCase()}
+                  </span>
+                  {fullName.split(" ")[0]}
+                </button>
 
-              {menuOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={() => setMenuOpen(false)}
-                  />
-                  <div className="absolute right-0 z-20 mt-2 w-48 rounded-md border bg-white py-1 shadow-lg">
-                    <Link
-                      href="/dashboard"
+                {menuOpen && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-10"
                       onClick={() => setMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Dashboard
-                    </Link>
-                    <Link
-                      href="/dashboard/listings"
-                      onClick={() => setMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      My Listings
-                    </Link>
-                    <Link
-                      href="/dashboard/orders"
-                      onClick={() => setMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Orders
-                    </Link>
-                    <Link
-                      href="/dashboard/settings"
-                      onClick={() => setMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Settings
-                    </Link>
-                    {isAdmin && (
-                      <>
-                        <hr className="my-1" />
-                        <Link
-                          href="/admin"
-                          onClick={() => setMenuOpen(false)}
-                          className="block px-4 py-2 text-sm text-red-700 font-medium hover:bg-gray-100"
-                        >
-                          Admin Panel
-                        </Link>
-                      </>
-                    )}
-                    <hr className="my-1" />
-                    <button
-                      onClick={handleSignOut}
-                      className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
+                    />
+                    <div className="absolute right-0 z-20 mt-2 w-48 rounded-lg border border-white/[0.07] bg-brand-card py-1 shadow-xl">
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setMenuOpen(false)}
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
+                      >
+                        Dashboard
+                      </Link>
+                      <Link
+                        href="/dashboard/listings"
+                        onClick={() => setMenuOpen(false)}
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
+                      >
+                        My Listings
+                      </Link>
+                      <Link
+                        href="/dashboard/orders"
+                        onClick={() => setMenuOpen(false)}
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
+                      >
+                        Orders
+                      </Link>
+                      <Link
+                        href="/dashboard/messages"
+                        onClick={() => setMenuOpen(false)}
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
+                      >
+                        Messages
+                      </Link>
+                      <Link
+                        href="/dashboard/settings"
+                        onClick={() => setMenuOpen(false)}
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
+                      >
+                        Settings
+                      </Link>
+                      {isAdmin && (
+                        <>
+                          <hr className="my-1 border-white/[0.07]" />
+                          <Link
+                            href="/admin"
+                            onClick={() => setMenuOpen(false)}
+                            className="block px-4 py-2 text-sm font-medium text-brand-amber hover:bg-white/5"
+                          >
+                            Admin Panel
+                          </Link>
+                        </>
+                      )}
+                      <hr className="my-1 border-white/[0.07]" />
+                      <button
+                        onClick={handleSignOut}
+                        className="block w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-white/5"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           ) : (
             <div className="flex items-center gap-2">
               <Link
                 href="/login"
-                className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+                className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 transition-colors hover:text-white"
               >
                 Sign In
               </Link>
               <Link
                 href="/register"
-                className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+                className="rounded-md bg-brand-amber px-4 py-2 text-sm font-semibold text-brand-dark transition-colors hover:bg-brand-amber-hover"
               >
                 Sign Up
               </Link>

@@ -18,8 +18,8 @@ export default async function OffersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">My Offers</h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <h1 className="text-2xl font-bold text-white">My Offers</h1>
+      <p className="mt-1 text-sm text-gray-400">
         Track offers you&apos;ve made on listings.
       </p>
       <div className="mt-6">

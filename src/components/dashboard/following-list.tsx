@@ -19,8 +19,8 @@ export default function FollowingList({
 
   if (sellers.length === 0) {
     return (
-      <div className="rounded-lg border border-dashed p-12 text-center">
-        <p className="text-sm text-gray-400">
+      <div className="rounded-lg border border-dashed border-white/[0.07] p-12 text-center">
+        <p className="text-sm text-gray-500">
           You&apos;re not following any sellers yet.
         </p>
         <p className="mt-1 text-xs text-gray-400">
@@ -35,19 +35,19 @@ export default function FollowingList({
       {sellers.map((follow) => (
         <div
           key={follow.id}
-          className="flex items-center justify-between rounded-lg border p-4"
+          className="flex items-center justify-between rounded-lg border border-white/[0.07] bg-brand-card p-4"
         >
           <div className="flex items-center gap-3">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-lg font-bold text-white">
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-amber text-lg font-bold text-brand-dark">
               {(follow.seller?.full_name || follow.seller?.email || "?")
                 .charAt(0)
                 .toUpperCase()}
             </span>
             <div>
-              <p className="font-medium text-gray-900">
+              <p className="font-medium text-white">
                 {follow.seller?.full_name || "Seller"}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-400">
                 {follow.seller?.email}
               </p>
               <p className="text-xs text-gray-400">
@@ -60,7 +60,7 @@ export default function FollowingList({
           </div>
           <button
             onClick={() => handleUnfollow(follow.id)}
-            className="rounded-md border border-gray-300 px-4 py-2 text-xs font-medium text-gray-600 hover:bg-gray-50"
+            className="rounded-md border border-white/[0.07] px-4 py-2 text-xs font-medium text-gray-300 hover:bg-white/5"
           >
             Unfollow
           </button>

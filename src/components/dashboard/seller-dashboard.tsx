@@ -55,16 +55,16 @@ const orderStatusConfig: Record<
 > = {
   payment_held: {
     label: "Ship Now",
-    color: "bg-orange-100 text-orange-800",
+    color: "bg-orange-900/40 text-orange-400",
     action: "ship",
   },
   shipped: {
     label: "In Transit",
-    color: "bg-blue-100 text-blue-800",
+    color: "bg-blue-900/40 text-blue-400",
   },
   delivered: {
     label: "Delivered",
-    color: "bg-green-100 text-green-800",
+    color: "bg-green-900/40 text-green-400",
   },
 };
 
@@ -90,9 +90,9 @@ function StatCard({
   subtitle?: string;
 }) {
   return (
-    <div className="rounded-lg border bg-white p-5">
-      <p className="text-sm font-medium text-gray-500">{label}</p>
-      <p className="mt-1 text-2xl font-bold text-gray-900">{value}</p>
+    <div className="rounded-lg border border-white/[0.07] bg-brand-card p-5">
+      <p className="text-sm font-medium text-gray-400">{label}</p>
+      <p className="mt-1 text-2xl font-bold text-white">{value}</p>
       {subtitle && (
         <p className="mt-1 text-xs text-gray-400">{subtitle}</p>
       )}
@@ -106,7 +106,7 @@ function Stars({ rating }: { rating: number }) {
       {[1, 2, 3, 4, 5].map((i) => (
         <svg
           key={i}
-          className={`h-4 w-4 ${i <= rating ? "text-yellow-400" : "text-gray-200"}`}
+          className={`h-4 w-4 ${i <= rating ? "text-yellow-400" : "text-gray-600"}`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -164,8 +164,8 @@ export default function SellerDashboard({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Seller Dashboard</h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <h1 className="text-2xl font-bold text-white">Seller Dashboard</h1>
+      <p className="mt-1 text-sm text-gray-400">
         Overview of your store performance and pending actions.
       </p>
 
@@ -194,12 +194,12 @@ export default function SellerDashboard({
       {/* Orders Needing Action */}
       <section className="mt-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-white">
             Orders
           </h2>
           <Link
             href="/dashboard/orders"
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-brand-amber hover:text-brand-amber-hover"
           >
             View all
           </Link>
@@ -208,9 +208,9 @@ export default function SellerDashboard({
         {orders.length === 0 ? (
           <p className="mt-4 text-sm text-gray-400">No active orders.</p>
         ) : (
-          <div className="mt-4 overflow-hidden rounded-lg border">
+          <div className="mt-4 overflow-hidden rounded-lg border border-white/[0.07]">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-left text-xs font-medium uppercase text-gray-500">
+              <thead className="bg-brand-card text-left text-xs font-medium uppercase text-gray-400">
                 <tr>
                   <th className="px-4 py-3">Item</th>
                   <th className="px-4 py-3">Buyer</th>
@@ -219,21 +219,21 @@ export default function SellerDashboard({
                   <th className="px-4 py-3">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y">
+              <tbody className="divide-y divide-white/[0.07]">
                 {orders.map((order) => {
                   const config = orderStatusConfig[order.status] ?? {
                     label: order.status,
-                    color: "bg-gray-100 text-gray-800",
+                    color: "bg-gray-800 text-gray-400",
                   };
                   return (
-                    <tr key={order.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 font-medium">
+                    <tr key={order.id} className="hover:bg-white/[0.03]">
+                      <td className="px-4 py-3 font-medium text-white">
                         {order.listing?.title ?? "—"}
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-gray-400">
                         {order.buyer?.full_name || order.buyer?.email || "—"}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 text-white">
                         {formatPrice(order.amount)}
                       </td>
                       <td className="px-4 py-3">
@@ -256,7 +256,7 @@ export default function SellerDashboard({
                                   [order.id]: e.target.value,
                                 }))
                               }
-                              className="w-32 rounded border px-2 py-1 text-xs"
+                              className="w-32 rounded border border-white/[0.07] bg-brand-card px-2 py-1 text-xs text-white placeholder:text-gray-500 focus:border-brand-amber focus:ring-brand-amber"
                             />
                             <button
                               onClick={() => handleShipOrder(order.id)}
@@ -264,7 +264,7 @@ export default function SellerDashboard({
                                 shippingOrder === order.id ||
                                 !trackingInputs[order.id]?.trim()
                               }
-                              className="rounded bg-black px-3 py-1 text-xs font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+                              className="rounded bg-brand-amber px-3 py-1 text-xs font-semibold text-brand-dark hover:bg-brand-amber-hover disabled:opacity-50"
                             >
                               {shippingOrder === order.id
                                 ? "..."
@@ -272,7 +272,7 @@ export default function SellerDashboard({
                             </button>
                           </div>
                         ) : order.tracking_number ? (
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-gray-400">
                             {order.tracking_number}
                           </span>
                         ) : (
@@ -290,7 +290,7 @@ export default function SellerDashboard({
 
       {/* Offers Received */}
       <section className="mt-8">
-        <h2 className="text-lg font-semibold text-gray-900">
+        <h2 className="text-lg font-semibold text-white">
           Offers Received
         </h2>
 
@@ -301,16 +301,16 @@ export default function SellerDashboard({
             {offers.map((offer) => (
               <div
                 key={offer.id}
-                className="flex items-center justify-between rounded-lg border p-4"
+                className="flex items-center justify-between rounded-lg border border-white/[0.07] bg-brand-card p-4"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium text-gray-900">
+                  <p className="truncate font-medium text-white">
                     {offer.listing?.title ?? "—"}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-400">
                     {offer.buyer?.full_name || offer.buyer?.email || "Buyer"}{" "}
                     offered{" "}
-                    <span className="font-semibold text-gray-900">
+                    <span className="font-semibold text-white">
                       {formatPrice(offer.amount)}
                     </span>
                     {offer.listing?.price && (
@@ -340,7 +340,7 @@ export default function SellerDashboard({
                   <button
                     onClick={() => handleOfferAction(offer.id, "declined")}
                     disabled={processingOffer === offer.id}
-                    className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                    className="rounded-md border border-white/[0.07] px-4 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 disabled:opacity-50"
                   >
                     Decline
                   </button>
@@ -353,7 +353,7 @@ export default function SellerDashboard({
 
       {/* Recent Reviews */}
       <section className="mt-8">
-        <h2 className="text-lg font-semibold text-gray-900">
+        <h2 className="text-lg font-semibold text-white">
           Recent Reviews
         </h2>
 
@@ -362,11 +362,11 @@ export default function SellerDashboard({
         ) : (
           <div className="mt-4 space-y-3">
             {reviews.map((review) => (
-              <div key={review.id} className="rounded-lg border p-4">
+              <div key={review.id} className="rounded-lg border border-white/[0.07] bg-brand-card p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Stars rating={review.rating} />
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-white">
                       {review.reviewer?.full_name ||
                         review.reviewer?.email ||
                         "Anonymous"}
@@ -377,7 +377,7 @@ export default function SellerDashboard({
                   </span>
                 </div>
                 {review.comment && (
-                  <p className="mt-2 text-sm text-gray-600">
+                  <p className="mt-2 text-sm text-gray-400">
                     {review.comment}
                   </p>
                 )}

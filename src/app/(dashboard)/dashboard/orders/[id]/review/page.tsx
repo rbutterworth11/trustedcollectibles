@@ -48,16 +48,16 @@ export default async function ReviewPage({
 
   return (
     <div className="mx-auto max-w-lg">
-      <h1 className="text-2xl font-bold text-gray-900">Leave a Review</h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <h1 className="text-2xl font-bold text-white">Leave a Review</h1>
+      <p className="mt-1 text-sm text-gray-400">
         How was your experience with this purchase?
       </p>
 
-      <div className="mt-6 rounded-lg border p-4">
-        <p className="font-medium text-gray-900">
+      <div className="mt-6 rounded-lg border border-white/[0.07] bg-brand-card p-4">
+        <p className="font-medium text-white">
           {listing?.title ?? "Item"}
         </p>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-400">
           Sold by {seller?.full_name ?? "Seller"} &middot; $
           {(order.amount / 100).toFixed(2)}
         </p>

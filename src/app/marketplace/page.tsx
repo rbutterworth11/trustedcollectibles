@@ -65,68 +65,70 @@ export default async function MarketplacePage({
   const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">Marketplace</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Browse verified sports memorabilia
-        </p>
-      </div>
+    <div className="min-h-screen bg-brand-dark">
+      <div className="mx-auto max-w-7xl px-4 py-8">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-white">Marketplace</h1>
+          <p className="text-sm text-gray-400 mt-1">
+            Browse verified sports memorabilia
+          </p>
+        </div>
 
-      <Suspense fallback={null}>
-        <SearchFilters />
-      </Suspense>
+        <Suspense fallback={null}>
+          <SearchFilters />
+        </Suspense>
 
-      <div className="mt-6">
-        <p className="text-sm text-gray-500 mb-4">
-          {count ?? 0} result{count !== 1 ? "s" : ""}
-        </p>
+        <div className="mt-6">
+          <p className="text-sm text-gray-500 mb-4">
+            {count ?? 0} result{count !== 1 ? "s" : ""}
+          </p>
 
-        {!listings?.length ? (
-          <div className="rounded-lg border bg-white p-12 text-center text-gray-500">
-            No listings found. Try adjusting your filters.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {listings.map((listing) => (
-              <ListingCard key={listing.id} listing={listing} />
-            ))}
-          </div>
-        )}
+          {!listings?.length ? (
+            <div className="rounded-lg border border-white/[0.07] bg-brand-card p-12 text-center text-gray-400">
+              No listings found. Try adjusting your filters.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {listings.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
+            </div>
+          )}
 
-        {totalPages > 1 && (
-          <div className="mt-8 flex items-center justify-center gap-4">
-            {page > 1 ? (
-              <Link
-                href={`/marketplace?${buildPageParams(params, page - 1)}`}
-                className="rounded-md border px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
-              >
-                Previous
-              </Link>
-            ) : (
-              <span className="rounded-md border px-4 py-2 text-sm text-gray-300 cursor-not-allowed">
-                Previous
+          {totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-4">
+              {page > 1 ? (
+                <Link
+                  href={`/marketplace?${buildPageParams(params, page - 1)}`}
+                  className="rounded-md border border-white/[0.07] px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                >
+                  Previous
+                </Link>
+              ) : (
+                <span className="rounded-md border border-white/[0.07] px-4 py-2 text-sm text-gray-500 cursor-not-allowed">
+                  Previous
+                </span>
+              )}
+
+              <span className="text-sm text-gray-400">
+                Page {page} of {totalPages}
               </span>
-            )}
 
-            <span className="text-sm text-gray-600">
-              Page {page} of {totalPages}
-            </span>
-
-            {page < totalPages ? (
-              <Link
-                href={`/marketplace?${buildPageParams(params, page + 1)}`}
-                className="rounded-md border px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
-              >
-                Next
-              </Link>
-            ) : (
-              <span className="rounded-md border px-4 py-2 text-sm text-gray-300 cursor-not-allowed">
-                Next
-              </span>
-            )}
-          </div>
-        )}
+              {page < totalPages ? (
+                <Link
+                  href={`/marketplace?${buildPageParams(params, page + 1)}`}
+                  className="rounded-md border border-white/[0.07] px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                >
+                  Next
+                </Link>
+              ) : (
+                <span className="rounded-md border border-white/[0.07] px-4 py-2 text-sm text-gray-500 cursor-not-allowed">
+                  Next
+                </span>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

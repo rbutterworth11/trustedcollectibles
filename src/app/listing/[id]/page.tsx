@@ -91,7 +91,7 @@ export default async function ListingPage({
     <div className="mx-auto max-w-6xl px-4 py-8">
       <Link
         href="/marketplace"
-        className="mb-6 inline-flex items-center gap-1 text-sm text-gray-500 hover:text-black"
+        className="mb-6 inline-flex items-center gap-1 text-sm text-gray-400 hover:text-brand-amber"
       >
         <svg
           className="h-4 w-4"
@@ -118,12 +118,12 @@ export default async function ListingPage({
           {/* Title & Verified */}
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold">{listing.title}</h1>
-              <span className="shrink-0 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700">
+              <h1 className="text-2xl font-bold text-white">{listing.title}</h1>
+              <span className="shrink-0 rounded-full bg-brand-verified-bg px-2.5 py-0.5 text-xs font-medium text-brand-verified-text">
                 Verified
               </span>
             </div>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-gray-400">
               {listing.sport} &middot; {listing.player}
             </p>
           </div>
@@ -145,16 +145,16 @@ export default async function ListingPage({
           />
 
           {/* Authentication Section */}
-          <div className="space-y-3 rounded-lg border p-4">
-            <h2 className="font-semibold">Authentication</h2>
+          <div className="space-y-3 rounded-lg border border-white/[0.07] bg-brand-card p-4">
+            <h2 className="font-semibold text-white">Authentication</h2>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
                 <p className="text-gray-500">COA Source</p>
-                <p className="font-medium">{listing.coa_source || "—"}</p>
+                <p className="font-medium text-white">{listing.coa_source || "—"}</p>
               </div>
               <div>
                 <p className="text-gray-500">Certificate #</p>
-                <p className="font-medium">
+                <p className="font-medium text-white">
                   {listing.coa_certificate_number || "—"}
                 </p>
               </div>
@@ -166,7 +166,7 @@ export default async function ListingPage({
                   {coaPhotos.map((src, i) => (
                     <div
                       key={i}
-                      className="relative h-20 w-20 overflow-hidden rounded-md bg-gray-100"
+                      className="relative h-20 w-20 overflow-hidden rounded-md bg-white/5"
                     >
                       <Image
                         src={src}
@@ -183,8 +183,8 @@ export default async function ListingPage({
           </div>
 
           {/* Item Details Table */}
-          <div className="rounded-lg border p-4">
-            <h2 className="mb-3 font-semibold">Item Details</h2>
+          <div className="rounded-lg border border-white/[0.07] bg-brand-card p-4">
+            <h2 className="mb-3 font-semibold text-white">Item Details</h2>
             <dl className="space-y-2">
               {details.map(
                 (d) =>
@@ -194,7 +194,7 @@ export default async function ListingPage({
                       className="flex justify-between text-sm"
                     >
                       <dt className="text-gray-500">{d.label}</dt>
-                      <dd className="font-medium">{d.value}</dd>
+                      <dd className="font-medium text-white">{d.value}</dd>
                     </div>
                   )
               )}
@@ -218,16 +218,16 @@ export default async function ListingPage({
       </div>
 
       {/* Description */}
-      <div className="mt-8 rounded-lg border p-6">
-        <h2 className="mb-3 font-semibold">Description</h2>
-        <p className="whitespace-pre-wrap text-sm text-gray-700">
+      <div className="mt-8 rounded-lg border border-white/[0.07] bg-brand-card p-6">
+        <h2 className="mb-3 font-semibold text-white">Description</h2>
+        <p className="whitespace-pre-wrap text-sm text-gray-400">
           {listing.description}
         </p>
       </div>
 
       {/* Report link */}
       <div className="mt-6 flex items-center gap-4 text-sm text-gray-500">
-        <button className="inline-flex items-center gap-1 transition-colors hover:text-red-600">
+        <button className="inline-flex items-center gap-1 transition-colors hover:text-red-400">
           <svg
             className="h-4 w-4"
             fill="none"

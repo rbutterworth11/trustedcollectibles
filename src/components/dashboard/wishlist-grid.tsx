@@ -21,11 +21,11 @@ export default function WishlistGrid({ items }: { items: WishlistItem[] }) {
 
   if (items.length === 0) {
     return (
-      <div className="rounded-lg border border-dashed p-12 text-center">
-        <p className="text-sm text-gray-400">Your wishlist is empty.</p>
+      <div className="rounded-lg border border-dashed border-white/[0.07] p-12 text-center">
+        <p className="text-sm text-gray-500">Your wishlist is empty.</p>
         <Link
           href="/marketplace"
-          className="mt-2 inline-block text-sm font-medium text-black hover:underline"
+          className="mt-2 inline-block text-sm font-medium text-brand-amber hover:text-brand-amber-hover"
         >
           Browse the marketplace
         </Link>
@@ -38,10 +38,10 @@ export default function WishlistGrid({ items }: { items: WishlistItem[] }) {
       {items.map((item) => (
         <div
           key={item.id}
-          className="group relative rounded-lg border bg-white"
+          className="group relative rounded-lg border border-white/[0.07] bg-brand-card"
         >
           <Link href={`/listing/${item.listing_id}`}>
-            <div className="relative aspect-square overflow-hidden rounded-t-lg bg-gray-100">
+            <div className="relative aspect-square overflow-hidden rounded-t-lg bg-white/5">
               {item.listing?.images?.[0] ? (
                 <Image
                   src={item.listing.images[0]}
@@ -50,24 +50,24 @@ export default function WishlistGrid({ items }: { items: WishlistItem[] }) {
                   className="object-cover"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center text-gray-300">
+                <div className="flex h-full items-center justify-center text-gray-500">
                   No image
                 </div>
               )}
             </div>
             <div className="p-3">
-              <p className="truncate text-sm font-medium text-gray-900">
+              <p className="truncate text-sm font-medium text-white">
                 {item.listing?.title ?? "—"}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-400">
                 {item.listing?.player}
                 {item.listing?.sport ? ` — ${item.listing.sport}` : ""}
               </p>
-              <p className="mt-1 text-sm font-bold text-gray-900">
+              <p className="mt-1 text-sm font-bold text-white">
                 {item.listing?.price ? formatPrice(item.listing.price) : "—"}
               </p>
               {item.listing?.status === "sold" && (
-                <span className="mt-1 inline-block rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800">
+                <span className="mt-1 inline-block rounded-full bg-red-900/40 px-2 py-0.5 text-xs font-medium text-red-400">
                   Sold
                 </span>
               )}
@@ -75,11 +75,11 @@ export default function WishlistGrid({ items }: { items: WishlistItem[] }) {
           </Link>
           <button
             onClick={() => handleRemove(item.id)}
-            className="absolute right-2 top-2 rounded-full bg-white/80 p-1.5 opacity-0 transition-opacity hover:bg-white group-hover:opacity-100"
+            className="absolute right-2 top-2 rounded-full bg-black/60 p-1.5 opacity-0 transition-opacity hover:bg-black/80 group-hover:opacity-100"
             title="Remove from wishlist"
           >
             <svg
-              className="h-4 w-4 text-red-500"
+              className="h-4 w-4 text-red-400"
               fill="currentColor"
               viewBox="0 0 20 20"
             >

@@ -58,13 +58,13 @@ export default function ImageUpload({
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
+      <label className="block text-sm font-medium text-gray-300 mb-1">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
 
       {value ? (
-        <div className="relative group w-full aspect-square max-w-[200px] rounded-lg overflow-hidden border">
+        <div className="relative group w-full aspect-square max-w-[200px] rounded-lg overflow-hidden border border-white/[0.07]">
           <Image
             src={value}
             alt={label}
@@ -86,13 +86,13 @@ export default function ImageUpload({
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
-          className="flex flex-col items-center justify-center w-full aspect-square max-w-[200px] rounded-lg border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors"
+          className="flex flex-col items-center justify-center w-full aspect-square max-w-[200px] rounded-lg border-2 border-dashed border-white/[0.07] hover:border-brand-amber/50 transition-colors"
         >
           {uploading ? (
             <span className="text-sm text-gray-500">Uploading...</span>
           ) : (
             <>
-              <svg className="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
               </svg>
               <span className="mt-1 text-xs text-gray-500">Upload</span>
@@ -109,7 +109,7 @@ export default function ImageUpload({
         className="hidden"
       />
 
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>
   );
 }

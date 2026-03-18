@@ -110,7 +110,7 @@ export default function NotificationBell({ userId }: { userId: string }) {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="relative rounded-md p-2 text-gray-600 hover:bg-gray-100"
+        className="relative rounded-md p-2 text-gray-400 hover:text-white"
       >
         <svg
           className="h-5 w-5"
@@ -138,13 +138,13 @@ export default function NotificationBell({ userId }: { userId: string }) {
             className="fixed inset-0 z-10"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 z-20 mt-2 w-80 rounded-lg border bg-white shadow-lg">
-            <div className="flex items-center justify-between border-b px-4 py-3">
-              <h3 className="text-sm font-semibold">Notifications</h3>
+          <div className="absolute right-0 z-20 mt-2 w-80 rounded-lg border border-white/[0.07] bg-brand-card shadow-lg">
+            <div className="flex items-center justify-between border-b border-white/[0.07] px-4 py-3">
+              <h3 className="text-sm font-semibold text-white">Notifications</h3>
               {unreadCount > 0 && (
                 <button
                   onClick={markAllRead}
-                  className="text-xs text-gray-500 hover:text-black"
+                  className="text-xs text-gray-500 hover:text-brand-amber"
                 >
                   Mark all read
                 </button>
@@ -159,24 +159,24 @@ export default function NotificationBell({ userId }: { userId: string }) {
                 notifications.map((n) => {
                   const content = (
                     <div
-                      className={`border-b px-4 py-3 transition-colors hover:bg-gray-50 ${
-                        !n.read ? "bg-blue-50/50" : ""
+                      className={`border-b border-white/[0.07] px-4 py-3 transition-colors hover:bg-white/5 ${
+                        !n.read ? "bg-brand-amber/5" : ""
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-white">
                           {n.title}
                         </p>
                         {!n.read && (
-                          <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-blue-500" />
+                          <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand-amber" />
                         )}
                       </div>
                       {n.body && (
-                        <p className="mt-0.5 text-xs text-gray-500 line-clamp-2">
+                        <p className="mt-0.5 text-xs text-gray-400 line-clamp-2">
                           {n.body}
                         </p>
                       )}
-                      <p className="mt-1 text-xs text-gray-400">
+                      <p className="mt-1 text-xs text-gray-500">
                         {timeAgo(n.created_at)}
                       </p>
                     </div>

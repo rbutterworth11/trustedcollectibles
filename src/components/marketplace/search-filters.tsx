@@ -11,7 +11,7 @@ const SORT_OPTIONS = [
 ] as const;
 
 const selectClass =
-  "block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black";
+  "block w-full rounded-md border border-white/[0.07] bg-brand-card px-3 py-2 text-sm text-white shadow-sm focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber";
 
 export default function SearchFilters() {
   const searchParams = useSearchParams();
@@ -74,7 +74,7 @@ export default function SearchFilters() {
     <div className="space-y-4">
       <div className="relative">
         <svg
-          className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+          className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -91,13 +91,13 @@ export default function SearchFilters() {
           value={searchValue}
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Search by title, player, or team..."
-          className="block w-full rounded-md border border-gray-300 pl-10 pr-3 py-2 text-sm shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+          className="block w-full rounded-md border border-white/[0.07] bg-brand-card pl-10 pr-3 py-2 text-sm text-white placeholder:text-gray-500 shadow-sm focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
         />
       </div>
 
       <div className="flex flex-wrap items-end gap-3">
         <div className="w-40">
-          <label className="block text-xs font-medium text-gray-500 mb-1">Sport</label>
+          <label className="block text-xs font-medium text-gray-400 mb-1">Sport</label>
           <select
             value={sport}
             onChange={(e) => updateParams({ sport: e.target.value })}
@@ -111,7 +111,7 @@ export default function SearchFilters() {
         </div>
 
         <div className="w-44">
-          <label className="block text-xs font-medium text-gray-500 mb-1">Item Type</label>
+          <label className="block text-xs font-medium text-gray-400 mb-1">Item Type</label>
           <select
             value={category}
             onChange={(e) => updateParams({ category: e.target.value })}
@@ -125,7 +125,7 @@ export default function SearchFilters() {
         </div>
 
         <div className="w-36">
-          <label className="block text-xs font-medium text-gray-500 mb-1">Condition</label>
+          <label className="block text-xs font-medium text-gray-400 mb-1">Condition</label>
           <select
             value={condition}
             onChange={(e) => updateParams({ condition: e.target.value })}
@@ -139,7 +139,7 @@ export default function SearchFilters() {
         </div>
 
         <div className="w-28">
-          <label className="block text-xs font-medium text-gray-500 mb-1">Min Price</label>
+          <label className="block text-xs font-medium text-gray-400 mb-1">Min Price</label>
           <input
             type="number"
             min="0"
@@ -152,7 +152,7 @@ export default function SearchFilters() {
         </div>
 
         <div className="w-28">
-          <label className="block text-xs font-medium text-gray-500 mb-1">Max Price</label>
+          <label className="block text-xs font-medium text-gray-400 mb-1">Max Price</label>
           <input
             type="number"
             min="0"
@@ -165,7 +165,7 @@ export default function SearchFilters() {
         </div>
 
         <div className="w-44">
-          <label className="block text-xs font-medium text-gray-500 mb-1">Sort</label>
+          <label className="block text-xs font-medium text-gray-400 mb-1">Sort</label>
           <select
             value={sort}
             onChange={(e) => updateParams({ sort: e.target.value })}
@@ -180,7 +180,7 @@ export default function SearchFilters() {
         {activeFilterCount > 0 && (
           <button
             onClick={clearAll}
-            className="text-sm text-gray-500 hover:text-black underline underline-offset-2 pb-2"
+            className="text-sm text-brand-amber hover:text-brand-amber-hover underline underline-offset-2 pb-2"
           >
             Clear all ({activeFilterCount})
           </button>

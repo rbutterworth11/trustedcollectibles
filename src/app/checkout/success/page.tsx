@@ -30,11 +30,11 @@ export default async function CheckoutSuccessPage({
     .single();
 
   return (
-    <div className="flex min-h-[calc(100vh-65px)] items-center justify-center px-4">
+    <div className="flex min-h-[calc(100vh-65px)] items-center justify-center px-4 bg-brand-dark">
       <div className="w-full max-w-md text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-900/40">
           <svg
-            className="h-8 w-8 text-green-600"
+            className="h-8 w-8 text-green-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -47,23 +47,23 @@ export default async function CheckoutSuccessPage({
             />
           </svg>
         </div>
-        <h1 className="mt-4 text-2xl font-bold text-gray-900">
+        <h1 className="mt-4 text-2xl font-bold text-white">
           Payment Successful!
         </h1>
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-gray-400">
           Your payment has been received and is being held securely in escrow.
           The seller will be notified to ship your item.
         </p>
 
         {order && (
-          <div className="mt-6 rounded-lg border bg-gray-50 p-4 text-left text-sm">
-            <p className="font-medium text-gray-900">
+          <div className="mt-6 rounded-lg border border-white/[0.07] bg-brand-card p-4 text-left text-sm">
+            <p className="font-medium text-white">
               {(order.listing as { title: string } | null)?.title ?? "Item"}
             </p>
-            <p className="mt-1 text-gray-500">
+            <p className="mt-1 text-gray-400">
               Amount: ${(order.amount / 100).toFixed(2)}
             </p>
-            <p className="text-gray-500">
+            <p className="text-gray-400">
               Status: Payment held in escrow
             </p>
           </div>
@@ -72,13 +72,13 @@ export default async function CheckoutSuccessPage({
         <div className="mt-6 flex justify-center gap-3">
           <Link
             href="/dashboard/orders"
-            className="rounded-md bg-black px-6 py-2 text-sm font-medium text-white hover:bg-gray-800"
+            className="rounded-md bg-brand-amber px-6 py-2 text-sm font-semibold text-brand-dark hover:bg-brand-amber-hover"
           >
             View My Orders
           </Link>
           <Link
             href="/marketplace"
-            className="rounded-md border border-gray-300 px-6 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="rounded-md border border-white/[0.07] px-6 py-2 text-sm font-medium text-gray-300 hover:bg-white/5"
           >
             Continue Shopping
           </Link>

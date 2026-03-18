@@ -34,14 +34,14 @@ export default async function AdminQueuePage({
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">{title}</h1>
-        <span className="text-sm text-gray-500">
+        <h1 className="text-2xl font-bold text-white">{title}</h1>
+        <span className="text-sm text-gray-400">
           {listings?.length ?? 0} listing{listings?.length !== 1 ? "s" : ""}
         </span>
       </div>
 
       {!listings?.length ? (
-        <div className="rounded-lg border bg-white p-12 text-center text-gray-500">
+        <div className="rounded-lg border border-white/[0.07] bg-brand-card p-12 text-center text-gray-400">
           {emptyMessage}
         </div>
       ) : (
@@ -59,10 +59,10 @@ export default async function AdminQueuePage({
               <Link
                 key={listing.id}
                 href={`/admin/review/${listing.id}`}
-                className="flex items-center gap-4 rounded-lg border bg-white p-4 hover:border-gray-400 transition-colors"
+                className="flex items-center gap-4 rounded-lg border border-white/[0.07] bg-brand-card p-4 hover:border-brand-amber/30 transition-colors"
               >
                 {mainImage ? (
-                  <div className="relative h-16 w-16 shrink-0 rounded-md overflow-hidden bg-gray-100">
+                  <div className="relative h-16 w-16 shrink-0 rounded-md overflow-hidden bg-white/5">
                     <Image
                       src={mainImage}
                       alt={listing.title}
@@ -71,21 +71,21 @@ export default async function AdminQueuePage({
                     />
                   </div>
                 ) : (
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-md bg-gray-100 text-xs text-gray-400">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-md bg-white/5 text-xs text-gray-400">
                     No img
                   </div>
                 )}
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <h2 className="font-medium truncate">{listing.title}</h2>
+                    <h2 className="font-medium text-white truncate">{listing.title}</h2>
                     {listing.flagged && (
-                      <span className="shrink-0 rounded bg-red-100 px-1.5 py-0.5 text-xs font-medium text-red-700">
+                      <span className="shrink-0 rounded bg-red-900/40 px-1.5 py-0.5 text-xs font-medium text-red-400">
                         Flagged
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-gray-500 truncate">
+                  <p className="text-sm text-gray-400 truncate">
                     {listing.sport} &middot; {listing.category} &middot;{" "}
                     {listing.player}
                   </p>
@@ -96,7 +96,7 @@ export default async function AdminQueuePage({
                 </div>
 
                 <div className="shrink-0 text-right">
-                  <p className="font-semibold">
+                  <p className="font-semibold text-white">
                     ${(listing.price / 100).toFixed(2)}
                   </p>
                   <p className="text-xs text-gray-400">
@@ -105,7 +105,7 @@ export default async function AdminQueuePage({
                 </div>
 
                 <svg
-                  className="h-5 w-5 shrink-0 text-gray-300"
+                  className="h-5 w-5 shrink-0 text-gray-500"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

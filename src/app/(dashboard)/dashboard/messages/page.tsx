@@ -20,8 +20,8 @@ export default async function MessagesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Messages</h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <h1 className="text-2xl font-bold text-white">Messages</h1>
+      <p className="mt-1 text-sm text-gray-400">
         Conversations with buyers and sellers.
       </p>
       <div className="mt-6">

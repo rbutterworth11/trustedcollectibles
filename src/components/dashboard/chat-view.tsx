@@ -143,12 +143,12 @@ export default function ChatView({
   return (
     <div className="flex h-[calc(100vh-200px)] flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between border-b pb-4">
+      <div className="flex items-center justify-between border-b border-white/[0.07] pb-4">
         <div>
           <div className="flex items-center gap-2">
             <Link
               href="/dashboard/messages"
-              className="text-gray-400 hover:text-gray-600"
+              className="text-gray-400 hover:text-gray-300"
             >
               <svg
                 className="h-5 w-5"
@@ -164,13 +164,13 @@ export default function ChatView({
                 />
               </svg>
             </Link>
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-white">
               {otherPartyName}
             </h2>
           </div>
           <Link
             href={`/listing/${listingId}`}
-            className="text-xs text-gray-500 hover:underline"
+            className="text-xs text-brand-amber hover:text-brand-amber-hover"
           >
             Re: {listingTitle}
           </Link>
@@ -207,8 +207,8 @@ export default function ChatView({
                     <div
                       className={`max-w-[70%] rounded-lg px-4 py-2 ${
                         isMine
-                          ? "bg-black text-white"
-                          : "bg-gray-100 text-gray-900"
+                          ? "bg-brand-amber text-brand-dark"
+                          : "bg-white/[0.07] text-white"
                       }`}
                     >
                       <p className="text-sm whitespace-pre-wrap">
@@ -216,7 +216,7 @@ export default function ChatView({
                       </p>
                       <p
                         className={`mt-1 text-[10px] ${
-                          isMine ? "text-gray-400" : "text-gray-500"
+                          isMine ? "text-brand-dark/60" : "text-gray-400"
                         }`}
                       >
                         {formatTime(msg.created_at)}
@@ -232,19 +232,19 @@ export default function ChatView({
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSend} className="flex gap-2 border-t pt-4">
+      <form onSubmit={handleSend} className="flex gap-2 border-t border-white/[0.07] pt-4">
         <input
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type a message..."
-          className="flex-1 rounded-lg border px-4 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+          className="flex-1 rounded-lg border border-white/[0.07] bg-brand-card px-4 py-2 text-sm text-white placeholder:text-gray-500 focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
           disabled={sending}
         />
         <button
           type="submit"
           disabled={sending || !newMessage.trim()}
-          className="rounded-lg bg-black px-6 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+          className="rounded-lg bg-brand-amber px-6 py-2 text-sm font-semibold text-brand-dark hover:bg-brand-amber-hover disabled:opacity-50"
         >
           Send
         </button>

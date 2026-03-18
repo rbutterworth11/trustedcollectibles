@@ -13,7 +13,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
 
   if (!images.length) {
     return (
-      <div className="flex aspect-square items-center justify-center rounded-lg bg-gray-100 text-gray-400">
+      <div className="flex aspect-square items-center justify-center rounded-lg bg-white/5 text-gray-500">
         No images
       </div>
     );
@@ -21,7 +21,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
 
   return (
     <div>
-      <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100">
+      <div className="relative aspect-square overflow-hidden rounded-lg bg-white/5">
         <Image
           src={images[selected]}
           alt={`${title} - image ${selected + 1}`}
@@ -39,7 +39,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
               key={i}
               onClick={() => setSelected(i)}
               className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-md border-2 transition-colors ${
-                i === selected ? "border-black" : "border-transparent hover:border-gray-300"
+                i === selected ? "border-brand-amber" : "border-transparent hover:border-white/30"
               }`}
             >
               <Image

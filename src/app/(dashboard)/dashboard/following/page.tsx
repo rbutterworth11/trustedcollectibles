@@ -18,8 +18,8 @@ export default async function FollowingPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Following</h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <h1 className="text-2xl font-bold text-white">Following</h1>
+      <p className="mt-1 text-sm text-gray-400">
         Sellers you follow. Get notified when they list new items.
       </p>
       <div className="mt-6">

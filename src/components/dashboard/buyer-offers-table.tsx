@@ -22,11 +22,11 @@ interface BuyerOffer {
 }
 
 const statusConfig: Record<string, { label: string; color: string }> = {
-  pending: { label: "Pending", color: "bg-yellow-100 text-yellow-800" },
-  accepted: { label: "Accepted", color: "bg-green-100 text-green-800" },
-  declined: { label: "Declined", color: "bg-red-100 text-red-800" },
-  expired: { label: "Expired", color: "bg-gray-100 text-gray-800" },
-  withdrawn: { label: "Withdrawn", color: "bg-gray-100 text-gray-800" },
+  pending: { label: "Pending", color: "bg-yellow-900/40 text-yellow-400" },
+  accepted: { label: "Accepted", color: "bg-green-900/40 text-green-400" },
+  declined: { label: "Declined", color: "bg-red-900/40 text-red-400" },
+  expired: { label: "Expired", color: "bg-gray-800 text-gray-400" },
+  withdrawn: { label: "Withdrawn", color: "bg-gray-800 text-gray-400" },
 };
 
 export default function BuyerOffersTable({ offers }: { offers: BuyerOffer[] }) {
@@ -60,8 +60,8 @@ export default function BuyerOffersTable({ offers }: { offers: BuyerOffer[] }) {
           onClick={() => setFilter("all")}
           className={`rounded-full px-3 py-1 text-xs font-medium ${
             filter === "all"
-              ? "bg-black text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-brand-amber text-brand-dark"
+              : "bg-white/[0.07] text-gray-400 hover:bg-white/10"
           }`}
         >
           All ({offers.length})
@@ -74,8 +74,8 @@ export default function BuyerOffersTable({ offers }: { offers: BuyerOffer[] }) {
               onClick={() => setFilter(status)}
               className={`rounded-full px-3 py-1 text-xs font-medium ${
                 filter === status
-                  ? "bg-black text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-brand-amber text-brand-dark"
+                  : "bg-white/[0.07] text-gray-400 hover:bg-white/10"
               }`}
             >
               {config?.label ?? status} ({count})
@@ -85,19 +85,19 @@ export default function BuyerOffersTable({ offers }: { offers: BuyerOffer[] }) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="mt-6 rounded-lg border border-dashed p-8 text-center">
-          <p className="text-sm text-gray-400">No offers found.</p>
+        <div className="mt-6 rounded-lg border border-dashed border-white/[0.07] p-8 text-center">
+          <p className="text-sm text-gray-500">No offers found.</p>
           <Link
             href="/marketplace"
-            className="mt-2 inline-block text-sm font-medium text-black hover:underline"
+            className="mt-2 inline-block text-sm font-medium text-brand-amber hover:text-brand-amber-hover"
           >
             Browse the marketplace
           </Link>
         </div>
       ) : (
-        <div className="mt-4 overflow-hidden rounded-lg border">
+        <div className="mt-4 overflow-hidden rounded-lg border border-white/[0.07]">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-left text-xs font-medium uppercase text-gray-500">
+            <thead className="bg-brand-card text-left text-xs font-medium uppercase text-gray-400">
               <tr>
                 <th className="px-4 py-3">Item</th>
                 <th className="px-4 py-3">Seller</th>
@@ -108,31 +108,31 @@ export default function BuyerOffersTable({ offers }: { offers: BuyerOffer[] }) {
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y divide-white/[0.07]">
               {filtered.map((offer) => {
                 const config = statusConfig[offer.status] ?? {
                   label: offer.status,
-                  color: "bg-gray-100 text-gray-800",
+                  color: "bg-gray-800 text-gray-400",
                 };
                 return (
-                  <tr key={offer.id} className="hover:bg-gray-50">
+                  <tr key={offer.id} className="hover:bg-white/[0.03]">
                     <td className="px-4 py-3">
                       <Link
                         href={`/listing/${offer.listing_id}`}
-                        className="font-medium text-black hover:underline"
+                        className="font-medium text-brand-amber hover:text-brand-amber-hover"
                       >
                         {offer.listing?.title ?? "—"}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-600">
+                    <td className="px-4 py-3 text-gray-400">
                       {offer.seller?.full_name || offer.seller?.email || "—"}
                     </td>
-                    <td className="px-4 py-3 text-gray-500">
+                    <td className="px-4 py-3 text-gray-400">
                       {offer.listing?.price
                         ? formatPrice(offer.listing.price)
                         : "—"}
                     </td>
-                    <td className="px-4 py-3 font-medium">
+                    <td className="px-4 py-3 font-medium text-white">
                       {formatPrice(offer.amount)}
                     </td>
                     <td className="px-4 py-3">
@@ -142,7 +142,7 @@ export default function BuyerOffersTable({ offers }: { offers: BuyerOffer[] }) {
                         {config.label}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-500">
+                    <td className="px-4 py-3 text-xs text-gray-400">
                       {new Date(offer.created_at).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3">
@@ -150,7 +150,7 @@ export default function BuyerOffersTable({ offers }: { offers: BuyerOffer[] }) {
                         <button
                           onClick={() => handleWithdraw(offer.id)}
                           disabled={withdrawing === offer.id}
-                          className="text-xs font-medium text-red-600 hover:underline disabled:opacity-50"
+                          className="text-xs font-medium text-red-400 hover:underline disabled:opacity-50"
                         >
                           Withdraw
                         </button>

@@ -16,13 +16,13 @@ function formatPrice(cents: number) {
 }
 
 const statusConfig: Record<string, { label: string; color: string }> = {
-  pending: { label: "Pending", color: "bg-gray-100 text-gray-800" },
-  payment_held: { label: "Payment Held", color: "bg-yellow-100 text-yellow-800" },
-  shipped: { label: "Shipped", color: "bg-blue-100 text-blue-800" },
-  delivered: { label: "Delivered", color: "bg-green-100 text-green-800" },
-  completed: { label: "Completed", color: "bg-green-100 text-green-800" },
-  refunded: { label: "Refunded", color: "bg-red-100 text-red-800" },
-  disputed: { label: "Disputed", color: "bg-red-100 text-red-800" },
+  pending: { label: "Pending", color: "bg-gray-800 text-gray-400" },
+  payment_held: { label: "Payment Held", color: "bg-yellow-900/40 text-yellow-400" },
+  shipped: { label: "Shipped", color: "bg-blue-900/40 text-blue-400" },
+  delivered: { label: "Delivered", color: "bg-green-900/40 text-green-400" },
+  completed: { label: "Completed", color: "bg-green-900/40 text-green-400" },
+  refunded: { label: "Refunded", color: "bg-red-900/40 text-red-400" },
+  disputed: { label: "Disputed", color: "bg-red-900/40 text-red-400" },
 };
 
 export default function OrdersTable({
@@ -94,8 +94,8 @@ export default function OrdersTable({
           onClick={() => setFilter("all")}
           className={`rounded-full px-3 py-1 text-xs font-medium ${
             filter === "all"
-              ? "bg-black text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-brand-amber text-brand-dark"
+              : "bg-white/[0.07] text-gray-400 hover:bg-white/10"
           }`}
         >
           All ({orders.length})
@@ -108,8 +108,8 @@ export default function OrdersTable({
               onClick={() => setFilter(status)}
               className={`rounded-full px-3 py-1 text-xs font-medium ${
                 filter === status
-                  ? "bg-black text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-brand-amber text-brand-dark"
+                  : "bg-white/[0.07] text-gray-400 hover:bg-white/10"
               }`}
             >
               {config?.label ?? status} ({count})
@@ -121,9 +121,9 @@ export default function OrdersTable({
       {filtered.length === 0 ? (
         <p className="mt-6 text-sm text-gray-400">No orders found.</p>
       ) : (
-        <div className="mt-4 overflow-hidden rounded-lg border">
+        <div className="mt-4 overflow-hidden rounded-lg border border-white/[0.07]">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-left text-xs font-medium uppercase text-gray-500">
+            <thead className="bg-brand-card text-left text-xs font-medium uppercase text-gray-400">
               <tr>
                 <th className="px-4 py-3">Item</th>
                 <th className="px-4 py-3">
@@ -135,23 +135,23 @@ export default function OrdersTable({
                 <th className="px-4 py-3">Date</th>
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y divide-white/[0.07]">
               {filtered.map((order) => {
                 const config = statusConfig[order.status] ?? {
                   label: order.status,
-                  color: "bg-gray-100 text-gray-800",
+                  color: "bg-gray-800 text-gray-400",
                 };
                 const otherParty =
                   viewAs === "seller" ? order.buyer : order.seller;
                 return (
-                  <tr key={order.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 font-medium">
+                  <tr key={order.id} className="hover:bg-white/[0.03]">
+                    <td className="px-4 py-3 font-medium text-white">
                       {order.listing?.title ?? "—"}
                     </td>
-                    <td className="px-4 py-3 text-gray-600">
+                    <td className="px-4 py-3 text-gray-400">
                       {otherParty?.full_name || otherParty?.email || "—"}
                     </td>
-                    <td className="px-4 py-3">{formatPrice(order.amount)}</td>
+                    <td className="px-4 py-3 text-white">{formatPrice(order.amount)}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${config.color}`}
@@ -173,7 +173,7 @@ export default function OrdersTable({
                                 [order.id]: e.target.value,
                               }))
                             }
-                            className="w-28 rounded border px-2 py-1 text-xs"
+                            className="w-28 rounded border border-white/[0.07] bg-brand-card px-2 py-1 text-xs text-white placeholder:text-gray-500 focus:border-brand-amber focus:ring-brand-amber"
                           />
                           <button
                             onClick={() => handleShipOrder(order.id)}
@@ -181,7 +181,7 @@ export default function OrdersTable({
                               shippingOrder === order.id ||
                               !trackingInputs[order.id]?.trim()
                             }
-                            className="rounded bg-black px-2 py-1 text-xs font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+                            className="rounded bg-brand-amber px-2 py-1 text-xs font-semibold text-brand-dark hover:bg-brand-amber-hover disabled:opacity-50"
                           >
                             Ship
                           </button>
@@ -189,7 +189,7 @@ export default function OrdersTable({
                       ) : viewAs === "buyer" &&
                         order.status === "delivered" ? (
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-gray-400">
                             {order.tracking_number || "—"}
                           </span>
                           <button
@@ -207,17 +207,17 @@ export default function OrdersTable({
                         !reviewedOrderIds.includes(order.id) ? (
                         <Link
                           href={`/dashboard/orders/${order.id}/review`}
-                          className="text-xs font-medium text-green-600 hover:underline"
+                          className="text-xs font-medium text-brand-amber hover:text-brand-amber-hover"
                         >
                           Leave Review
                         </Link>
                       ) : (
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-gray-400">
                           {order.tracking_number || "—"}
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-xs text-gray-500">
+                    <td className="px-4 py-3 text-xs text-gray-400">
                       {new Date(order.created_at).toLocaleDateString()}
                     </td>
                   </tr>

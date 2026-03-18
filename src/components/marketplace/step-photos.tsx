@@ -26,8 +26,8 @@ export default function StepPhotos({ data, onChange, errors }: StepPhotosProps) 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold">Photos</h2>
-        <p className="text-sm text-gray-600 mt-1">
+        <h2 className="text-lg font-semibold text-white">Photos</h2>
+        <p className="text-sm text-gray-400 mt-1">
           Upload clear, well-lit photos. The main photo and a close-up of the
           signature are required.
         </p>
@@ -43,7 +43,7 @@ export default function StepPhotos({ data, onChange, errors }: StepPhotosProps) 
             onChange={(url) => onChange({ mainPhoto: url })}
           />
           {errors.mainPhoto && (
-            <p className="mt-1 text-xs text-red-600">{errors.mainPhoto}</p>
+            <p className="mt-1 text-xs text-red-400">{errors.mainPhoto}</p>
           )}
         </div>
 
@@ -56,14 +56,14 @@ export default function StepPhotos({ data, onChange, errors }: StepPhotosProps) 
             onChange={(url) => onChange({ signaturePhoto: url })}
           />
           {errors.signaturePhoto && (
-            <p className="mt-1 text-xs text-red-600">{errors.signaturePhoto}</p>
+            <p className="mt-1 text-xs text-red-400">{errors.signaturePhoto}</p>
           )}
         </div>
       </div>
 
       <div>
-        <p className="text-sm font-medium text-gray-700 mb-3">
-          Additional Photos <span className="text-gray-400">(up to 3)</span>
+        <p className="text-sm font-medium text-gray-300 mb-3">
+          Additional Photos <span className="text-gray-500">(up to 3)</span>
         </p>
         <div className="grid grid-cols-3 gap-4">
           {Array.from({ length: additionalSlots }).map((_, i) => (

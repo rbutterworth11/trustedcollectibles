@@ -199,9 +199,9 @@ export default function NewListingPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-65px)] bg-gray-50">
+    <div className="min-h-[calc(100vh-65px)] bg-brand-dark">
       <div className="mx-auto max-w-2xl px-4 py-8">
-        <h1 className="text-2xl font-bold">Create Listing</h1>
+        <h1 className="text-2xl font-bold text-white">Create Listing</h1>
 
         {/* Step indicator */}
         <div className="mt-6 mb-8">
@@ -216,10 +216,10 @@ export default function NewListingPage() {
                   }}
                   className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${
                     i === step
-                      ? "bg-black text-white"
+                      ? "bg-brand-amber text-brand-dark"
                       : i < step
                         ? "bg-green-600 text-white"
-                        : "bg-gray-200 text-gray-500"
+                        : "bg-white/5 text-gray-500"
                   }`}
                 >
                   {i < step ? (
@@ -232,7 +232,7 @@ export default function NewListingPage() {
                 </button>
                 <span
                   className={`ml-2 hidden text-sm sm:inline ${
-                    i === step ? "font-medium text-black" : "text-gray-500"
+                    i === step ? "font-medium text-brand-amber" : "text-gray-500"
                   }`}
                 >
                   {label}
@@ -240,7 +240,7 @@ export default function NewListingPage() {
                 {i < STEP_LABELS.length - 1 && (
                   <div
                     className={`mx-3 h-px w-8 sm:w-12 ${
-                      i < step ? "bg-green-600" : "bg-gray-200"
+                      i < step ? "bg-green-600" : "bg-white/[0.07]"
                     }`}
                   />
                 )}
@@ -250,7 +250,7 @@ export default function NewListingPage() {
         </div>
 
         {/* Step content */}
-        <div className="rounded-lg border bg-white p-6">
+        <div className="rounded-lg border border-white/[0.07] bg-brand-card p-6">
           {step === 0 && (
             <StepPhotos data={data} onChange={updateData} errors={errors} />
           )}
@@ -273,7 +273,7 @@ export default function NewListingPage() {
               <button
                 type="button"
                 onClick={handleBack}
-                className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50"
+                className="rounded-md border border-white/[0.07] px-4 py-2 text-sm font-medium text-gray-300 hover:bg-white/5"
               >
                 Back
               </button>
@@ -285,7 +285,7 @@ export default function NewListingPage() {
               type="button"
               onClick={handleSaveDraft}
               disabled={saving}
-              className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 disabled:opacity-50"
+              className="rounded-md border border-white/[0.07] px-4 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 disabled:opacity-50"
             >
               {saving ? "Saving..." : "Save Draft"}
             </button>
@@ -294,7 +294,7 @@ export default function NewListingPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+                className="rounded-md bg-brand-amber px-4 py-2 text-sm font-semibold text-brand-dark hover:bg-brand-amber-hover"
               >
                 Continue
               </button>
@@ -303,7 +303,7 @@ export default function NewListingPage() {
                 type="button"
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="rounded-md bg-green-700 px-5 py-2 text-sm font-medium text-white hover:bg-green-800 disabled:opacity-50"
+                className="rounded-md bg-green-600 px-5 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
               >
                 {submitting ? "Submitting..." : "Submit for Verification"}
               </button>

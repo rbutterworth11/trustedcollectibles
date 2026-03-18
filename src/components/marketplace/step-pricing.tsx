@@ -29,14 +29,14 @@ export default function StepPricing({ data, onChange, errors }: StepPricingProps
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold">Pricing</h2>
-        <p className="text-sm text-gray-600 mt-1">
+        <h2 className="text-lg font-semibold text-white">Pricing</h2>
+        <p className="text-sm text-gray-400 mt-1">
           Set your asking price. All prices are in USD.
         </p>
       </div>
 
       <div className="max-w-sm">
-        <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="price" className="block text-sm font-medium text-gray-300">
           Asking Price (USD) <span className="text-red-500">*</span>
         </label>
         <div className="relative mt-1">
@@ -49,10 +49,10 @@ export default function StepPricing({ data, onChange, errors }: StepPricingProps
             value={data.price}
             onChange={(e) => onChange({ price: e.target.value })}
             placeholder="0.00"
-            className="block w-full rounded-md border border-gray-300 pl-7 pr-3 py-2 text-sm shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+            className="block w-full rounded-md border border-white/[0.07] bg-brand-card pl-7 pr-3 py-2 text-sm text-white placeholder:text-gray-500 shadow-sm focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
           />
         </div>
-        {errors.price && <p className="mt-1 text-xs text-red-600">{errors.price}</p>}
+        {errors.price && <p className="mt-1 text-xs text-red-400">{errors.price}</p>}
       </div>
 
       <div className="max-w-sm space-y-3">
@@ -62,16 +62,16 @@ export default function StepPricing({ data, onChange, errors }: StepPricingProps
             type="checkbox"
             checked={data.acceptOffers}
             onChange={(e) => onChange({ acceptOffers: e.target.checked })}
-            className="h-4 w-4 rounded border-gray-300"
+            className="h-4 w-4 rounded border-white/[0.07] bg-brand-card"
           />
-          <label htmlFor="acceptOffers" className="text-sm font-medium text-gray-700">
+          <label htmlFor="acceptOffers" className="text-sm font-medium text-gray-300">
             Accept offers from buyers
           </label>
         </div>
 
         {data.acceptOffers && (
           <div>
-            <label htmlFor="minimumOffer" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="minimumOffer" className="block text-sm font-medium text-gray-300">
               Minimum Offer (optional)
             </label>
             <div className="relative mt-1">
@@ -84,40 +84,40 @@ export default function StepPricing({ data, onChange, errors }: StepPricingProps
                 value={data.minimumOffer}
                 onChange={(e) => onChange({ minimumOffer: e.target.value })}
                 placeholder="0.00"
-                className="block w-full rounded-md border border-gray-300 pl-7 pr-3 py-2 text-sm shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                className="block w-full rounded-md border border-white/[0.07] bg-brand-card pl-7 pr-3 py-2 text-sm text-white placeholder:text-gray-500 shadow-sm focus:border-brand-amber focus:outline-none focus:ring-1 focus:ring-brand-amber"
               />
             </div>
             {errors.minimumOffer && (
-              <p className="mt-1 text-xs text-red-600">{errors.minimumOffer}</p>
+              <p className="mt-1 text-xs text-red-400">{errors.minimumOffer}</p>
             )}
           </div>
         )}
       </div>
 
       {isValidPrice && (
-        <div className="max-w-sm rounded-lg border bg-gray-50 p-4 space-y-2">
-          <h3 className="text-sm font-semibold text-gray-900">Fee Breakdown</h3>
+        <div className="max-w-sm rounded-lg border border-white/[0.07] bg-brand-dark p-4 space-y-2">
+          <h3 className="text-sm font-semibold text-white">Fee Breakdown</h3>
           <div className="space-y-1 text-sm">
             <div className="flex justify-between">
-              <span className="text-gray-600">Asking price</span>
-              <span>{formatCents(priceInCents)}</span>
+              <span className="text-gray-400">Asking price</span>
+              <span className="text-white">{formatCents(priceInCents)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">
+              <span className="text-gray-400">
                 Platform commission ({(PLATFORM_COMMISSION_RATE * 100).toFixed(0)}%)
               </span>
-              <span className="text-red-600">-{formatCents(commission)}</span>
+              <span className="text-red-400">-{formatCents(commission)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">
+              <span className="text-gray-400">
                 Payment processing ({(STRIPE_PROCESSING_RATE * 100).toFixed(1)}% + $0.30)
               </span>
-              <span className="text-red-600">-{formatCents(stripeProcessing)}</span>
+              <span className="text-red-400">-{formatCents(stripeProcessing)}</span>
             </div>
-            <hr className="my-1" />
+            <hr className="my-1 border-white/[0.07]" />
             <div className="flex justify-between font-semibold">
-              <span>Your payout</span>
-              <span className="text-green-700">{formatCents(sellerPayout)}</span>
+              <span className="text-white">Your payout</span>
+              <span className="text-green-400">{formatCents(sellerPayout)}</span>
             </div>
           </div>
         </div>
