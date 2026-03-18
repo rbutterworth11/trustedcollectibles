@@ -13,7 +13,7 @@ interface StepReviewProps {
 }
 
 function formatCents(cents: number): string {
-  return `$${(cents / 100).toFixed(2)}`;
+  return `£${(cents / 100).toFixed(2)}`;
 }
 
 function ReviewImage({ src, label }: { src: string; label: string }) {
@@ -143,7 +143,7 @@ export default function StepReview({ data }: StepReviewProps) {
             <p className="text-xs text-gray-500 pt-1">
               Accepting offers
               {data.minimumOffer
-                ? ` (minimum $${parseFloat(data.minimumOffer).toFixed(2)})`
+                ? ` (minimum £${parseFloat(data.minimumOffer).toFixed(2)})`
                 : ""}
             </p>
           )}

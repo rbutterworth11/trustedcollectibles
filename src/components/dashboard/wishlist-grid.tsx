@@ -5,13 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { WishlistItem } from "@/types";
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
-}
+import { useCurrency } from "@/lib/currency";
 
 export default function WishlistGrid({ items }: { items: WishlistItem[] }) {
   const router = useRouter();
+  const { formatPrice } = useCurrency();
 
   async function handleRemove(id: string) {
     const supabase = createClient();

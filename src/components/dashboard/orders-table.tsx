@@ -4,15 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Order, Listing, Profile } from "@/types";
+import { useCurrency } from "@/lib/currency";
 
 interface OrderWithDetails extends Order {
   listing: Listing | null;
   buyer: Profile | null;
   seller: Profile | null;
-}
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
 }
 
 const statusConfig: Record<string, { label: string; color: string }> = {
@@ -35,6 +32,7 @@ export default function OrdersTable({
   reviewedOrderIds?: string[];
 }) {
   const router = useRouter();
+  const { formatPrice } = useCurrency();
   const [filter, setFilter] = useState<string>("all");
   const [trackingInputs, setTrackingInputs] = useState<Record<string, string>>({});
   const [shippingOrder, setShippingOrder] = useState<string | null>(null);

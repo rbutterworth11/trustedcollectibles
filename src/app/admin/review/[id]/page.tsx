@@ -79,7 +79,7 @@ export default async function AdminReviewPage({
           </p>
         </div>
         <p className="text-2xl font-bold text-white">
-          ${(listing.price / 100).toFixed(2)}
+          £${(listing.price / 100).toFixed(2)}
         </p>
       </div>
 
@@ -298,7 +298,7 @@ export default async function AdminReviewPage({
               <div>
                 <dt className="text-gray-400">Asking Price</dt>
                 <dd className="text-lg font-bold text-white">
-                  ${(listing.price / 100).toFixed(2)}
+                  £${(listing.price / 100).toFixed(2)}
                 </dd>
               </div>
               <div>
@@ -308,7 +308,7 @@ export default async function AdminReviewPage({
                   {listing.accept_offers && listing.minimum_offer && (
                     <span className="text-gray-400">
                       {" "}
-                      (min ${(listing.minimum_offer / 100).toFixed(2)})
+                      (min £${(listing.minimum_offer / 100).toFixed(2)})
                     </span>
                   )}
                 </dd>

@@ -14,7 +14,7 @@ interface StepPricingProps {
 }
 
 function formatCents(cents: number): string {
-  return `$${(cents / 100).toFixed(2)}`;
+  return `£${(cents / 100).toFixed(2)}`;
 }
 
 export default function StepPricing({ data, onChange, errors }: StepPricingProps) {
@@ -31,16 +31,16 @@ export default function StepPricing({ data, onChange, errors }: StepPricingProps
       <div>
         <h2 className="text-lg font-semibold text-white">Pricing</h2>
         <p className="text-sm text-gray-400 mt-1">
-          Set your asking price. All prices are in USD.
+          Set your asking price. All prices are in GBP.
         </p>
       </div>
 
       <div className="max-w-sm">
         <label htmlFor="price" className="block text-sm font-medium text-gray-300">
-          Asking Price (USD) <span className="text-red-500">*</span>
+          Asking Price (GBP) <span className="text-red-500">*</span>
         </label>
         <div className="relative mt-1">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">£</span>
           <input
             id="price"
             type="number"
@@ -75,7 +75,7 @@ export default function StepPricing({ data, onChange, errors }: StepPricingProps
               Minimum Offer (optional)
             </label>
             <div className="relative mt-1">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">£</span>
               <input
                 id="minimumOffer"
                 type="number"
@@ -110,7 +110,7 @@ export default function StepPricing({ data, onChange, errors }: StepPricingProps
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">
-                Payment processing ({(STRIPE_PROCESSING_RATE * 100).toFixed(1)}% + $0.30)
+                Payment processing ({(STRIPE_PROCESSING_RATE * 100).toFixed(1)}% + £0.30)
               </span>
               <span className="text-red-400">-{formatCents(stripeProcessing)}</span>
             </div>

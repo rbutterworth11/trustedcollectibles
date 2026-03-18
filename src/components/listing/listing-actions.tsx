@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { useCurrency } from "@/lib/currency";
 
 interface ListingActionsProps {
   listingId: string;
@@ -34,6 +35,7 @@ export default function ListingActions({
   isOwnListing,
 }: ListingActionsProps) {
   const router = useRouter();
+  const { formatPrice, symbol } = useCurrency();
   const [wishlisted, setWishlisted] = useState(initialWishlisted);
   const [wishlistId, setWishlistId] = useState(initialWishlistId);
   const [following, setFollowing] = useState(initialFollowing);
@@ -191,7 +193,7 @@ export default function ListingActions({
         user_id: sellerId,
         type: "offer_received",
         title: "New Offer Received",
-        body: `You received an offer of $${(amountCents / 100).toFixed(2)} on your listing.`,
+        body: `You received an offer of ${formatPrice(amountCents)} on your listing.`,
         link: "/dashboard",
       });
     }
@@ -203,13 +205,13 @@ export default function ListingActions({
       {/* Price */}
       <div>
         <p className="text-3xl font-bold text-brand-amber">
-          ${(price / 100).toFixed(2)}
+          {formatPrice(price)}
         </p>
         {acceptOffers && (
           <p className="mt-1 text-sm text-brand-offer-text">
             Accepting offers
             {minimumOffer
-              ? ` (minimum $${(minimumOffer / 100).toFixed(2)})`
+              ? ` (minimum ${formatPrice(minimumOffer)})`
               : ""}
           </p>
         )}
@@ -253,7 +255,7 @@ export default function ListingActions({
             </label>
             <div className="relative mt-1">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-500">
-                $
+                {symbol}
               </span>
               <input
                 type="number"
@@ -268,7 +270,7 @@ export default function ListingActions({
             </div>
             {minimumOffer && (
               <p className="mt-1 text-xs text-gray-400">
-                Minimum: ${(minimumOffer / 100).toFixed(2)}
+                Minimum: {formatPrice(minimumOffer)}
               </p>
             )}
           </div>
@@ -412,6 +414,7 @@ export function SellerCard({
   avgRating: number | null;
 }) {
   const router = useRouter();
+  const { formatPrice } = useCurrency();
   const [following, setFollowing] = useState(initialFollowing);
   const [followId, setFollowId] = useState(initialFollowId);
   const [loading, setLoading] = useState(false);

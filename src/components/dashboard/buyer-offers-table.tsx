@@ -5,10 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Listing, Profile } from "@/types";
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
-}
+import { useCurrency } from "@/lib/currency";
 
 interface BuyerOffer {
   id: string;
@@ -31,6 +28,7 @@ const statusConfig: Record<string, { label: string; color: string }> = {
 
 export default function BuyerOffersTable({ offers }: { offers: BuyerOffer[] }) {
   const router = useRouter();
+  const { formatPrice } = useCurrency();
   const [filter, setFilter] = useState("all");
   const [withdrawing, setWithdrawing] = useState<string | null>(null);
 

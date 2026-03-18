@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { CurrencyProvider } from "@/lib/currency";
 import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 import "./globals.css";
 
@@ -99,9 +100,11 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Header />
-        {children}
-        <Footer />
+        <CurrencyProvider>
+          <Header />
+          {children}
+          <Footer />
+        </CurrencyProvider>
       </body>
     </html>
   );

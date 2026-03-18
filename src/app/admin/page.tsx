@@ -97,7 +97,7 @@ export default async function AdminQueuePage({
 
                 <div className="shrink-0 text-right">
                   <p className="font-semibold text-white">
-                    ${(listing.price / 100).toFixed(2)}
+                    £${(listing.price / 100).toFixed(2)}
                   </p>
                   <p className="text-xs text-gray-400">
                     {new Date(listing.created_at).toLocaleDateString()}

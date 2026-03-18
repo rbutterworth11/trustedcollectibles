@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Order, Listing, Profile } from "@/types";
+import { useCurrency } from "@/lib/currency";
 
 interface SellerOrder extends Order {
   listing: Listing | null;
@@ -30,10 +31,6 @@ interface SellerReviewItem {
   comment: string | null;
   created_at: string;
   reviewer: Profile | null;
-}
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
 }
 
 function timeAgo(date: string) {
@@ -124,6 +121,7 @@ export default function SellerDashboard({
   reviews,
 }: SellerDashboardProps) {
   const router = useRouter();
+  const { formatPrice } = useCurrency();
   const [processingOffer, setProcessingOffer] = useState<string | null>(null);
   const [trackingInputs, setTrackingInputs] = useState<Record<string, string>>({});
   const [shippingOrder, setShippingOrder] = useState<string | null>(null);

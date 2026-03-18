@@ -66,7 +66,7 @@ export default async function CheckoutSuccessPage({
               {(order.listing as { title: string } | null)?.title ?? "Item"}
             </p>
             <p className="mt-1 text-gray-400">
-              Amount: ${(order.amount / 100).toFixed(2)}
+              Amount: £${(order.amount / 100).toFixed(2)}
             </p>
             <p className="text-gray-400">
               Status: Payment held in escrow

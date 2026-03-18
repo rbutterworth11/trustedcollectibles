@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useCurrency } from "@/lib/currency";
 
 interface Listing {
   id: string;
@@ -50,6 +51,7 @@ export default function AdminListingsTable({
   listings: Listing[];
 }) {
   const router = useRouter();
+  const { formatPrice } = useCurrency();
   const [filter, setFilter] = useState<string>("all");
   const [deleting, setDeleting] = useState<string | null>(null);
 
@@ -154,7 +156,7 @@ export default function AdminListingsTable({
                       {listing.sport}
                     </td>
                     <td className="px-4 py-3 text-white">
-                      ${(listing.price / 100).toFixed(2)}
+                      {formatPrice(listing.price)}
                     </td>
                     <td className="px-4 py-3">
                       <span

@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useCurrency } from "@/lib/currency";
 
 interface ListingCardProps {
   listing: {
@@ -16,6 +19,7 @@ interface ListingCardProps {
 }
 
 export default function ListingCard({ listing }: ListingCardProps) {
+  const { formatPrice } = useCurrency();
   const mainImage = listing.images?.[0];
 
   return (
@@ -57,7 +61,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
         </div>
 
         <p className="mt-2 font-bold text-brand-amber">
-          ${(listing.price / 100).toFixed(2)}
+          {formatPrice(listing.price)}
         </p>
       </div>
     </Link>

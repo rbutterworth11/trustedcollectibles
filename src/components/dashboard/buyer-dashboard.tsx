@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Order, Listing, Profile } from "@/types";
+import { useCurrency } from "@/lib/currency";
 
 interface BuyerOrder extends Order {
   listing: Listing | null;
@@ -26,10 +27,6 @@ interface BuyerFollowedSeller {
   seller_id: string;
   created_at: string;
   seller: Profile | null;
-}
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
 }
 
 function timeAgo(date: string) {
@@ -88,6 +85,7 @@ export default function BuyerDashboard({
   offers,
 }: BuyerDashboardProps) {
   const router = useRouter();
+  const { formatPrice } = useCurrency();
   const [withdrawingOffer, setWithdrawingOffer] = useState<string | null>(null);
 
   async function handleWithdrawOffer(offerId: string) {

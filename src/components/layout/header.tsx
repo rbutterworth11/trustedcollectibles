@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import NotificationBell from "@/components/layout/notification-bell";
+import CurrencySelector from "@/components/layout/currency-selector";
 
 export default function Header() {
   const router = useRouter();
@@ -113,6 +114,8 @@ export default function Header() {
           >
             Browse
           </Link>
+
+          <CurrencySelector />
 
           {user && (
             <Link
@@ -307,6 +310,10 @@ export default function Header() {
               >
                 Browse
               </Link>
+
+              <div className="min-h-[44px] flex items-center">
+                <CurrencySelector />
+              </div>
 
               {user && (
                 <Link

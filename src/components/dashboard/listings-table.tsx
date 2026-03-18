@@ -3,10 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { Listing } from "@/types";
-
-function formatPrice(cents: number) {
-  return `$${(cents / 100).toFixed(2)}`;
-}
+import { useCurrency } from "@/lib/currency";
 
 const statusConfig: Record<
   string,
@@ -28,6 +25,7 @@ export default function ListingsTable({
 }: {
   listings: Listing[];
 }) {
+  const { formatPrice } = useCurrency();
   const [filter, setFilter] = useState<string>("all");
 
   const filtered =

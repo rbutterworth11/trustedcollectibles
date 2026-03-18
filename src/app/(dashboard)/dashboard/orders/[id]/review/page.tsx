@@ -60,7 +60,7 @@ export default async function ReviewPage({
           {listing?.title ?? "Item"}
         </p>
         <p className="text-sm text-gray-400">
-          Sold by {seller?.full_name ?? "Seller"} &middot; $
+          Sold by {seller?.full_name ?? "Seller"} &middot; £
           {(order.amount / 100).toFixed(2)}
         </p>
       </div>
