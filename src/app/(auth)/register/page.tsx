@@ -53,6 +53,9 @@ export default function RegisterPage() {
       return;
     }
 
+    // Send welcome email
+    fetch("/api/auth/welcome", { method: "POST" }).catch(() => {});
+
     router.push("/dashboard");
     router.refresh();
   }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createNotification } from "@/lib/notifications";
+import { sendShippingConfirmation } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
@@ -59,6 +60,12 @@ export async function POST(request: NextRequest) {
     body: `"${listingTitle}" is on its way. Tracking: ${trackingNumber.trim()}`,
     link: "/dashboard/orders",
   });
+
+  // Send shipping email to buyer
+  const { data: buyerProfile } = await supabase.from("profiles").select("email, full_name").eq("id", order.buyer_id).single();
+  if (buyerProfile) {
+    sendShippingConfirmation(buyerProfile.email, buyerProfile.full_name, listingTitle, trackingNumber.trim());
+  }
 
   return NextResponse.json({ success: true });
 }

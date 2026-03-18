@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { sendListingReviewResult } from "@/lib/email";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -115,6 +116,21 @@ export async function POST(request: Request) {
       { error: reviewError.message },
       { status: 500 }
     );
+  }
+
+  // Send email for approved/rejected actions
+  if (action === "approved" || action === "rejected") {
+    const { data: listing } = await supabase.from("listings").select("seller_id, title").eq("id", listingId).single();
+    if (listing) {
+      const { data: sellerProfile } = await supabase.from("profiles").select("email, full_name").eq("id", listing.seller_id).single();
+      if (sellerProfile) {
+        sendListingReviewResult(
+          sellerProfile.email, sellerProfile.full_name, listing.title,
+          action === "approved",
+          action === "rejected" ? reason?.trim() : undefined
+        );
+      }
+    }
   }
 
   return NextResponse.json({ success: true });

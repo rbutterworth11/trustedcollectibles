@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { getStripeServer } from "@/lib/stripe/server";
+import { sendOrderConfirmationBuyer, sendNewOrderSeller } from "@/lib/email";
 import { createClient as createServiceClient } from "@supabase/supabase-js";
 
 // Use service role client for webhook (no user session)
@@ -65,6 +66,20 @@ export async function POST(request: Request) {
           .update({ status: "declined" })
           .eq("listing_id", metadata.listing_id)
           .eq("status", "pending");
+
+        // Send email notifications
+        const [{ data: buyerProfile }, { data: sellerProfile }, { data: listingData }] = await Promise.all([
+          supabase.from("profiles").select("email, full_name").eq("id", metadata.buyer_id).single(),
+          supabase.from("profiles").select("email, full_name").eq("id", metadata.seller_id).single(),
+          supabase.from("listings").select("title").eq("id", metadata.listing_id).single(),
+        ]);
+
+        if (buyerProfile && listingData) {
+          sendOrderConfirmationBuyer(buyerProfile.email, buyerProfile.full_name, listingData.title, amount, metadata.listing_id);
+        }
+        if (sellerProfile && buyerProfile && listingData) {
+          sendNewOrderSeller(sellerProfile.email, sellerProfile.full_name, listingData.title, amount, buyerProfile.full_name);
+        }
 
         break;
       }

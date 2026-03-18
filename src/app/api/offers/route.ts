@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createNotification } from "@/lib/notifications";
+import { sendOfferResponseBuyer } from "@/lib/email";
 
 export async function PATCH(request: NextRequest) {
   const supabase = await createClient();
@@ -76,6 +77,11 @@ export async function PATCH(request: NextRequest) {
       body: `Your offer of $${(offer.amount / 100).toFixed(2)} on "${listingTitle}" was accepted.`,
       link: "/dashboard/orders",
     });
+
+    const { data: buyerProfile } = await supabase.from("profiles").select("email, full_name").eq("id", offer.buyer_id).single();
+    if (buyerProfile) {
+      sendOfferResponseBuyer(buyerProfile.email, buyerProfile.full_name, listingTitle, offer.amount, true);
+    }
   } else {
     await createNotification(supabase, {
       userId: offer.buyer_id,
@@ -84,6 +90,11 @@ export async function PATCH(request: NextRequest) {
       body: `Your offer on "${listingTitle}" was declined.`,
       link: "/dashboard/offers",
     });
+
+    const { data: buyerProfileDeclined } = await supabase.from("profiles").select("email, full_name").eq("id", offer.buyer_id).single();
+    if (buyerProfileDeclined) {
+      sendOfferResponseBuyer(buyerProfileDeclined.email, buyerProfileDeclined.full_name, listingTitle, offer.amount, false);
+    }
   }
 
   return NextResponse.json({ success: true });

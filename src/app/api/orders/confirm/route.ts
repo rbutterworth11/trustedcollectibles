@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getStripeServer } from "@/lib/stripe/server";
+import { sendDeliveryConfirmation } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
@@ -72,6 +73,20 @@ export async function POST(request: NextRequest) {
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  // Send delivery confirmation emails to both parties
+  const [{ data: buyerProfile }, { data: sellerProfile }, { data: listingData }] = await Promise.all([
+    supabase.from("profiles").select("email, full_name").eq("id", user.id).single(),
+    supabase.from("profiles").select("email, full_name").eq("id", order.seller_id).single(),
+    supabase.from("listings").select("title").eq("id", order.listing_id).single(),
+  ]);
+  if (buyerProfile && sellerProfile && listingData) {
+    sendDeliveryConfirmation(
+      buyerProfile.email, sellerProfile.email,
+      buyerProfile.full_name, sellerProfile.full_name,
+      listingData.title, order.amount, order.platform_fee
+    );
   }
 
   return NextResponse.json({ success: true });
