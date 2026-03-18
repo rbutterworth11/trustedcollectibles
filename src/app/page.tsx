@@ -37,31 +37,18 @@ export default async function Home() {
   const supabase = await createClient();
 
   // Fetch CMS content, staff picks, and listing data in parallel
-  const [
-    { data: sections },
-    { data: staffPickRows },
-    { data: hotProducts },
-    { data: sportCounts },
-  ] = await Promise.all([
-    supabase.from("site_content").select("*").order("sort_order"),
-    supabase
-      .from("staff_picks")
-      .select(
-        "listing_id, sort_order, listing:listings(id, title, sport, category, player, condition, price, accept_offers, images)"
-      )
-      .order("sort_order"),
-    supabase
-      .from("listings")
-      .select(
-        "id, title, sport, category, player, condition, price, accept_offers, images"
-      )
-      .eq("status", "listed")
-      .order("created_at", { ascending: false })
-      .limit(8),
-    supabase.from("listings").select("sport").eq("status", "listed"),
+  // Use .then() fallbacks so missing tables don't crash the page
+  const safe = (query: PromiseLike<{ data: any }>) =>
+    Promise.resolve(query).then(r => r.data ?? []).catch(() => []);
+
+  const [sections, staffPickRows, hotProducts, sportCounts] = await Promise.all([
+    safe(supabase.from("site_content").select("*").order("sort_order")),
+    safe(supabase.from("staff_picks").select("listing_id, sort_order, listing:listings(id, title, sport, category, player, condition, price, accept_offers, images)").order("sort_order")),
+    safe(supabase.from("listings").select("id, title, sport, category, player, condition, price, accept_offers, images").eq("status", "listed").order("created_at", { ascending: false }).limit(8)),
+    safe(supabase.from("listings").select("sport").eq("status", "listed")),
   ]);
 
-  const allSections = sections ?? [];
+  const allSections = sections;
 
   // Parse sections
   const hero = getSection(allSections, "hero");
@@ -310,7 +297,7 @@ export default async function Home() {
               </Link>
             </div>
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {displayedHotProducts.map((listing) => (
+              {displayedHotProducts.map((listing: any) => (
                 <ListingCard key={listing.id} listing={listing} />
               ))}
             </div>
