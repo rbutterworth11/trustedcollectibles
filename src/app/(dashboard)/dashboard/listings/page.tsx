@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ListingsTable from "@/components/dashboard/listings-table";
+
+export const metadata: Metadata = { title: "My Listings" };
 
 export default async function MyListingsPage() {
   const supabase = await createClient();

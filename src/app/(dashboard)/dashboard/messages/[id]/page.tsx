@@ -1,8 +1,10 @@
+import type { Metadata } from "next";
 import { redirect, notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ChatView from "@/components/dashboard/chat-view";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = { title: "Conversation" };
 
 export default async function ConversationPage({
   params,

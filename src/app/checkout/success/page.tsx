@@ -1,7 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
+export const metadata: Metadata = {
+  title: "Payment Successful",
+  robots: { index: false },
+};
 export const dynamic = "force-dynamic";
 
 export default async function CheckoutSuccessPage({

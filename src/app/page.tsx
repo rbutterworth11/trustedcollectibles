@@ -1,9 +1,32 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ListingCard from "@/components/marketplace/listing-card";
 import { SPORTS } from "@/lib/constants";
+import { SITE_URL, SITE_NAME } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title:
+    "TrustedCollectibles — Buy & Sell Authenticated Sports Memorabilia",
+  description:
+    "Buy signed shirts, verified autographs, and authenticated sports memorabilia from top athletes. Expert-verified collectibles with escrow payments and full buyer protection. Browse signed jerseys, trading cards, game-worn items and more.",
+  alternates: { canonical: SITE_URL },
+  openGraph: {
+    title:
+      "TrustedCollectibles — Authenticated Sports Memorabilia Marketplace",
+    description:
+      "Buy and sell expert-verified signed shirts, autographs, trading cards, and game-worn items. Escrow-protected payments and buyer guarantee.",
+    url: SITE_URL,
+    type: "website",
+  },
+  twitter: {
+    title: "TrustedCollectibles — Authenticated Sports Memorabilia",
+    description:
+      "Buy signed shirts, verified autographs & rare collectibles with escrow payments.",
+  },
+};
 
 export default async function Home() {
   const supabase = await createClient();

@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
 import { redirect, notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ReviewForm from "@/components/dashboard/review-form";
 
+export const metadata: Metadata = { title: "Leave a Review" };
 export const dynamic = "force-dynamic";
 
 export default async function ReviewPage({

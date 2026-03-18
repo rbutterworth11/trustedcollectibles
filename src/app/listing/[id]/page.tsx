@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,8 +7,53 @@ import ImageGallery from "@/components/listing/image-gallery";
 import ListingActions, {
   SellerCard,
 } from "@/components/listing/listing-actions";
+import { SITE_URL, SITE_NAME } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+
+  const { data: listing } = await supabase
+    .from("listings")
+    .select("title, description, sport, player, category, condition, price, images")
+    .eq("id", id)
+    .eq("status", "listed")
+    .single();
+
+  if (!listing) {
+    return { title: "Listing Not Found" };
+  }
+
+  const title = `${listing.title} — ${listing.player} ${listing.sport} ${listing.category}`;
+  const description = `Buy authenticated ${listing.title} (${listing.condition} condition). ${listing.sport} memorabilia by ${listing.player}. $${(listing.price / 100).toFixed(2)}. Expert-verified with COA. Escrow-protected payment.`;
+  const image = listing.images?.[0] || undefined;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `${SITE_URL}/listing/${id}` },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/listing/${id}`,
+      type: "website",
+      images: image ? [{ url: image, alt: listing.title }] : [],
+      siteName: SITE_NAME,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: listing.title,
+      description: `${listing.condition} ${listing.category} — $${(listing.price / 100).toFixed(2)}. Verified ${listing.sport} memorabilia.`,
+      images: image ? [image] : [],
+    },
+  };
+}
 
 export default async function ListingPage({
   params,
@@ -244,6 +290,73 @@ export default async function ListingPage({
           Report
         </button>
       </div>
+
+      {/* JSON-LD Product Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: listing.title,
+            description: listing.description,
+            image: listing.images ?? [],
+            url: `${SITE_URL}/listing/${id}`,
+            brand: {
+              "@type": "Brand",
+              name: listing.player || listing.team || listing.sport,
+            },
+            category: `${listing.sport} > ${listing.category}`,
+            itemCondition:
+              listing.condition === "Mint" || listing.condition === "Near Mint"
+                ? "https://schema.org/NewCondition"
+                : "https://schema.org/UsedCondition",
+            offers: {
+              "@type": "Offer",
+              url: `${SITE_URL}/listing/${id}`,
+              priceCurrency: "USD",
+              price: (listing.price / 100).toFixed(2),
+              availability: "https://schema.org/InStock",
+              seller: {
+                "@type": "Person",
+                name: seller?.full_name || "Seller",
+              },
+            },
+            ...(reviewCount > 0 && avgRating
+              ? {
+                  aggregateRating: {
+                    "@type": "AggregateRating",
+                    ratingValue: avgRating.toFixed(1),
+                    reviewCount,
+                    bestRating: 5,
+                    worstRating: 1,
+                  },
+                }
+              : {}),
+            additionalProperty: [
+              {
+                "@type": "PropertyValue",
+                name: "Sport",
+                value: listing.sport,
+              },
+              {
+                "@type": "PropertyValue",
+                name: "Authentication",
+                value: listing.coa_source || "Verified",
+              },
+              ...(listing.coa_certificate_number
+                ? [
+                    {
+                      "@type": "PropertyValue",
+                      name: "Certificate Number",
+                      value: listing.coa_certificate_number,
+                    },
+                  ]
+                : []),
+            ],
+          }),
+        }}
+      />
     </div>
   );
 }

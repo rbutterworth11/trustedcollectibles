@@ -1,10 +1,40 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ListingCard from "@/components/marketplace/listing-card";
 import SearchFilters from "@/components/marketplace/search-filters";
+import { SITE_URL } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; sport?: string; category?: string }>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const parts: string[] = [];
+  if (params.q) parts.push(`"${params.q}"`);
+  if (params.sport) parts.push(params.sport);
+  if (params.category) parts.push(params.category);
+
+  const suffix = parts.length
+    ? ` — ${parts.join(", ")}`
+    : "";
+
+  return {
+    title: `Browse Marketplace${suffix}`,
+    description: `Shop authenticated sports memorabilia${suffix}. Verified autographs, signed jerseys, trading cards, and game-worn items with escrow-protected payments.`,
+    alternates: { canonical: `${SITE_URL}/marketplace` },
+    openGraph: {
+      title: `Marketplace${suffix} | TrustedCollectibles`,
+      description: `Browse verified sports memorabilia${suffix}. Expert-authenticated collectibles with buyer protection.`,
+      url: `${SITE_URL}/marketplace`,
+    },
+    robots: params.q ? { index: false, follow: true } : undefined,
+  };
+}
 
 const PAGE_SIZE = 24;
 

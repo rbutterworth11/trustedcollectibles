@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import WishlistGrid from "@/components/dashboard/wishlist-grid";
+
+export const metadata: Metadata = { title: "Wishlist" };
 
 export default async function WishlistPage() {
   const supabase = await createClient();

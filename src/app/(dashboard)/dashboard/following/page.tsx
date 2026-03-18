@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import FollowingList from "@/components/dashboard/following-list";
+
+export const metadata: Metadata = { title: "Following" };
 
 export default async function FollowingPage() {
   const supabase = await createClient();

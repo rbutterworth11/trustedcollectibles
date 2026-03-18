@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import OrdersTable from "@/components/dashboard/orders-table";
+
+export const metadata: Metadata = { title: "Orders" };
 
 export default async function OrdersPage() {
   const supabase = await createClient();

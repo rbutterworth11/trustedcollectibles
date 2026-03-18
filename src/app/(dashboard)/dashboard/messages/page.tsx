@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ConversationList from "@/components/dashboard/conversation-list";
+
+export const metadata: Metadata = { title: "Messages" };
 
 export default async function MessagesPage() {
   const supabase = await createClient();
