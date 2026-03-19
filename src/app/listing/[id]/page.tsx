@@ -159,8 +159,15 @@ export default async function ListingPage({
       </Link>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {/* Left: Images */}
-        <ImageGallery images={listing.images ?? []} title={listing.title} />
+        {/* Left: Images + Confidence */}
+        <div className="space-y-6">
+          <ImageGallery images={listing.images ?? []} title={listing.title} />
+          <ConfidenceMeter
+            score={listing.confidence_score ?? null}
+            factors={listing.confidence_factors ?? []}
+            hasCoa={!!listing.coa_source}
+          />
+        </div>
 
         {/* Right: Info */}
         <div className="space-y-6">
@@ -264,15 +271,6 @@ export default async function ListingPage({
             avgRating={avgRating}
           />
         </div>
-      </div>
-
-      {/* Confidence Meter — full width below the photo/info grid */}
-      <div className="mt-8">
-        <ConfidenceMeter
-          score={listing.confidence_score ?? null}
-          factors={listing.confidence_factors ?? []}
-          hasCoa={!!listing.coa_source}
-        />
       </div>
 
       {/* Description */}
