@@ -542,60 +542,63 @@ export default async function Home() {
 
         return (
           <section className="border-t border-white/[0.07] bg-brand-card">
-            <div className="mx-auto max-w-6xl px-4 py-5">
-              <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 md:justify-between">
+            <div className="mx-auto max-w-6xl px-4 py-6">
+              <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 md:justify-between">
                 {/* Trustpilot */}
-                <a href={tpUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group shrink-0">
+                <a href={tpUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group shrink-0">
                   <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((i) => (
-                      <div key={i} className={`h-5 w-5 flex items-center justify-center rounded-[2px] ${i <= fullStars ? "bg-[#00b67a]" : "bg-[#dcdce6]"}`}>
-                        <svg className="h-3 w-3 text-white" viewBox="0 0 24 24" fill="currentColor">
+                      <div key={i} className={`h-7 w-7 flex items-center justify-center rounded-[3px] ${i <= fullStars ? "bg-[#00b67a]" : "bg-[#dcdce6]"}`}>
+                        <svg className="h-4 w-4 text-white" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                         </svg>
                       </div>
                     ))}
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-semibold text-white group-hover:text-brand-amber transition-colors">{tpText}</span>
-                    <span className="text-[10px] text-gray-500">({tpReviews})</span>
-                    <svg className="h-3.5 w-3.5 text-[#00b67a]" viewBox="0 0 24 24" fill="currentColor">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-white group-hover:text-brand-amber transition-colors">{tpText}</span>
+                    <span className="text-xs text-gray-500">({tpReviews})</span>
+                    <svg className="h-4 w-4 text-[#00b67a]" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                     </svg>
-                    <span className="text-[10px] font-semibold text-gray-400">Trustpilot</span>
+                    <span className="text-xs font-semibold text-gray-400">Trustpilot</span>
                   </div>
                 </a>
 
                 {/* Trust badges inline */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-5">
                   {showStripe && (
-                    <div className="flex items-center gap-1.5">
-                      <svg className="h-4 w-4 text-[#635bff]" viewBox="0 0 24 24" fill="currentColor">
+                    <div className="flex items-center gap-2">
+                      <svg className="h-5 w-5 text-[#635bff]" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/>
                       </svg>
-                      <span className="text-[10px] text-gray-500 font-medium hidden sm:inline">Stripe</span>
+                      <span className="text-xs text-gray-400 font-medium hidden sm:inline">Stripe Verified</span>
                     </div>
                   )}
                   {showSsl && (
-                    <div className="flex items-center gap-1.5">
-                      <svg className="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="flex items-center gap-2">
+                      <svg className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                       </svg>
-                      <span className="text-[10px] text-gray-500 font-medium hidden sm:inline">SSL</span>
+                      <span className="text-xs text-gray-400 font-medium hidden sm:inline">SSL Secure</span>
                     </div>
                   )}
                   {showPsa && (
-                    <div className="flex items-center gap-1">
-                      <span className="text-[10px] font-black text-red-400">PSA</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-black text-red-400">PSA</span>
+                      <span className="text-xs text-gray-400 font-medium hidden sm:inline">Partner</span>
                     </div>
                   )}
                   {showBeckett && (
-                    <div className="flex items-center gap-1">
-                      <span className="text-[10px] font-black text-blue-400">BAS</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-black text-blue-400">BAS</span>
+                      <span className="text-xs text-gray-400 font-medium hidden sm:inline">Beckett</span>
                     </div>
                   )}
                   {showJsa && (
-                    <div className="flex items-center gap-1">
-                      <span className="text-[10px] font-black text-brand-amber">JSA</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-black text-brand-amber">JSA</span>
+                      <span className="text-xs text-gray-400 font-medium hidden sm:inline">Certified</span>
                     </div>
                   )}
                 </div>
