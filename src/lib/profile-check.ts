@@ -2,6 +2,12 @@
 
 import { createClient } from "@/lib/supabase/client";
 
+function isEmailVerified(user: { email_confirmed_at?: string | null; user_metadata?: Record<string, unknown> }): boolean {
+  if (user.email_confirmed_at) return true;
+  if (user.user_metadata?.email_verified_manually) return true;
+  return false;
+}
+
 export async function checkBuyerProfile(): Promise<{ complete: boolean; redirectUrl: string }> {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -11,10 +17,11 @@ export async function checkBuyerProfile(): Promise<{ complete: boolean; redirect
   }
 
   const meta = user.user_metadata || {};
+  const emailVerified = isEmailVerified(user);
   const hasAddress = meta.address?.line1 && meta.address?.city && meta.address?.postcode;
   const hasPhone = !!meta.phone;
 
-  if (!hasAddress || !hasPhone) {
+  if (!emailVerified || !hasAddress || !hasPhone) {
     return { complete: false, redirectUrl: "/dashboard/complete-profile?mode=buyer" };
   }
 
@@ -30,12 +37,13 @@ export async function checkSellerProfile(): Promise<{ complete: boolean; redirec
   }
 
   const meta = user.user_metadata || {};
+  const emailVerified = isEmailVerified(user);
   const hasAddress = meta.address?.line1 && meta.address?.city && meta.address?.postcode;
   const hasPhone = !!meta.phone;
   const hasDob = !!meta.date_of_birth;
   const isVerified = !!meta.seller_verified;
 
-  if (!hasAddress || !hasPhone || !hasDob || !isVerified) {
+  if (!emailVerified || !hasAddress || !hasPhone || !hasDob || !isVerified) {
     return { complete: false, redirectUrl: "/dashboard/complete-profile?mode=seller" };
   }
 
