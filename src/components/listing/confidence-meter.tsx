@@ -27,13 +27,15 @@ export default function ConfidenceMeter({
   const displayScore = score ?? 0;
   const color =
     displayScore >= 80
-      ? { ring: "#22c55e", text: "text-green-400", bg: "bg-green-400", label: "High Confidence" }
+      ? { ring: "#22c55e", text: "text-green-400", bg: "bg-green-400", label: "High" }
       : displayScore >= 50
-        ? { ring: "#c67b2f", text: "text-brand-amber", bg: "bg-brand-amber", label: "Moderate Confidence" }
-        : { ring: "#ef4444", text: "text-red-400", bg: "bg-red-400", label: "Low Confidence" };
+        ? { ring: "#c67b2f", text: "text-brand-amber", bg: "bg-brand-amber", label: "Moderate" }
+        : { ring: "#ef4444", text: "text-red-400", bg: "bg-red-400", label: "Low" };
 
   // SVG arc for the dial
-  const radius = 54;
+  const radius = 62;
+  const svgSize = 148;
+  const center = svgSize / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (displayScore / 100) * circumference;
 
@@ -44,20 +46,20 @@ export default function ConfidenceMeter({
       <div className="flex items-start gap-6">
         {/* Dial */}
         <div className="relative shrink-0">
-          <svg width="128" height="128" viewBox="0 0 128 128" className="-rotate-90">
+          <svg width={svgSize} height={svgSize} viewBox={`0 0 ${svgSize} ${svgSize}`} className="-rotate-90">
             {/* Background circle */}
             <circle
-              cx="64" cy="64" r={radius}
+              cx={center} cy={center} r={radius}
               fill="none"
               stroke="rgba(255,255,255,0.07)"
-              strokeWidth="10"
+              strokeWidth="8"
             />
             {/* Score arc */}
             <circle
-              cx="64" cy="64" r={radius}
+              cx={center} cy={center} r={radius}
               fill="none"
               stroke={color.ring}
-              strokeWidth="10"
+              strokeWidth="8"
               strokeLinecap="round"
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
