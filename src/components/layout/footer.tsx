@@ -17,8 +17,8 @@ const col2Links = [
 const col3Links = [
   { label: "FAQ", href: "/faq" },
   { label: "Contact Us", href: "/contact" },
-  { label: "Buying Guide", href: "/how-it-works" },
-  { label: "Selling Guide", href: "/how-it-works" },
+  { label: "Buying Guide", href: "/buying-guide" },
+  { label: "Selling Guide", href: "/selling-guide" },
   { label: "Trust & Safety", href: "/about" },
 ];
 
