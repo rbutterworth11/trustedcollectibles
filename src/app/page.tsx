@@ -280,46 +280,69 @@ export default async function Home() {
       )}
 
       {/* Browse by Sport */}
-      <section className="mx-auto max-w-6xl px-4 py-8 md:py-12">
-        <h2 className="text-2xl font-bold text-white">Browse by Sport</h2>
-        <p className="mt-1 text-sm text-gray-500">
-          Find memorabilia from your favorite sport.
-        </p>
-        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {SPORTS.filter((s) => s !== "Other").map((sport) => {
-            const count = activeSports.get(sport) ?? 0;
-            return (
+      {(() => {
+        const featuredSports = [
+          { key: "Football (Soccer)", label: "Football", icon: "&#9917;" },
+          { key: "Boxing", label: "Boxing", icon: "&#129354;" },
+          { key: "Rugby", label: "Rugby", icon: "&#127944;" },
+          { key: "Cricket", label: "Cricket", icon: "&#127942;" },
+          { key: "Tennis", label: "Tennis", icon: "&#127934;" },
+          { key: "Motorsport", label: "Motorsport", icon: "&#127946;" },
+        ];
+        return (
+          <section className="mx-auto max-w-6xl px-4 py-10 md:py-14">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-white">Browse by Sport</h2>
+              <p className="mt-2 text-sm text-gray-400">
+                Find memorabilia from your favourite sport.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+              {featuredSports.map((sport) => {
+                const count = activeSports.get(sport.key) ?? 0;
+                const hasImage = categoryImageMap[sport.key];
+                return (
+                  <Link
+                    key={sport.key}
+                    href={`/marketplace?sport=${encodeURIComponent(sport.key)}`}
+                    className="group relative flex flex-col items-center rounded-xl border border-white/[0.07] bg-brand-card p-6 text-center transition-all duration-200 hover:border-brand-amber/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-amber/5"
+                  >
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    {hasImage ? (
+                      <div className="relative h-14 w-14 rounded-xl overflow-hidden bg-white/5">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={categoryImageMap[sport.key]} alt={sport.label} className="h-full w-full object-cover" />
+                      </div>
+                    ) : (
+                      <span
+                        className="text-4xl"
+                        dangerouslySetInnerHTML={{ __html: sport.icon }}
+                      />
+                    )}
+                    <span className="relative mt-3 text-sm font-semibold text-white tracking-wide">
+                      {sport.label}
+                    </span>
+                    <span className="relative mt-1 text-xs text-gray-500">
+                      {count > 0 ? `${count} ${count === 1 ? "item" : "items"}` : "Browse"}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+            <div className="mt-6 text-center">
               <Link
-                key={sport}
-                href={`/marketplace?sport=${encodeURIComponent(sport)}`}
-                className="relative flex flex-col items-center rounded-lg border border-white/[0.07] bg-brand-card p-4 text-center transition-all hover:border-brand-amber/30 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20 overflow-hidden"
+                href="/marketplace"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-amber hover:text-brand-amber-hover transition-colors"
               >
-                {categoryImageMap[sport] ? (
-                  <div className="relative h-10 w-10 rounded-lg overflow-hidden bg-white/5">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={categoryImageMap[sport]} alt={sport} className="h-full w-full object-cover" />
-                  </div>
-                ) : (
-                  <span
-                    className="text-2xl"
-                    dangerouslySetInnerHTML={{
-                      __html: sportIcons[sport] || "&#127942;",
-                    }}
-                  />
-                )}
-                <span className="mt-2 text-sm font-medium text-white">
-                  {sport.replace(" (American)", "").replace(" (Soccer)", "")}
-                </span>
-                {count > 0 && (
-                  <span className="mt-0.5 text-xs text-gray-400">
-                    {count} {count === 1 ? "item" : "items"}
-                  </span>
-                )}
+                View All Sports
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </Link>
-            );
-          })}
-        </div>
-      </section>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* New Arrivals */}
       {newArrivals?.enabled !== false && displayedHotProducts.length > 0 && (
