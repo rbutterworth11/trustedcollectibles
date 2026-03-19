@@ -88,6 +88,7 @@ const FIELD_GROUPS = [
         type: "text" as const,
       },
       { key: "social_facebook", label: "Facebook URL", type: "text" as const },
+      { key: "social_tiktok", label: "TikTok URL", type: "text" as const },
     ],
   },
 ];
