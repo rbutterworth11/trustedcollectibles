@@ -14,6 +14,7 @@ const navItems = [
   { href: "/admin/content", label: "Homepage" },
   { href: "/admin/pages", label: "Pages" },
   { href: "/admin/categories", label: "Categories" },
+  { href: "/admin/auth-requests", label: "Auth Checks" },
   { href: "/admin/settings", label: "Settings" },
 ];
 

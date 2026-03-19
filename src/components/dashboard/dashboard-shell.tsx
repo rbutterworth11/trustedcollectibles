@@ -11,6 +11,7 @@ const sellerNav = [
   { href: "/dashboard/listings", label: "My Listings", icon: "tag" },
   { href: "/dashboard/orders", label: "Orders", icon: "package" },
   { href: "/dashboard/messages", label: "Messages", icon: "chat" },
+  { href: "/dashboard/authentications", label: "Auth Checks", icon: "tag" },
   { href: "/dashboard/settings", label: "Settings", icon: "settings" },
 ];
 
@@ -22,6 +23,7 @@ const buyerNav = [
   { href: "/dashboard/messages", label: "Messages", icon: "chat" },
   { href: "/dashboard/wishlist", label: "Wishlist", icon: "heart" },
   { href: "/dashboard/following", label: "Following", icon: "users" },
+  { href: "/dashboard/authentications", label: "Auth Checks", icon: "tag" },
   { href: "/dashboard/settings", label: "Settings", icon: "settings" },
 ];
 

@@ -120,6 +120,12 @@ export default function Header() {
           >
             Browse
           </Link>
+          <Link
+            href="/authenticate"
+            className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+          >
+            Authenticate
+          </Link>
 
           <CurrencySelector />
 
@@ -315,6 +321,13 @@ export default function Header() {
                 className="min-h-[44px] flex items-center text-sm font-medium text-gray-300 hover:text-white"
               >
                 Browse
+              </Link>
+              <Link
+                href="/authenticate"
+                onClick={() => setMobileMenuOpen(false)}
+                className="min-h-[44px] flex items-center text-sm font-medium text-gray-300 hover:text-white"
+              >
+                Authenticate
               </Link>
 
               <div className="min-h-[44px] flex items-center">

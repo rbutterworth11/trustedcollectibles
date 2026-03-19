@@ -771,6 +771,74 @@ export interface Database {
           },
         ];
       };
+      auth_requests: {
+        Row: {
+          id: string;
+          user_id: string;
+          tier: "standard" | "premium";
+          status: "pending_payment" | "paid" | "in_review" | "completed";
+          sport: string;
+          item_type: string;
+          details: string | null;
+          item_photos: string[];
+          coa_photos: string[];
+          verdict: "authentic" | "likely_authentic" | "inconclusive" | "likely_not_authentic" | null;
+          reviewer_notes: string | null;
+          reviewed_by: string | null;
+          reviewed_at: string | null;
+          stripe_session_id: string | null;
+          amount: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          tier: "standard" | "premium";
+          status?: "pending_payment" | "paid" | "in_review" | "completed";
+          sport: string;
+          item_type: string;
+          details?: string | null;
+          item_photos?: string[];
+          coa_photos?: string[];
+          verdict?: string | null;
+          reviewer_notes?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+          stripe_session_id?: string | null;
+          amount: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          tier?: "standard" | "premium";
+          status?: "pending_payment" | "paid" | "in_review" | "completed";
+          sport?: string;
+          item_type?: string;
+          details?: string | null;
+          item_photos?: string[];
+          coa_photos?: string[];
+          verdict?: string | null;
+          reviewer_notes?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+          stripe_session_id?: string | null;
+          amount?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "auth_requests_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;
