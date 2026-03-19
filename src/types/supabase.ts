@@ -17,6 +17,8 @@ export interface Database {
           role: "buyer" | "seller" | "admin";
           stripe_account_id: string | null;
           stripe_onboarded: boolean;
+          shipping_address: Record<string, string> | null;
+          stripe_customer_id: string | null;
           created_at: string;
         };
         Insert: {
@@ -26,6 +28,8 @@ export interface Database {
           role?: "buyer" | "seller" | "admin";
           stripe_account_id?: string | null;
           stripe_onboarded?: boolean;
+          shipping_address?: Record<string, string> | null;
+          stripe_customer_id?: string | null;
           created_at?: string;
         };
         Update: {
@@ -35,6 +39,8 @@ export interface Database {
           role?: "buyer" | "seller" | "admin";
           stripe_account_id?: string | null;
           stripe_onboarded?: boolean;
+          shipping_address?: Record<string, string> | null;
+          stripe_customer_id?: string | null;
           created_at?: string;
         };
         Relationships: [];

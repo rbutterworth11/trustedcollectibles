@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { checkSellerProfile } from "@/lib/profile-check";
 import type { ListingFormData } from "@/types";
 import type { Database } from "@/types/supabase";
 import ImageUpload from "@/components/ui/image-upload";
@@ -48,6 +49,14 @@ export default function NewListingPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    checkSellerProfile().then(({ complete, redirectUrl }) => {
+      if (!complete) {
+        router.push(`${redirectUrl}&next=/dashboard/listings/new`);
+      }
+    });
+  }, [router]);
 
   function updateData(updates: Partial<ListingFormData>) {
     setData((prev) => ({ ...prev, ...updates }));

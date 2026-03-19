@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { checkBuyerProfile } from "@/lib/profile-check";
 import ImageUpload from "@/components/ui/image-upload";
 import { SPORTS, ITEM_TYPES } from "@/lib/constants";
 
@@ -30,6 +31,12 @@ function SubmitForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
+    const { complete, redirectUrl } = await checkBuyerProfile();
+    if (!complete) {
+      router.push(`${redirectUrl}&next=/authenticate/submit?tier=${tier}`);
+      return;
+    }
 
     if (itemPhotos.filter(Boolean).length === 0) { setError("At least one item photo is required."); return; }
     if (!sport) { setError("Please select a sport."); return; }

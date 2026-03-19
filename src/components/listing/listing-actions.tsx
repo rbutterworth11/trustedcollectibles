@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useCurrency } from "@/lib/currency";
+import { checkBuyerProfile } from "@/lib/profile-check";
 
 interface ListingActionsProps {
   listingId: string;
@@ -52,6 +53,11 @@ export default function ListingActions({
   async function handleBuyNow() {
     if (!userId) {
       router.push(`/login?next=/listing/${listingId}`);
+      return;
+    }
+    const { complete, redirectUrl } = await checkBuyerProfile();
+    if (!complete) {
+      router.push(`${redirectUrl}&next=/listing/${listingId}`);
       return;
     }
     setBuyLoading(true);
@@ -165,6 +171,11 @@ export default function ListingActions({
     e.preventDefault();
     if (!userId) {
       router.push(`/login?next=/listing/${listingId}`);
+      return;
+    }
+    const buyerCheck = await checkBuyerProfile();
+    if (!buyerCheck.complete) {
+      router.push(`${buyerCheck.redirectUrl}&next=/listing/${listingId}`);
       return;
     }
 

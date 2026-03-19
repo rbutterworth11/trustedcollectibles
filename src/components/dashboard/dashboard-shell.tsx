@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import type { Profile } from "@/types";
 import EmailVerifyBanner from "@/components/dashboard/email-verify-banner";
+import ProfileBanner from "@/components/dashboard/profile-banner";
 
 const sellerNav = [
   { href: "/dashboard", label: "Overview", icon: "grid" },
@@ -186,6 +187,7 @@ export default function DashboardShell({
         {/* Add top padding on mobile to account for sticky top bar */}
         <div className="px-4 py-4 pt-16 md:px-8 md:py-8 md:pt-8">
           <EmailVerifyBanner />
+          <ProfileBanner />
           {children}
         </div>
       </main>
