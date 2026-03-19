@@ -231,13 +231,6 @@ export default async function ListingPage({
             )}
           </div>
 
-          {/* Confidence Meter */}
-          <ConfidenceMeter
-            score={listing.confidence_score ?? null}
-            factors={listing.confidence_factors ?? []}
-            hasCoa={!!listing.coa_source}
-          />
-
           {/* Item Details Table */}
           <div className="rounded-lg border border-white/[0.07] bg-brand-card p-4">
             <h2 className="mb-3 font-semibold text-white">Item Details</h2>
@@ -271,6 +264,15 @@ export default async function ListingPage({
             avgRating={avgRating}
           />
         </div>
+      </div>
+
+      {/* Confidence Meter — full width below the photo/info grid */}
+      <div className="mt-8">
+        <ConfidenceMeter
+          score={listing.confidence_score ?? null}
+          factors={listing.confidence_factors ?? []}
+          hasCoa={!!listing.coa_source}
+        />
       </div>
 
       {/* Description */}
