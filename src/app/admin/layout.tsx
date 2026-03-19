@@ -12,6 +12,7 @@ const navItems = [
   { href: "/admin/orders", label: "Orders" },
   { href: "/admin/users", label: "Users" },
   { href: "/admin/content", label: "Homepage" },
+  { href: "/admin/trending", label: "Trending" },
   { href: "/admin/pages", label: "Pages" },
   { href: "/admin/categories", label: "Categories" },
   { href: "/admin/auth-requests", label: "Auth Checks" },

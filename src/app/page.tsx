@@ -42,12 +42,13 @@ export default async function Home() {
   const safe = (query: PromiseLike<{ data: any }>) =>
     Promise.resolve(query).then(r => r.data ?? []).catch(() => []);
 
-  const [sections, staffPickRows, hotProducts, sportCounts, categoryImages] = await Promise.all([
+  const [sections, staffPickRows, hotProducts, sportCounts, categoryImages, trendingProfiles] = await Promise.all([
     safe(supabase.from("site_content").select("*").order("sort_order")),
     safe(supabase.from("staff_picks").select("listing_id, sort_order, listing:listings(id, title, sport, category, player, condition, price, accept_offers, images)").order("sort_order")),
     safe(supabase.from("listings").select("id, title, sport, category, player, condition, price, accept_offers, images").eq("status", "listed").order("created_at", { ascending: false }).limit(8)),
-    safe(supabase.from("listings").select("sport").eq("status", "listed")),
+    safe(supabase.from("listings").select("sport, player, team").eq("status", "listed")),
     safe(supabase.from("managed_categories").select("name, image_url").eq("type", "sport").eq("enabled", true).order("sort_order")),
+    safe(supabase.from("trending_profiles").select("*").eq("enabled", true).order("sort_order")),
   ]);
 
   const allSections = sections;
@@ -70,6 +71,19 @@ export default async function Home() {
   (sportCounts ?? []).forEach((l: any) => {
     activeSports.set(l.sport, (activeSports.get(l.sport) ?? 0) + 1);
   });
+
+  // Trending profile item counts
+  const trendingCounts = new Map<string, number>();
+  for (const l of sportCounts) {
+    if (l.player) {
+      const name = l.player.toLowerCase();
+      trendingCounts.set(name, (trendingCounts.get(name) ?? 0) + 1);
+    }
+    if (l.team) {
+      const name = l.team.toLowerCase();
+      trendingCounts.set(name, (trendingCounts.get(name) ?? 0) + 1);
+    }
+  }
 
   // Trust bar icon mapping
   const trustBarIcons: Record<string, string> = {
@@ -369,6 +383,48 @@ export default async function Home() {
                 <ListingCard key={listing.id} listing={listing} />
               ))}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Trending Players & Teams */}
+      {trendingProfiles.length > 0 && (
+        <section className="py-8 md:py-12">
+          <div className="mx-auto max-w-6xl px-4">
+            <h2 className="text-2xl font-bold text-white">Trending Players & Teams</h2>
+            <p className="mt-1 text-sm text-gray-400">The most sought-after names right now.</p>
+          </div>
+          <div className="mt-6 flex gap-5 overflow-x-auto px-4 pb-4 scrollbar-none md:justify-center md:flex-wrap" style={{ scrollbarWidth: "none" }}>
+            {trendingProfiles.map((tp: any) => {
+              const count = trendingCounts.get(tp.name.toLowerCase()) ?? 0;
+              const filterParam = tp.filter_type === "team" ? "q" : "q";
+              return (
+                <Link
+                  key={tp.id}
+                  href={`/marketplace?${filterParam}=${encodeURIComponent(tp.name)}`}
+                  className="flex shrink-0 flex-col items-center group"
+                >
+                  <div className="relative h-20 w-20 rounded-full border-2 border-white/[0.07] bg-brand-card overflow-hidden transition-all group-hover:border-brand-amber group-hover:shadow-lg group-hover:shadow-brand-amber/10">
+                    {tp.image_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={tp.image_url} alt={tp.name} className="h-full w-full object-cover" />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-white/[0.05] to-white/[0.02]">
+                        <span className="text-xl font-bold text-gray-500">
+                          {tp.name.split(" ").map((w: string) => w[0]).join("").slice(0, 2)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <span className="mt-2 text-xs font-medium text-white group-hover:text-brand-amber transition-colors text-center max-w-[80px] truncate">
+                    {tp.name}
+                  </span>
+                  <span className="text-[10px] text-gray-500">
+                    {count > 0 ? `${count} ${count === 1 ? "item" : "items"}` : "Browse"}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </section>
       )}
