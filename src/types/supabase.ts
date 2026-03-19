@@ -62,6 +62,8 @@ export interface Database {
           condition_photos: Array<{ url: string; label: string }> | null;
           bumped_at: string | null;
           bump_count: number;
+          confidence_score: number | null;
+          confidence_factors: string[];
           coa_source: string | null;
           coa_certificate_number: string | null;
           reviewed_by: string | null;
@@ -147,6 +149,8 @@ export interface Database {
           condition_photos?: Array<{ url: string; label: string }> | null;
           bumped_at?: string | null;
           bump_count?: number;
+          confidence_score?: number | null;
+          confidence_factors?: string[];
           status?:
             | "draft"
             | "pending_verification"

@@ -10,6 +10,7 @@ import ListingActions, {
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import SimilarItems from "@/components/listing/similar-items";
 import SocialShare from "@/components/listing/social-share";
+import ConfidenceMeter from "@/components/listing/confidence-meter";
 
 export const dynamic = "force-dynamic";
 
@@ -229,6 +230,13 @@ export default async function ListingPage({
               </div>
             )}
           </div>
+
+          {/* Confidence Meter */}
+          <ConfidenceMeter
+            score={listing.confidence_score ?? null}
+            factors={listing.confidence_factors ?? []}
+            hasCoa={!!listing.coa_source}
+          />
 
           {/* Item Details Table */}
           <div className="rounded-lg border border-white/[0.07] bg-brand-card p-4">

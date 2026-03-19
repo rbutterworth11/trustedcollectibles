@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import AdminReviewActions from "./actions";
 import AdminEditForm from "./edit-form";
+import ConfidenceForm from "./confidence-form";
 import { SPORTS, ITEM_TYPES, CONDITIONS, COA_SOURCES } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
@@ -315,6 +316,13 @@ export default async function AdminReviewPage({
               </div>
             </dl>
           </section>
+
+          {/* Confidence Score */}
+          <ConfidenceForm
+            listingId={listing.id}
+            initialScore={listing.confidence_score ?? null}
+            initialFactors={listing.confidence_factors ?? []}
+          />
 
           {/* Admin Actions */}
           <AdminReviewActions
