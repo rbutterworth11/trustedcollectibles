@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { sendListingReviewResult } from "@/lib/email";
+import { createNotification } from "@/lib/notifications";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -67,7 +68,7 @@ export async function POST(request: Request) {
 
   switch (action) {
     case "approved":
-      listingUpdate.status = "verified";
+      listingUpdate.status = "listed";
       listingUpdate.rejection_reason = null;
       break;
     case "rejected":
@@ -118,10 +119,24 @@ export async function POST(request: Request) {
     );
   }
 
-  // Send email for approved/rejected actions
+  // Send notifications for approved/rejected actions
   if (action === "approved" || action === "rejected") {
     const { data: listing } = await supabase.from("listings").select("seller_id, title").eq("id", listingId).single();
     if (listing) {
+      // In-app notification
+      await createNotification(supabase, {
+        userId: listing.seller_id,
+        type: action === "approved" ? "listing_approved" : "listing_rejected",
+        title: action === "approved"
+          ? "Listing Approved & Live!"
+          : "Listing Needs Attention",
+        body: action === "approved"
+          ? `Your listing "${listing.title}" has been approved and is now live on the marketplace!`
+          : `Your listing "${listing.title}" was not approved. Reason: ${reason?.trim() || "See details"}`,
+        link: action === "approved" ? "/dashboard/listings" : "/dashboard/listings",
+      });
+
+      // Email notification
       const { data: sellerProfile } = await supabase.from("profiles").select("email, full_name").eq("id", listing.seller_id).single();
       if (sellerProfile) {
         sendListingReviewResult(

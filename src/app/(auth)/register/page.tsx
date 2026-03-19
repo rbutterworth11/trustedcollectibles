@@ -24,15 +24,29 @@ export default function RegisterPage() {
 
     setLoading(true);
     const supabase = createClient();
-    const { error: authError } = await supabase.auth.signUp({
+    const { data: signUpData, error: authError } = await supabase.auth.signUp({
       email: email.trim(),
       password,
       options: {
         data: { full_name: fullName.trim() },
-        emailRedirectTo: `${window.location.origin}/api/auth/callback`,
       },
     });
     if (authError) { setError(authError.message); setLoading(false); return; }
+
+    // If no session (email confirmation enabled), sign in immediately
+    if (!signUpData.session) {
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (signInError) {
+        // If sign-in fails (email not confirmed), show a helpful message but don't block
+        setError("Account created! Please check your email to confirm, then sign in.");
+        setLoading(false);
+        return;
+      }
+    }
+
     fetch("/api/auth/welcome", { method: "POST" }).catch(() => {});
     router.push("/dashboard");
     router.refresh();

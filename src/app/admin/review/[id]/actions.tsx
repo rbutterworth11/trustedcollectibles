@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -48,6 +49,12 @@ export default function AdminReviewActions({
       return;
     }
 
+    // After approve or reject, go back to queue
+    if (action === "approved" || action === "rejected") {
+      router.push("/admin");
+      return;
+    }
+
     router.refresh();
     setLoading("");
     setShowReject(false);
@@ -59,9 +66,14 @@ export default function AdminReviewActions({
 
   return (
     <section className="rounded-lg border border-white/[0.07] bg-brand-card p-5 space-y-4">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
-        Actions
-      </h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
+          Actions
+        </h2>
+        <Link href="/admin" className="text-xs text-brand-amber hover:text-brand-amber-hover">
+          &larr; Back to Queue
+        </Link>
+      </div>
 
       {error && (
         <div className="rounded-md bg-red-900/40 p-2 text-sm text-red-400">

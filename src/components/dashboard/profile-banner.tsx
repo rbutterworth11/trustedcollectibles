@@ -5,30 +5,39 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 export default function ProfileBanner() {
-  const [show, setShow] = useState<"buyer" | "seller" | null>(null);
+  const [show, setShow] = useState<"buyer" | null>(null);
 
   useEffect(() => {
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    async function check() {
+      const supabase = createClient();
+
+      // Force refresh the user to get latest metadata
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
+
       const meta = user.user_metadata || {};
       const hasAddress = meta.address?.line1 && meta.address?.city && meta.address?.postcode;
       const hasPhone = !!meta.phone;
-      const profileComplete = hasAddress && hasPhone;
 
-      if (!profileComplete) {
-        setShow("buyer");
-        return;
+      // Also check profiles table as a fallback
+      if (!hasAddress) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("shipping_address")
+          .eq("id", user.id)
+          .single();
+
+        if (profile?.shipping_address) {
+          const addr = profile.shipping_address as Record<string, string>;
+          if (addr.line1 && addr.city && addr.postcode && hasPhone) return;
+        }
       }
 
-      // Check if they're a seller without full verification
-      supabase.from("profiles").select("role").eq("id", user.id).single().then(({ data }) => {
-        if (data?.role === "buyer" && !meta.seller_verified) {
-          // They might want to sell — show seller prompt only if they have listings or have visited sell page
-          // For now, don't show seller prompt proactively
-        }
-      });
-    });
+      if (!hasAddress || !hasPhone) {
+        setShow("buyer");
+      }
+    }
+    check();
   }, []);
 
   if (!show) return null;
