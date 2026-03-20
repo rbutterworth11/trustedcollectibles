@@ -116,6 +116,7 @@ export default function ListingsTable({
                     </div>
                   </div>
                   <div className="flex items-center gap-3 mt-3 pt-3 border-t border-white/[0.07]">
+                    <Link href={`/dashboard/listings/${listing.id}/edit`} className="text-xs font-medium text-gray-300 hover:text-white">Edit</Link>
                     {listing.status === "listed" && (
                       <>
                         <Link href={`/listing/${listing.id}`} className="text-xs font-medium text-brand-amber hover:text-brand-amber-hover">View</Link>
@@ -185,24 +186,30 @@ export default function ListingsTable({
                         {new Date(listing.created_at).toLocaleDateString()}
                       </td>
                       <td className="px-4 py-3">
-                        {listing.status === "listed" ? (
-                          <div className="flex items-center gap-2">
-                            <Link
-                              href={`/listing/${listing.id}`}
-                              className="text-xs font-medium text-brand-amber hover:text-brand-amber-hover"
-                            >
-                              View
-                            </Link>
-                            <BumpButton listingId={listing.id} lastBumpedAt={(listing as any).bumped_at} />
-                          </div>
-                        ) : listing.rejection_reason ? (
-                          <span
-                            className="text-xs text-red-400 cursor-help"
-                            title={listing.rejection_reason}
+                        <div className="flex items-center gap-2">
+                          <Link
+                            href={`/dashboard/listings/${listing.id}/edit`}
+                            className="text-xs font-medium text-gray-300 hover:text-white"
                           >
-                            See reason
-                          </span>
-                        ) : null}
+                            Edit
+                          </Link>
+                          {listing.status === "listed" && (
+                            <>
+                              <Link
+                                href={`/listing/${listing.id}`}
+                                className="text-xs font-medium text-brand-amber hover:text-brand-amber-hover"
+                              >
+                                View
+                              </Link>
+                              <BumpButton listingId={listing.id} lastBumpedAt={(listing as any).bumped_at} />
+                            </>
+                          )}
+                          {listing.rejection_reason && (
+                            <span className="text-xs text-red-400 cursor-help" title={listing.rejection_reason}>
+                              See reason
+                            </span>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   );
