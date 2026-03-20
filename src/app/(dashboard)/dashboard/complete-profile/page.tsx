@@ -35,7 +35,7 @@ export default function CompleteProfilePage() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) return;
       setUserEmail(user.email || "");
-      if (user.email_confirmed_at || user.user_metadata?.email_verified_manually) {
+      if (user.user_metadata?.email_verified_manually) {
         setEmailVerified(true);
       }
       const m = user.user_metadata || {};

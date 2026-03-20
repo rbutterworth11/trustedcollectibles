@@ -5,6 +5,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useCurrency } from "@/lib/currency";
 import { checkBuyerProfile } from "@/lib/profile-check";
+import SellerTrustBadge from "@/components/listing/seller-trust-badge";
 
 interface ListingActionsProps {
   listingId: string;
@@ -472,6 +473,9 @@ export function SellerCard({
               year: "numeric",
             })}
           </p>
+          <div className="mt-1">
+            <SellerTrustBadge rating={avgRating} reviewCount={reviewCount} />
+          </div>
           {reviewCount > 0 && (
             <div className="mt-1 flex items-center gap-1">
               <span className="inline-flex items-center gap-0.5">

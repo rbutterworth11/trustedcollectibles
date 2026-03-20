@@ -11,6 +11,7 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import SimilarItems from "@/components/listing/similar-items";
 import SocialShare from "@/components/listing/social-share";
 import ConfidenceMeter from "@/components/listing/confidence-meter";
+import EnhancedAuthBadge from "@/components/listing/enhanced-auth-badge";
 
 export const dynamic = "force-dynamic";
 
@@ -167,6 +168,13 @@ export default async function ListingPage({
             factors={listing.confidence_factors ?? []}
             hasCoa={!!listing.coa_source}
           />
+          {listing.admin_notes && (
+            <EnhancedAuthBadge
+              verdict="authentic"
+              notes={listing.admin_notes}
+              tier="standard"
+            />
+          )}
         </div>
 
         {/* Right: Info */}

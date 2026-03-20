@@ -3,7 +3,6 @@
 import { createClient } from "@/lib/supabase/client";
 
 function isEmailVerified(user: { email_confirmed_at?: string | null; user_metadata?: Record<string, unknown> }): boolean {
-  if (user.email_confirmed_at) return true;
   if (user.user_metadata?.email_verified_manually) return true;
   return false;
 }
