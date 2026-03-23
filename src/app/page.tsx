@@ -105,16 +105,13 @@ export default async function Home() {
     if (cat.image_url) categoryImageMap[cat.name] = cat.image_url;
   }
 
-  const sportIcons: Record<string, string> = {
-    Baseball: "&#9918;",
-    Basketball: "&#127936;",
-    "Football (American)": "&#127944;",
-    "Football (Soccer)": "&#9917;",
-    Hockey: "&#127954;",
-    Golf: "&#9971;",
-    Tennis: "&#127934;",
-    Boxing: "&#129354;",
-    "MMA/UFC": "&#129354;",
+  const sportSvgIcons: Record<string, string> = {
+    "Football (Soccer)": `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#c67b2f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="22" r="18"/><path d="M22 4v6.5m0 23V40m-15.6-9.5l5.6-3.5m20-10l5.6-3.5M6.4 13.5l5.6 3.5m20 10l5.6 3.5"/><polygon points="22,10.5 27,15.5 25.5,21.5 18.5,21.5 17,15.5" stroke="#c67b2f" fill="none"/><line x1="22" y1="10.5" x2="22" y2="4"/><line x1="27" y1="15.5" x2="33" y2="12"/><line x1="25.5" y1="21.5" x2="31" y2="26"/><line x1="18.5" y1="21.5" x2="13" y2="26"/><line x1="17" y1="15.5" x2="11" y2="12"/></svg>`,
+    Boxing: `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#c67b2f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 36V26c0-3 1-5 4-6l2-1V12a7 7 0 0114 0v7l2 1c3 1 4 3 4 6v10"/><rect x="14" y="10" width="6" height="12" rx="3"/><rect x="24" y="10" width="6" height="12" rx="3"/><path d="M14 26h20"/><path d="M20 12v-2a2 2 0 014 0v2"/></svg>`,
+    Rugby: `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#c67b2f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="22" cy="22" rx="16" ry="10" transform="rotate(-30 22 22)"/><line x1="14" y1="14" x2="30" y2="30"/><path d="M18 16l4 4m-2-6l6 6m-2-8l8 8"/></svg>`,
+    Cricket: `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#c67b2f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="19" y="6" width="6" height="24" rx="2"/><path d="M19 26h6v4a3 3 0 01-3 3v0a3 3 0 01-3-3v-4z"/><line x1="19" y1="12" x2="25" y2="12"/><circle cx="34" cy="34" r="3.5"/></svg>`,
+    Tennis: `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#c67b2f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="16" r="11"/><line x1="25.5" y1="23.5" x2="38" y2="36"/><path d="M8.5 6.5c2.5 5 2.5 14 0 19"/><path d="M27.5 6.5c-2.5 5-2.5 14 0 19"/></svg>`,
+    Motorsport: `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="#c67b2f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32V18c0-2 1-4 3-5l6-4h14l6 4c2 1 3 3 3 5v14"/><path d="M6 22h32"/><path d="M15 9v13"/><path d="M29 9v13"/><path d="M22 9v13"/><circle cx="12" cy="32" r="3"/><circle cx="32" cy="32" r="3"/><path d="M9 18l-3 4m29-4l3 4"/></svg>`,
   };
 
   // Defaults for hero
@@ -296,12 +293,12 @@ export default async function Home() {
       {/* Browse by Sport */}
       {(() => {
         const featuredSports = [
-          { key: "Football (Soccer)", label: "Football", icon: "&#9917;" },
-          { key: "Boxing", label: "Boxing", icon: "&#129354;" },
-          { key: "Rugby", label: "Rugby", icon: "&#127944;" },
-          { key: "Cricket", label: "Cricket", icon: "&#127942;" },
-          { key: "Tennis", label: "Tennis", icon: "&#127934;" },
-          { key: "Motorsport", label: "Motorsport", icon: "&#127946;" },
+          { key: "Football (Soccer)", label: "Football" },
+          { key: "Boxing", label: "Boxing" },
+          { key: "Rugby", label: "Rugby" },
+          { key: "Cricket", label: "Cricket" },
+          { key: "Tennis", label: "Tennis" },
+          { key: "Motorsport", label: "Motorsport" },
         ];
         return (
           <section className="mx-auto max-w-6xl px-4 py-10 md:py-14">
@@ -329,8 +326,8 @@ export default async function Home() {
                       </div>
                     ) : (
                       <span
-                        className="text-4xl"
-                        dangerouslySetInnerHTML={{ __html: sport.icon }}
+                        className="flex h-12 w-12 items-center justify-center"
+                        dangerouslySetInnerHTML={{ __html: sportSvgIcons[sport.key] ?? "" }}
                       />
                     )}
                     <span className="relative mt-3 text-sm font-semibold text-white tracking-wide">
