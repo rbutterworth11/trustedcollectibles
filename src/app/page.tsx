@@ -413,7 +413,7 @@ export default async function Home() {
                       </div>
                     )}
                   </div>
-                  <span className="mt-2 text-xs font-medium text-white group-hover:text-brand-amber transition-colors text-center max-w-[80px] truncate">
+                  <span className="mt-2 text-xs font-medium text-white group-hover:text-brand-amber transition-colors text-center w-20 leading-tight">
                     {tp.name}
                   </span>
                   <span className="text-[10px] text-gray-500">

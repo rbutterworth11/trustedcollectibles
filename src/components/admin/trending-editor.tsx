@@ -127,10 +127,11 @@ export default function TrendingEditor({
             />
 
             {/* Upload */}
-            <label className="shrink-0 cursor-pointer text-xs text-gray-500 hover:text-brand-amber hidden sm:block">
+            <label className="shrink-0 cursor-pointer flex items-center gap-1.5 rounded-md border border-white/[0.07] bg-white/5 px-2.5 py-1.5 text-xs text-gray-400 hover:text-brand-amber hover:border-brand-amber/30 transition-colors">
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
+              <span className="hidden sm:inline">{p.image_url ? "Change" : "Upload"}</span>
               <input
                 type="file"
                 accept="image/*"
