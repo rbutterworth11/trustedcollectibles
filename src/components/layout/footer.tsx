@@ -1,4 +1,5 @@
 import Link from "next/link";
+import NewsletterForm from "@/components/layout/newsletter-form";
 
 const col1Links = [
   { label: "About Us", href: "/about" },
@@ -105,6 +106,16 @@ export default function Footer() {
               Google Play — Coming Soon
             </span>
           </div>
+        </div>
+      </div>
+
+      {/* Newsletter */}
+      <div className="border-t border-white/[0.07]">
+        <div className="mx-auto max-w-6xl px-4 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <p className="text-sm text-gray-400">
+            Get the latest drops, exclusive deals, and collecting tips straight to your inbox.
+          </p>
+          <NewsletterForm />
         </div>
       </div>
 
