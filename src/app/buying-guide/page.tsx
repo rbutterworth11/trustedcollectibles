@@ -24,7 +24,7 @@ export default function BuyingGuidePage() {
             {[
               { step: "1", title: "Browse & Research", desc: "Search by sport, player, team, or item type. Every listing includes detailed photos, condition rating, and authentication details." },
               { step: "2", title: "Buy or Make an Offer", desc: "Purchase at the listed price or submit an offer. Your payment is processed securely through Stripe and held in escrow." },
-              { step: "3", title: "Receive & Confirm", desc: "Inspect your item when it arrives. You have 3 business days to confirm delivery or raise a dispute." },
+              { step: "3", title: "Receive & Confirm", desc: "Inspect your item when it arrives. You have 48 hours to confirm delivery or raise a dispute." },
             ].map((s) => (
               <div key={s.step} className="rounded-lg border border-white/[0.07] bg-brand-card p-5">
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-amber text-sm font-bold text-brand-dark">{s.step}</span>
@@ -103,7 +103,7 @@ export default function BuyingGuidePage() {
             <ol className="text-blue-300 list-decimal pl-6 space-y-2">
               <li>You pay — funds are held securely by TrustedCollectibles</li>
               <li>Seller ships the item with a tracking number</li>
-              <li>You receive and inspect the item (3 business days)</li>
+              <li>You receive and inspect the item (48-hour review window)</li>
               <li>You confirm delivery — funds are released to the seller</li>
             </ol>
             <p className="text-blue-300 leading-relaxed">

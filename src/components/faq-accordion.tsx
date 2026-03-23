@@ -49,7 +49,7 @@ const faqData: FaqSection[] = [
       {
         question: "What if the item isn\u2019t as described?",
         answer:
-          "You have 3 business days after delivery to inspect the item. If it\u2019s not as described, open a dispute and our team will investigate. You\u2019ll receive a full refund if the item doesn\u2019t match the listing.",
+          "You have 48 hours after delivery to inspect the item. If it\u2019s not as described, open a dispute and our team will investigate. You\u2019ll receive a full refund if the item doesn\u2019t match the listing.",
       },
       {
         question: "Can I make an offer below the listed price?",
@@ -79,7 +79,7 @@ const faqData: FaqSection[] = [
       {
         question: "How quickly do I need to ship?",
         answer:
-          "You must ship within 3 business days of receiving an order and provide a valid tracking number.",
+          "You must ship within 2 working days of receiving an order and provide a valid tracking number.",
       },
       {
         question: "What if a buyer disputes my item?",

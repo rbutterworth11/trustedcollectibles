@@ -153,7 +153,7 @@ export async function sendOrderConfirmationBuyer(
             <p style="margin:4px 0 0 0;font-size:13px;color:#f0eff2;">Status: Payment held in escrow</p>
           </td></tr>
         </table>
-        <p style="color:#f0eff2;">The seller has been notified and will ship your item within 3 business days. You'll receive a tracking number once it's on its way.</p>
+        <p style="color:#f0eff2;">The seller has been notified and will ship your item within 2 working days. You'll receive a tracking number once it's on its way.</p>
       `,
       ctaText: "View Your Order",
       ctaUrl: `${SITE_URL}/dashboard/orders`,
@@ -184,7 +184,7 @@ export async function sendNewOrderSeller(
             <p style="margin:4px 0 0 0;font-size:13px;color:#f0eff2;">Sale amount: ${formatPrice(amount)}</p>
           </td></tr>
         </table>
-        <p style="color:#f0eff2;">Please ship the item within <strong style="color:#ffffff;">3 business days</strong> and add the tracking number to your dashboard. Payment will be released once the buyer confirms delivery.</p>
+        <p style="color:#f0eff2;">Please ship the item within <strong style="color:#ffffff;">2 working days</strong> and add the tracking number to your dashboard. Payment will be released once the buyer confirms delivery.</p>
       `,
       ctaText: "Manage Orders",
       ctaUrl: `${SITE_URL}/dashboard/orders`,
@@ -213,7 +213,7 @@ export async function sendShippingConfirmation(
             <p style="margin:4px 0 0 0;font-size:16px;font-weight:600;color:#c67b2f;">${trackingNumber}</p>
           </td></tr>
         </table>
-        <p style="color:#f0eff2;">Once you receive the item, you'll have 3 business days to inspect it and confirm delivery. Your payment remains safely held in escrow until then.</p>
+        <p style="color:#f0eff2;">Once you receive the item, you'll have 48 hours to inspect it and confirm delivery. Your payment remains safely held in escrow until then.</p>
       `,
       ctaText: "Track Your Order",
       ctaUrl: `${SITE_URL}/dashboard/orders`,

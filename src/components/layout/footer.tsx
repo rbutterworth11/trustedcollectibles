@@ -3,8 +3,9 @@ import Link from "next/link";
 const col1Links = [
   { label: "About Us", href: "/about" },
   { label: "How It Works", href: "/how-it-works" },
+  { label: "Buyer Protection", href: "/buyer-protection" },
   { label: "Authentication Service", href: "/authenticate" },
-  { label: "Press & Blog", href: "#" },
+  { label: "Custom Services", href: "/custom-services" },
 ];
 
 const col2Links = [
@@ -19,7 +20,7 @@ const col3Links = [
   { label: "Contact Us", href: "/contact" },
   { label: "Buying Guide", href: "/buying-guide" },
   { label: "Selling Guide", href: "/selling-guide" },
-  { label: "Trust & Safety", href: "/about" },
+  { label: "Trust & Safety", href: "/buyer-protection" },
 ];
 
 const legalLinks = [

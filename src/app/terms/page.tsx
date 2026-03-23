@@ -156,7 +156,7 @@ export default function TermsPage() {
         4.3 Inspection Period
       </h3>
       <p className="text-gray-400 mb-4 leading-relaxed">
-        Upon receiving your Item, you have <strong className="text-white">3 business days</strong> to
+        Upon receiving your Item, you have <strong className="text-white">48 hours</strong> to
         inspect it and confirm that it matches the Listing description. During
         this period, you may raise a dispute if the Item is not as described,
         damaged, or otherwise unsatisfactory.
@@ -208,7 +208,7 @@ export default function TermsPage() {
         </li>
         <li>
           <strong className="text-white">Shipping</strong> — You must dispatch
-          sold Items within <strong className="text-white">3 business days</strong> of
+          sold Items within <strong className="text-white">2 working days</strong> of
           receiving an order notification. Items must be packaged securely and
           appropriately for transit.
         </li>

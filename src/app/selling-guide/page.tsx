@@ -145,7 +145,7 @@ export default function SellingGuidePage() {
           <h2 className="text-xl font-semibold text-white mt-10 mb-4">Shipping & Packaging</h2>
           <div className="rounded-lg border border-white/[0.07] bg-brand-card p-6 space-y-4">
             <p className="text-gray-400 leading-relaxed">
-              When an item sells, you must ship it within <strong className="text-white">3 business days</strong> and provide a tracking number. Here are our packaging recommendations:
+              When an item sells, you must ship it within <strong className="text-white">2 working days</strong> and provide a tracking number. Here are our packaging recommendations:
             </p>
             <ul className="text-gray-400 list-disc pl-6 space-y-2">
               <li><strong className="text-white">Jerseys/shirts:</strong> Fold carefully with acid-free tissue paper, place in a sturdy box. Don&apos;t fold across the signature.</li>

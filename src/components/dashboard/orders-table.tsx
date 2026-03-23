@@ -116,6 +116,30 @@ export default function OrdersTable({
         })}
       </div>
 
+      {/* Shipping deadline info for sellers */}
+      {viewAs === "seller" && orders.some((o) => o.status === "payment_held") && (
+        <div className="mt-4 flex items-start gap-2 rounded-lg border border-yellow-500/20 bg-yellow-500/5 px-4 py-3">
+          <svg className="mt-0.5 h-4 w-4 shrink-0 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p className="text-xs text-yellow-200/80">
+            <strong className="text-yellow-300">Shipping deadline:</strong> You must ship items within 2 working days of a sale and provide a tracking number. Late shipments may result in order cancellation.
+          </p>
+        </div>
+      )}
+
+      {/* 48-hour review window info for buyers */}
+      {viewAs === "buyer" && orders.some((o) => o.status === "delivered") && (
+        <div className="mt-4 flex items-start gap-2 rounded-lg border border-blue-500/20 bg-blue-500/5 px-4 py-3">
+          <svg className="mt-0.5 h-4 w-4 shrink-0 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+          </svg>
+          <p className="text-xs text-blue-200/80">
+            <strong className="text-blue-300">Buyer protection:</strong> You have 48 hours after delivery to inspect your item. Confirm receipt or open a dispute from the tracking column.
+          </p>
+        </div>
+      )}
+
       {filtered.length === 0 ? (
         <p className="mt-6 text-sm text-gray-400">No orders found.</p>
       ) : (
