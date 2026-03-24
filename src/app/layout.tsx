@@ -4,6 +4,7 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { CurrencyProvider } from "@/lib/currency";
 import AnnouncementBar from "@/components/layout/announcement-bar";
+import CookieConsent from "@/components/layout/cookie-consent";
 import MaintenanceNotice from "@/components/layout/maintenance-notice";
 import { createClient } from "@/lib/supabase/server";
 import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
@@ -163,6 +164,7 @@ export default async function RootLayout({
           <Header />
           {children}
           <Footer />
+          <CookieConsent />
         </CurrencyProvider>
       </body>
     </html>
